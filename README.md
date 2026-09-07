@@ -197,19 +197,31 @@ typographically (relative font size and weight), and text repeated across many
 pages is classified as page furniture and excluded — a structural rule that
 never needs to know what the boilerplate says.
 
-**Table reconstruction** runs several strategies and scores them. PyMuPDF's
-ruled-line finder is fast and excellent on real grid tables but returns
-near-empty boxes on chart-heavy slides and merges rows on some appendix
-layouts; pdfplumber's text-alignment strategy recovers exactly those. Each
-candidate is scored on structural quality only — cell fill rate, whether a
-header row and label column exist, how many cells are numeric, and whether
-cells show signs of having been merged — then overlapping candidates are
-deduplicated and the best kept. Multi-row headers are merged into one header
-per column, and units are inherited from the corner cell, caption or header.
+**Table reconstruction** runs three strategies and scores them:
 
-Result: **92 usable tables across 511 pages in 84 seconds**, with chart slides
-and catastrophically-merged tables correctly rejected so they fall back to
-sentence extraction.
+1. **PyMuPDF ruled lines** — fast and excellent on real grid tables, but returns
+   near-empty boxes on chart-heavy slides and merges rows on some appendices.
+2. **pdfplumber text alignment** — recovers row structure where ruling lines
+   are absent.
+3. **Coordinate clustering** — builds a grid from word positions alone: rows by
+   clustering on vertical centre, columns by finding the vertical whitespace
+   that almost no row crosses. Wide statistical tables defeat both other
+   strategies, which over-segment them into a sparse grid where most cells are
+   empty; the words themselves still carry the structure.
+
+Each candidate is scored on structural quality only — cell fill rate, whether a
+header row and label column exist, how many cells are numeric, and whether cells
+show signs of having been merged. Overlapping candidates are deduplicated and
+the best kept. Multi-row headers are merged into one header per column, the row
+that names the periods is preferred as the column header over a spanning title,
+and units are inherited from the corner cell, caption or header.
+
+Result: **221 usable tables across 511 pages**, producing 3,060 structured
+claims, with chart slides and catastrophically-merged tables correctly rejected
+so those pages fall back to sentence extraction. Adding the coordinate strategy
+took the IMF staff report from 8 tables to 21, which is what made its
+"Selected Economic Indicators" table — six years of GDP, inflation and fiscal
+figures — available as claims at all.
 
 ### Rule-based claim extraction
 
@@ -323,22 +335,29 @@ Full starter corpus, deterministic, no API key
 | metric | value |
 |---|---|
 | PDF pages read | 511 |
-| claims extracted | 1,731 |
-| grounded claims | 1,710 |
-| quarantined claims | 21 |
-| claims reconstructed from tables | 1,042 |
-| candidate pairs compared | 886 |
+| claims extracted | 3,750 |
+| grounded claims | 3,682 |
+| quarantined claims | 68 |
+| tables reconstructed | 221 |
+| claims reconstructed from tables | 3,060 |
+| candidate pairs compared | 1,502 |
 | LLM calls | **0** |
-| total runtime | **91 seconds** |
+| total runtime | **98 seconds** |
 
 Against the LLM-based pipeline it replaced, on the same machine and corpus:
 
 | | deterministic | LLM-based |
 |---|---|---|
-| full corpus (511 pages) | **91 s** | ~3 hours (rate-limited, never completed) |
-| Q4 deck (27 pages) | **1.3 s**, 518 claims | minutes, 43 claims from 12 pages |
+| full corpus (511 pages) | **98 s** | ~3 hours (rate-limited, never completed) |
+| Q4 deck (27 pages) | **1.4 s**, 519 claims | minutes, 43 claims from 12 pages |
 | API calls | **0** | ~163 |
 | runs without a key | **yes** | no |
+
+The LLM comparison could not be completed at full scale: the free tier caps at
+8,000 tokens/minute, and a corpus-wide run exhausted the budget without
+finishing. That is itself part of the argument for the deterministic core —
+the LLM path could not be run reliably at all, whereas the deterministic one
+processes the whole corpus in under two minutes on a laptop with no account.
 
 A head-to-head across all three modes on an identical subset is in
 `samples/BENCHMARK.md`.
@@ -356,75 +375,104 @@ A head-to-head across all three modes on an identical subset is in
 
 ## 4. Limitations and Next Steps
 
-These are the things that genuinely do not work well. Measurements, not
-disclaimers.
+These are the things that genuinely do not work. Measurements and diagnoses,
+not disclaimers.
 
-### The starter corpus currently yields no contradiction
+### The starter corpus yields no contradiction — and I can say exactly why
 
-The system detects contradictions — it is tested, and the rules fire correctly
-on constructed pairs (RBI 4.0% vs IMF 2.8% CPI inflation → `contradiction`,
-1.20 percentage points apart). But **on the six starter PDFs it currently finds
-zero**, because only 6 cross-document pairs share both an entity and a
-predicate, and none of those share a period.
+The engine detects contradictions. The rules are tested and fire correctly on
+constructed pairs (CPI inflation 4.0% vs 2.8%, same period → `contradiction`,
+1.20 percentage points apart, with the trace naming every gate that passed).
+**On the six starter PDFs it currently finds none**, and tracing the closest
+real candidate shows precisely where it stops:
 
-The cause is recall, not reasoning: prose-heavy documents yield few claims
-(IMF: 73 claims from 95 pages) because the sentence rules require a
-label-linking-phrase-value pattern that much real prose does not follow
-("Following economic growth of 6.5 percent…", "down from 9.8 percent"). The
-earlier LLM pipeline had better recall here and worse precision everywhere
-else. **Next step:** dependency-light clause parsing so a value can be attached
-to the nearest preceding noun phrase rather than requiring a specific verb
-pattern, and support for comparative constructions (`X, down from Y`) which
-carry two claims at once.
+| claim | source | value | period |
+|---|---|---|---|
+| `inflation` | RBI Annual Report | 3.5% | 2024-25 |
+| `inflation rate` | Economic Survey | 4.4% | FY25 |
+
+```
+predicate gate: same     -- identical after normalisation ('inflation')
+period gate:    same     -- same period ('2024-25' ~ 'FY25')
+entity gate:    REJECTED -- different entities ('reserve' vs 'india')
+```
+
+Two of three gates pass. The **entity gate** stops it, because primary-entity
+detection elects the document's *publisher* rather than its *topic*: the RBI
+Annual Report is published by the Reserve Bank but is about India, so its
+claims are attributed to "Reserve Bank" and never meet the Economic Survey's
+"India". Whether those two figures really conflict is a separate question — one
+may be core and the other headline inflation — but the system should be
+surfacing the pair for judgement, and it is not.
+
+**Next step:** separate publisher from topic. A publisher appears in the title
+block, in page furniture, and in attribution position ("the Reserve Bank
+projects…"); a topic appears as the grammatical subject of claims throughout.
+Attributing a subject-less claim to the topic rather than the author is the fix.
+
+### Lexical predicate matching cannot bridge institutional vocabularies
+
+The IMF states `consumer prices - combined`, the RBI states `inflation`, the
+Survey states `inflation rate`. The first shares no content word with the other
+two, so it is never even a candidate. Acronym alignment handles `CPI inflation`
+≡ `consumer price inflation`, but not `consumer prices` ≡ `inflation`, which
+needs meaning rather than spelling.
+
+This is the clearest case where the optional LLM would earn its place — except
+that the current design escalates only pairs the rules marked ambiguous, and
+these never become pairs at all. **Next step:** an optional semantic
+candidate-generation channel (local embeddings over predicates only, which
+measured well: 0.62–0.85 for true synonym pairs against ≤0.334 for false ones)
+that proposes *additional* candidates while the deterministic rules still decide
+every verdict.
 
 ### `partial_cover` dominates the output
 
-600 of 886 pairs land there. That verdict is *safe* — it never asserts a
-conflict — but it is doing too much work, because any predicate that is a
-strict refinement of another falls into it. Some of those are genuine
-component-of-total relationships; many are just two differently-worded
-properties. **Next step:** use the numeric relationship (does the narrower
-value plausibly sum into the broader one across siblings?) to separate real
-partial coverage from mere relatedness.
+942 of 1,502 pairs land there. The verdict is *safe* — it never asserts a
+conflict — but it is doing too much work: any predicate that is a strict
+refinement of another falls into it, which lumps genuine component-of-total
+relationships together with merely-related properties. **Next step:** use the
+numeric relationship (do sibling values plausibly sum into the broader one?) to
+separate real partial coverage from mere relatedness.
 
-### Entity detection is wrong on one of six documents
+### Entity detection is correct on four of six documents
 
-The prospectus elects `Equity Shares` as its subject rather than
-`Delhivery Limited`, because a prospectus genuinely mentions equity shares
-constantly in mid-sentence position. Frequency plus page-spread plus an
-organisation-suffix boost gets the other five right (`India`, `Reserve Bank`,
-`Delhivery`, `Delhivery Limited`, `India`). I tried a heading-based signal and
-it made things worse (`Tons`, `However`), so I reverted it rather than keep a
-change I could not justify. **Next step:** cover-page title extraction as a
-prior, evaluated against all six documents before being kept.
-
-### Table extraction still fails on dense appendix layouts
-
-The RBI appendix tables collapse many rows into single cells under every
-strategy tried. The quality score correctly *rejects* them, so they produce no
-false claims — they simply produce nothing, and those pages fall back to
-sentence rules. **Next step:** a coordinate-clustering table strategy that
-groups words into rows and columns by position rather than relying on ruling
-lines or text alignment.
+Correct: `India` (IMF), `Reserve Bank` (RBI), `Delhivery Limited` (Q4 deck),
+`Delhivery` (annual report). Wrong: the prospectus elects `Equity Shares` and
+the Economic Survey elects `Economy`, because both terms genuinely dominate
+mid-sentence usage in those documents. I tried a heading-based signal and it
+made things worse (`Tons`, `However`), so I reverted it rather than keep a
+change I could not justify. It is also unstable: the winner can change with the
+number of pages sampled.
 
 ### Other known gaps
 
 - **No OCR.** Scanned or image-only PDFs yield nothing. The architecture has a
-  place for it (an optional fallback when a page has no native text) but it is
-  not implemented.
+  place for it (an optional fallback when a page has no native text); it is not
+  implemented.
 - **Percentages without a stated denominator** are marked `underspecified`
-  rather than compared. This is deliberate and correct — `revenue = 33%` and
-  `revenue = 7.46%` are proportions of different bases — but it means genuine
-  share-vs-share comparisons are also skipped.
+  rather than compared. That is deliberate — `revenue = 33%` and
+  `revenue = 7.46%` are proportions of different bases — but it also skips
+  genuine share-vs-share comparisons.
+- **Sentence recall is lower than table recall.** 3,060 of 3,750 claims come
+  from tables. Prose-heavy documents give up fewer claims because the sentence
+  rules need a label-linking-phrase-value pattern that much real writing does
+  not follow ("Following economic growth of 6.5 percent…", "down from 9.8
+  percent"). **Next step:** attach a value to the nearest preceding noun phrase
+  rather than requiring a specific verb, and handle comparative constructions
+  that carry two claims at once.
 - **Predicate quality varies.** Table row labels are clean; sentence labels
-  still occasionally carry a trailing fragment (`"gdp is projected to grow"`).
+  still occasionally carry a trailing fragment.
 - **Relationships are cross-document only** by default. Intra-document
-  contradictions (a director active on page 5 and resigned on page 90) are not
+  contradictions (a director active on page 5, resigned on page 90) are not
   surfaced, though the machinery supports it.
-- **No sum/aggregation reasoning.** The system cannot yet check that segments
-  add up to a stated total.
-
----
+- **No aggregation reasoning.** The system cannot check that segments sum to a
+  stated total.
+- **The LLM comparison is incomplete.** On this account the LLM extraction path
+  could not complete even 8 pages within the free tier's token budget, so the
+  head-to-head in `samples/BENCHMARK.md` shows it producing nothing. The
+  comparison against the earlier LLM pipeline rests on measurements taken while
+  that pipeline was the live implementation.
 
 ## 5. Additional Notes
 

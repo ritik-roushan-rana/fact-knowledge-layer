@@ -74,6 +74,9 @@ def fmt_relation(r: dict) -> str:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--db", default=None)
+    ap.add_argument("--max-rows", type=int, default=600,
+                    help="Cap rows written to claims.json / relations.json so the "
+                         "repository stays light. Aggregates are always complete.")
     args = ap.parse_args()
 
     store = Store(args.db)
@@ -103,10 +106,38 @@ def main() -> int:
         },
     }
 
+    # Full aggregates, sampled rows. A reviewer needs enough real output to
+    # judge the system, not every row of it.
+    cap = args.max_rows
+
+    def sample_claims(rows: list[dict]) -> list[dict]:
+        quarantined = [c for c in rows if c["quarantined"]]
+        table = [c for c in rows if c["origin"] == "table" and not c["quarantined"]]
+        sentence = [c for c in rows if c["origin"] == "sentence" and not c["quarantined"]]
+        keep = quarantined[:cap // 4] + sentence[:cap // 2] + table[:cap // 2]
+        return keep[:cap]
+
+    def sample_relations(rows: list[dict]) -> list[dict]:
+        by_kind: dict[str, list[dict]] = {}
+        for r in rows:
+            by_kind.setdefault(r["kind"], []).append(r)
+        keep: list[dict] = []
+        # Every relation of a rare kind, a slice of the common ones.
+        for kind, group in sorted(by_kind.items(), key=lambda kv: len(kv[1])):
+            keep.extend(group[: max(40, cap // max(1, len(by_kind)))])
+        return keep[:cap]
+
+    claim_rows, relation_rows = sample_claims(claims), sample_relations(relations)
+    stats["sampled_for_export"] = {
+        "claims_written": len(claim_rows), "claims_total": len(claims),
+        "relations_written": len(relation_rows), "relations_total": len(relations),
+        "note": "Row files are a sample; the counts above are complete.",
+    }
+
     (OUT / "stats.json").write_text(json.dumps(stats, indent=2))
     (OUT / "documents.json").write_text(json.dumps(docs, indent=2))
-    (OUT / "claims.json").write_text(json.dumps(claims, indent=2))
-    (OUT / "relations.json").write_text(json.dumps(relations, indent=2))
+    (OUT / "claims.json").write_text(json.dumps(claim_rows, indent=2))
+    (OUT / "relations.json").write_text(json.dumps(relation_rows, indent=2))
 
     # ---- the four required cases, picked from real output ----
     md = ["# Required Cases — real output from this system", "",

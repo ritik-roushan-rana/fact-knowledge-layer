@@ -94,6 +94,10 @@ def _clean_label(text: str) -> str:
             if len(tail) >= 3:
                 text = tail
     text = _FOOTNOTE.sub("", text)          # drop trailing footnote markers
+    # A period belongs in context, never in the property name. Leaving it in
+    # makes the same metric look like a different property in every year.
+    text = _PERIOD_RE.sub(" ", text)
+    text = re.sub(r"\b(?:for|during|in|of)\s*$", " ", text.strip(), flags=re.I)
     text = re.sub(r"^[^A-Za-z]*", "", text)
     words = text.split()
     while words and (words[0].lower().strip(".,") in LEADING_FILLER
@@ -161,7 +165,7 @@ def build_context(text: str, *, extra: str = "", period: str | None = None) -> C
     """Read qualifiers out of the sentence and any inherited context."""
     both = f"{text} {extra}"
     return ClaimContext(
-        period=period or find_period(text) or find_period(extra),
+        period=_short_period(period) or find_period(text) or find_period(extra),
         scope=_lookup_terms(both, SCOPE_TERMS),
         basis=_lookup_terms(both, BASIS_TERMS),
         as_of=None,
@@ -361,9 +365,15 @@ def sentence_claims(document: Document, page: Page, primary: str | None,
                 predicate = f"{predicate} (change)"
             rule = "label+change_verb+value" if is_change else "label+linking_phrase+value"
 
-            abs_label_start = sent_start + (len(label_raw) - len(label_raw.lstrip()))
-            abs_start = sent_start + max(0, link.start() - len(label))
-            abs_start = max(sent_start, min(abs_start, sent_start + link.start()))
+            # Locate where the cleaned label actually begins in the sentence.
+            # Subtracting its length from the linker position lands mid-word,
+            # because cleaning removed characters -- which produced evidence
+            # spans like "flation, eased to 3.5 per cent".
+            first_word = label.split()[0] if label.split() else ""
+            rel = before.lower().rfind(first_word.lower(), 0, link.start()) if first_word else -1
+            if rel == -1:
+                rel = max(0, link.start() - len(label))
+            abs_start = sent_start + rel
             abs_end = sent_start + v_end
             evidence = raw[abs_start:abs_end].strip()
             if len(evidence) < 6:
@@ -414,6 +424,40 @@ def _unit_label(parsed) -> str | None:
 # --------------------------------------------------------------------------
 # table extraction
 # --------------------------------------------------------------------------
+_MAX_PERIOD_CHARS = 32
+
+
+def _is_measurement_cell(text: str) -> bool:
+    """Is this table cell a figure, rather than prose that happens to contain one?
+
+    Without this, a cell reading "expiry of 60 days from the date of receipt of
+    the consideration" becomes the numeric claim "60" and can then contradict a
+    real measurement.
+    """
+    t = text.strip()
+    if not t or len(t) > 24:
+        return False
+    if parse_value(t).base_number is None:
+        return False
+    compact = t.replace(" ", "")
+    digits = sum(ch.isdigit() for ch in compact)
+    return digits >= max(1, len(compact) * 0.35)
+
+
+def _short_period(text: str | None) -> str | None:
+    """Keep only the period expression itself, never the sentence around it.
+
+    A column header can be a whole clause that merely mentions a year; storing
+    the clause as the period makes two unrelated claims look like they share one.
+    """
+    if not text:
+        return None
+    cleaned = re.sub(r"\s+", " ", text).strip()
+    if len(cleaned) <= _MAX_PERIOD_CHARS:
+        return cleaned
+    return find_period(cleaned)
+
+
 def _find_line_containing(page: Page, needle: str, bbox=None):
     """Locate a cell's text among the page's lines, to recover real coordinates."""
     needle = needle.strip()
@@ -454,9 +498,9 @@ def table_claims(document: Document, page: Page, table: Table,
             cell_text = str(cell or "").strip()
             if not cell_text:
                 continue
-            parsed = parse_value(cell_text)
-            if parsed.base_number is None:
+            if not _is_measurement_cell(cell_text):
                 continue
+            parsed = parse_value(cell_text)
 
             header = table.header[col] if col < len(table.header) else ""
             is_period_col = column_is_period(header)
@@ -482,7 +526,8 @@ def table_claims(document: Document, page: Page, table: Table,
 
             ctx = build_context(
                 f"{label} {header} {caption_ctx}",
-                period=(header if is_period_col else None) or find_period(caption_ctx),
+                period=(_short_period(header) if is_period_col else None)
+                       or find_period(caption_ctx),
             )
             ctx.unit = unit
             if not is_period_col and header:

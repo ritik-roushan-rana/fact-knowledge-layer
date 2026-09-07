@@ -7,25 +7,25 @@
     "pages_read": 95,
     "status": "extracted",
     "error": null,
-    "ingested_at": 1788792852.804477,
+    "ingested_at": 1788794609.630971,
     "extractor": "deterministic",
-    "batch_id": "d1a00fcae77e",
+    "batch_id": "8e801068430a",
     "stats": {
       "doc_id": "f6d3cfecafd95489",
       "filename": "03-imf-india-2025-article-iv-excerpt.pdf",
       "n_pages": 95,
       "pages_read": 95,
       "extractor": "deterministic",
-      "batch_id": "d1a00fcae77e",
+      "batch_id": "8e801068430a",
       "skipped_resume": false,
-      "claims_proposed": 73,
-      "claims_after_dedup": 73,
-      "claims_stored": 73,
-      "claims_grounded": 73,
+      "claims_proposed": 289,
+      "claims_after_dedup": 287,
+      "claims_stored": 287,
+      "claims_grounded": 287,
       "claims_quarantined": 0,
       "claims_needing_review": 0,
       "errors": [],
-      "seconds": 15.92,
+      "seconds": 16.43,
       "extractor_extractor": "deterministic",
       "extractor_primary_entity": "India",
       "extractor_known_entities": [
@@ -42,17 +42,18 @@
         "International Monetary Fund",
         "Pillar-2"
       ],
-      "extractor_tables_found": 8,
+      "extractor_tables_found": 21,
       "extractor_claims_by_origin": {
-        "sentence": 73
+        "sentence": 73,
+        "table": 216
       },
       "extractor_furniture_lines": 3,
-      "extractor_seconds": 14.83,
+      "extractor_seconds": 15.32,
       "extractor_llm_calls": 0,
       "extractor_input_tokens": 0,
       "extractor_output_tokens": 0
     },
-    "claim_count": 73
+    "claim_count": 287
   },
   {
     "doc_id": "73209a2caa2f5671",
@@ -62,25 +63,25 @@
     "pages_read": 100,
     "status": "extracted",
     "error": null,
-    "ingested_at": 1788792836.8833039,
+    "ingested_at": 1788794593.193713,
     "extractor": "deterministic",
-    "batch_id": "fcff67aceee3",
+    "batch_id": "831f6a6b4e45",
     "stats": {
       "doc_id": "73209a2caa2f5671",
       "filename": "02-rbi-annual-report-2024-25-excerpt.pdf",
       "n_pages": 100,
       "pages_read": 100,
       "extractor": "deterministic",
-      "batch_id": "fcff67aceee3",
+      "batch_id": "831f6a6b4e45",
       "skipped_resume": false,
-      "claims_proposed": 710,
-      "claims_after_dedup": 696,
-      "claims_stored": 696,
-      "claims_grounded": 692,
-      "claims_quarantined": 4,
-      "claims_needing_review": 4,
+      "claims_proposed": 2014,
+      "claims_after_dedup": 1985,
+      "claims_stored": 1985,
+      "claims_grounded": 1936,
+      "claims_quarantined": 49,
+      "claims_needing_review": 49,
       "errors": [],
-      "seconds": 14.0,
+      "seconds": 14.48,
       "extractor_extractor": "deterministic",
       "extractor_primary_entity": "Reserve Bank",
       "extractor_known_entities": [
@@ -97,18 +98,18 @@
         "Working Group",
         "World Economic Outlook"
       ],
-      "extractor_tables_found": 17,
+      "extractor_tables_found": 80,
       "extractor_claims_by_origin": {
         "sentence": 195,
-        "table": 515
+        "table": 1819
       },
       "extractor_furniture_lines": 5,
-      "extractor_seconds": 12.98,
+      "extractor_seconds": 13.64,
       "extractor_llm_calls": 0,
       "extractor_input_tokens": 0,
       "extractor_output_tokens": 0
     },
-    "claim_count": 696
+    "claim_count": 1985
   },
   {
     "doc_id": "86f2e79a3b7b4a36",
@@ -118,16 +119,16 @@
     "pages_read": 89,
     "status": "extracted",
     "error": null,
-    "ingested_at": 1788792822.87923,
+    "ingested_at": 1788794578.7116642,
     "extractor": "deterministic",
-    "batch_id": "4e3e8aa75082",
+    "batch_id": "60e87a2eeae0",
     "stats": {
       "doc_id": "86f2e79a3b7b4a36",
       "filename": "01-india-economic-survey-2024-25-excerpt.pdf",
       "n_pages": 89,
       "pages_read": 89,
       "extractor": "deterministic",
-      "batch_id": "4e3e8aa75082",
+      "batch_id": "60e87a2eeae0",
       "skipped_resume": false,
       "claims_proposed": 133,
       "claims_after_dedup": 133,
@@ -136,7 +137,7 @@
       "claims_quarantined": 0,
       "claims_needing_review": 0,
       "errors": [],
-      "seconds": 10.74,
+      "seconds": 11.32,
       "extractor_extractor": "deterministic",
       "extractor_primary_entity": "Economy",
       "extractor_known_entities": [
@@ -159,7 +160,7 @@
         "table": 10
       },
       "extractor_furniture_lines": 1,
-      "extractor_seconds": 9.81,
+      "extractor_seconds": 10.38,
       "extractor_llm_calls": 0,
       "extractor_input_tokens": 0,
       "extractor_output_tokens": 0
@@ -174,25 +175,25 @@
     "pages_read": 27,
     "status": "extracted",
     "error": null,
-    "ingested_at": 1788792812.134482,
+    "ingested_at": 1788794567.393205,
     "extractor": "deterministic",
-    "batch_id": "2e8351defa3b",
+    "batch_id": "a69ff293d9e1",
     "stats": {
       "doc_id": "5ca307085c96c1fc",
       "filename": "03-delhivery-q4-fy24-earnings-presentation.pdf",
       "n_pages": 27,
       "pages_read": 27,
       "extractor": "deterministic",
-      "batch_id": "2e8351defa3b",
+      "batch_id": "a69ff293d9e1",
       "skipped_resume": false,
       "claims_proposed": 546,
-      "claims_after_dedup": 518,
-      "claims_stored": 518,
+      "claims_after_dedup": 519,
+      "claims_stored": 519,
       "claims_grounded": 517,
-      "claims_quarantined": 1,
-      "claims_needing_review": 1,
+      "claims_quarantined": 2,
+      "claims_needing_review": 2,
       "errors": [],
-      "seconds": 1.29,
+      "seconds": 1.33,
       "extractor_extractor": "deterministic",
       "extractor_primary_entity": "Delhivery Limited",
       "extractor_known_entities": [
@@ -209,18 +210,18 @@
         "Unbilled",
         "Video"
       ],
-      "extractor_tables_found": 9,
+      "extractor_tables_found": 12,
       "extractor_claims_by_origin": {
         "sentence": 47,
         "table": 499
       },
       "extractor_furniture_lines": 5,
-      "extractor_seconds": 1.12,
+      "extractor_seconds": 1.16,
       "extractor_llm_calls": 0,
       "extractor_input_tokens": 0,
       "extractor_output_tokens": 0
     },
-    "claim_count": 518
+    "claim_count": 519
   },
   {
     "doc_id": "de6d79adc0667d66",
@@ -230,25 +231,25 @@
     "pages_read": 100,
     "status": "extracted",
     "error": null,
-    "ingested_at": 1788792810.8371148,
+    "ingested_at": 1788794566.054654,
     "extractor": "deterministic",
-    "batch_id": "126fa9efa88b",
+    "batch_id": "98000876c626",
     "stats": {
       "doc_id": "de6d79adc0667d66",
       "filename": "02-delhivery-annual-report-fy24-excerpt.pdf",
       "n_pages": 100,
       "pages_read": 100,
       "extractor": "deterministic",
-      "batch_id": "126fa9efa88b",
+      "batch_id": "98000876c626",
       "skipped_resume": false,
-      "claims_proposed": 209,
-      "claims_after_dedup": 163,
-      "claims_stored": 163,
-      "claims_grounded": 147,
-      "claims_quarantined": 16,
-      "claims_needing_review": 16,
+      "claims_proposed": 251,
+      "claims_after_dedup": 206,
+      "claims_stored": 206,
+      "claims_grounded": 189,
+      "claims_quarantined": 17,
+      "claims_needing_review": 17,
       "errors": [],
-      "seconds": 35.23,
+      "seconds": 34.83,
       "extractor_extractor": "deterministic",
       "extractor_primary_entity": "Delhivery",
       "extractor_known_entities": [
@@ -265,18 +266,18 @@
         "SEBI Listing Regulations",
         "Spoton Logistics Private Limited"
       ],
-      "extractor_tables_found": 36,
+      "extractor_tables_found": 64,
       "extractor_claims_by_origin": {
-        "sentence": 158,
-        "table": 51
+        "table": 92,
+        "sentence": 159
       },
       "extractor_furniture_lines": 6,
-      "extractor_seconds": 33.49,
+      "extractor_seconds": 32.71,
       "extractor_llm_calls": 0,
       "extractor_input_tokens": 0,
       "extractor_output_tokens": 0
     },
-    "claim_count": 163
+    "claim_count": 206
   },
   {
     "doc_id": "0d7e71e1766ef330",
@@ -286,25 +287,25 @@
     "pages_read": 100,
     "status": "extracted",
     "error": null,
-    "ingested_at": 1788792775.6032581,
+    "ingested_at": 1788794531.222717,
     "extractor": "deterministic",
-    "batch_id": "06781c3672ed",
+    "batch_id": "d8ab73afa1af",
     "stats": {
       "doc_id": "0d7e71e1766ef330",
       "filename": "01-delhivery-prospectus-2022-excerpt.pdf",
       "n_pages": 100,
       "pages_read": 100,
       "extractor": "deterministic",
-      "batch_id": "06781c3672ed",
+      "batch_id": "d8ab73afa1af",
       "skipped_resume": false,
-      "claims_proposed": 176,
-      "claims_after_dedup": 148,
-      "claims_stored": 148,
-      "claims_grounded": 148,
+      "claims_proposed": 648,
+      "claims_after_dedup": 620,
+      "claims_stored": 620,
+      "claims_grounded": 620,
       "claims_quarantined": 0,
       "claims_needing_review": 0,
       "errors": [],
-      "seconds": 17.31,
+      "seconds": 17.99,
       "extractor_extractor": "deterministic",
       "extractor_primary_entity": "Equity Shares",
       "extractor_known_entities": [
@@ -321,17 +322,17 @@
         "Restated Financial Statements",
         "Selling Shareholders"
       ],
-      "extractor_tables_found": 19,
+      "extractor_tables_found": 41,
       "extractor_claims_by_origin": {
         "sentence": 170,
-        "table": 6
+        "table": 478
       },
       "extractor_furniture_lines": 0,
-      "extractor_seconds": 16.47,
+      "extractor_seconds": 17.11,
       "extractor_llm_calls": 0,
       "extractor_input_tokens": 0,
       "extractor_output_tokens": 0
     },
-    "claim_count": 148
+    "claim_count": 620
   }
 ]

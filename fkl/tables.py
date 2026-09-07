@@ -52,6 +52,7 @@ class Table:
 # scoring
 # --------------------------------------------------------------------------
 _NUM_TOKEN = re.compile(r"(?<![\w.])[-+(]?\d[\d,]*(?:\.\d+)?\)?(?![\w])")
+_FOOTNOTE_MARKER = re.compile(r"^\(?\d{1,2}\)?\s*/?$")
 
 
 def _is_number(text: str) -> bool:
@@ -111,17 +112,36 @@ def _iou(a: BBox, b: BBox) -> float:
 # --------------------------------------------------------------------------
 # header handling
 # --------------------------------------------------------------------------
+def _is_data_cell(text: str) -> bool:
+    """A measurement, as opposed to a header that happens to contain digits.
+
+    Year and fiscal-span headers ("2021/22", "2023-24") parse as numbers, so
+    testing for "is a number" alone stops header detection at the very row that
+    names the periods -- which then becomes data and every claim inherits the
+    wrong period.
+    """
+    if not _is_number(text):
+        return False
+    # Footnote markers ("1/", "2/", "(3)") sit in header rows and parse as
+    # numbers. Treating one as data stops header detection at the row above the
+    # one that names the periods.
+    if _FOOTNOTE_MARKER.match(text.strip()):
+        return False
+    return period_signature(text).empty
+
+
 def split_header(grid: list[list[str]]) -> tuple[list[str], list[list[str]], int]:
     """Merge the leading header rows into one header per column.
 
     Multi-row headers are common ("Average" / "2003-04" / "to" / "2007-08" in
-    four stacked rows). A leading row counts as header while none of its
-    non-label cells parse as a number.
+    four stacked rows, or a title row above a row of years above a row of
+    "Est./Projections"). A leading row counts as header until one of its
+    non-label cells holds an actual measurement.
     """
     n_head = 0
     for row in grid:
         body = row[1:] if len(row) > 1 else row
-        if any(_is_number(c) for c in body):
+        if any(_is_data_cell(c) for c in body):
             break
         if not any(str(c).strip() for c in row):
             n_head += 1
@@ -135,14 +155,28 @@ def split_header(grid: list[list[str]]) -> tuple[list[str], list[list[str]], int
     header_rows = grid[:n_head]
     width = max(len(r) for r in grid)
 
-    header: list[str] = []
+    merged: list[str] = []
     for col in range(width):
         parts = []
         for hr in header_rows:
             cell = _clean(hr[col]) if col < len(hr) else ""
             if cell and cell not in parts:
                 parts.append(cell)
-        header.append(" ".join(parts).strip())
+        merged.append(" ".join(parts).strip())
+
+    # When one header row names the periods, that row IS the column header.
+    # Merging it with a spanning title row above ("Table 1. India: Selected
+    # Economic Indicators, 2021/22-2026/27") would otherwise leak the title's
+    # date range into every column and override the real per-column period.
+    period_counts = [sum(1 for c in hr[1:] if not period_signature(c).empty)
+                     for hr in header_rows]
+    header = merged
+    if period_counts and max(period_counts) >= 2:
+        primary = header_rows[period_counts.index(max(period_counts))]
+        header = [
+            _clean(primary[i]) if i < len(primary) and _clean(primary[i]) else merged[i]
+            for i in range(width)
+        ]
 
     body = [r for r in grid[n_head:] if any(str(c).strip() for c in r)]
     return header, body, n_head
@@ -206,6 +240,105 @@ class TableExtractor:
             self._plumber = None
 
     # -- individual strategies -------------------------------------------
+    @staticmethod
+    def _word_grid(page) -> list[tuple[list[list[str]], BBox, str]]:
+        """Build a grid from word coordinates alone.
+
+        Ruled-line and text-alignment strategies both fail on wide statistical
+        tables: they over-segment into a sparse grid where most cells are
+        empty. The words themselves carry positions, so rows can be recovered
+        by clustering on y and columns by finding the vertical whitespace that
+        no word crosses. This needs no ruling lines and no consistent
+        left-alignment, which is exactly what those tables lack.
+        """
+        try:
+            words = page.get_text("words")
+        except Exception:
+            return []
+        words = [w for w in words if str(w[4]).strip()]
+        if len(words) < 24:
+            return []
+
+        heights = sorted(w[3] - w[1] for w in words)
+        line_h = heights[len(heights) // 2] or 8.0
+        tol = max(1.5, line_h * 0.6)
+
+        # --- rows: cluster on vertical centre ---
+        rows: list[list] = []
+        for w in sorted(words, key=lambda w: ((w[1] + w[3]) / 2, w[0])):
+            centre = (w[1] + w[3]) / 2
+            if rows and abs(centre - rows[-1][0]) <= tol:
+                rows[-1][1].append(w)
+            else:
+                rows.append([centre, [w]])
+        row_words = [r[1] for r in rows if len(r[1]) >= 2]
+        if len(row_words) < MIN_ROWS + 1:
+            return []
+
+        # --- columns: vertical bands almost no row crosses ---
+        # Occupancy is counted per ROW, not per word, and only over rows that
+        # look tabular. Counting words means a single full-width title or
+        # footnote line covers every x and erases every column gap; counting
+        # rows lets a small number of such lines be tolerated.
+        tabular = [r for r in row_words if len(r) >= 3]
+        if len(tabular) < MIN_ROWS + 1:
+            return []
+        x0 = min(w[0] for w in words)
+        x1 = max(w[2] for w in words)
+        span = int(x1 - x0) + 2
+        if span <= 4:
+            return []
+        occupied = [0] * span
+        for row in tabular:
+            covered: set[int] = set()
+            for w in row:
+                covered.update(range(max(0, int(w[0] - x0)),
+                                     min(span, int(w[2] - x0) + 1)))
+            for x in covered:
+                occupied[x] += 1
+
+        threshold = max(0, int(len(tabular) * 0.10))
+        min_gap = max(3, int(line_h * 0.5))
+        separators, run_start = [], None
+        for x in range(span):
+            if occupied[x] <= threshold:
+                run_start = x if run_start is None else run_start
+            else:
+                if run_start is not None and x - run_start >= min_gap:
+                    separators.append((run_start + x) / 2 + x0)
+                run_start = None
+        if run_start is not None and span - run_start >= min_gap:
+            separators.append((run_start + span) / 2 + x0)
+        if len(separators) < 1:
+            return []
+
+        bounds = [x0 - 1] + separators + [x1 + 1]
+        n_cols = len(bounds) - 1
+        if not (MIN_COLS <= n_cols <= 24):
+            return []
+
+        def column_of(w) -> int:
+            centre = (w[0] + w[2]) / 2
+            for i in range(n_cols):
+                if bounds[i] <= centre < bounds[i + 1]:
+                    return i
+            return n_cols - 1
+
+        grid: list[list[str]] = []
+        for row in row_words:
+            cells = [[] for _ in range(n_cols)]
+            for w in sorted(row, key=lambda w: w[0]):
+                cells[column_of(w)].append(str(w[4]))
+            built = [_clean(" ".join(c)) for c in cells]
+            if sum(1 for c in built if c) >= 2:
+                grid.append(built)
+
+        if len(grid) < MIN_ROWS + 1:
+            return []
+        bbox = (x0, min(w[1] for w in words), x1, max(w[3] for w in words))
+        return [(grid, bbox, "word-grid")]
+
+
     def _pymupdf_tables(self, page) -> list[tuple[list[list[str]], BBox, str]]:
         out = []
         try:
@@ -251,9 +384,11 @@ class TableExtractor:
         candidates = self._pymupdf_tables(pymupdf_page)
         best_so_far = max((score_grid(g) for g, _, _ in candidates), default=0.0)
 
-        # Only pay for pdfplumber when the fast path did not find good structure.
-        if self.use_plumber and best_so_far < 0.62:
-            candidates += self._plumber_tables(page_number - 1)
+        # Only pay for the slower strategies when the fast path found nothing good.
+        if best_so_far < 0.62:
+            if self.use_plumber:
+                candidates += self._plumber_tables(page_number - 1)
+            candidates += self._word_grid(pymupdf_page)
 
         scored = []
         for grid, bbox, source in candidates:
