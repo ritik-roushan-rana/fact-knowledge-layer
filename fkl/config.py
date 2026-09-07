@@ -77,6 +77,12 @@ class Config:
     embed_model: str = _env("FKL_EMBED_MODEL", "sentence-transformers/all-MiniLM-L6-v2")
     # Cosine similarity floor for two claims to be considered "about the same thing".
     match_threshold: float = _env_float("FKL_MATCH_THRESHOLD", 0.62)
+    # A combined (subject, predicate) embedding is dominated by the subject when
+    # both claims are about the same entity, so "headcount" and "total revenue"
+    # can score 0.77 against each other. These two gates are applied on top,
+    # separately, to stop unrelated properties being compared at all.
+    subject_threshold: float = _env_float("FKL_SUBJECT_THRESHOLD", 0.50)
+    predicate_threshold: float = _env_float("FKL_PREDICATE_THRESHOLD", 0.40)
     # Max candidate partners considered per claim (keeps incremental ingest cheap).
     match_top_k: int = _env_int("FKL_MATCH_TOP_K", 15)
     # Ceiling on LLM adjudications per run. Escalation is meant to be the

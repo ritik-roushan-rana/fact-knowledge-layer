@@ -13,7 +13,7 @@ from .embed import Embedder
 from .extract import ChunkResult, Extractor
 from .ground import ground_claim, score_claim
 from .llm import LLMClient
-from .match import find_candidates
+from .match import find_candidates, gate_candidates
 from .models import Claim, GroundedClaim, Relation
 from .pdf import Document, chunk_document, load_pdf
 from .store import Store
@@ -183,6 +183,7 @@ def ingest_pdf(path: str | Path, store: Store, *, max_pages: int | None = None,
 @dataclass
 class RelateReport:
     candidates: int = 0
+    gated_out: int = 0
     compared: int = 0
     escalated: int = 0
     escalation_skipped: int = 0
@@ -190,7 +191,9 @@ class RelateReport:
 
     def as_dict(self) -> dict:
         return {
-            "candidate_pairs": self.candidates, "compared": self.compared,
+            "candidate_pairs": self.candidates,
+            "rejected_by_subject_predicate_gates": self.gated_out,
+            "compared": self.compared,
             "escalated_to_llm": self.escalated,
             "escalations_skipped_over_budget": self.escalation_skipped,
             "by_kind": self.by_kind,
@@ -208,9 +211,12 @@ def build_relations(store: Store, *, new_claim_ids: list[str] | None = None,
     """
     report = RelateReport()
     candidates = find_candidates(store, new_claim_ids=new_claim_ids)
+    candidates, gated_out = gate_candidates(store, candidates, Embedder())
     report.candidates = len(candidates)
+    report.gated_out = gated_out
     if progress:
-        progress("matching", {"candidate_pairs": len(candidates)})
+        progress("matching", {"candidate_pairs": len(candidates),
+                              "rejected_by_gates": gated_out})
     if not candidates:
         return report
 
@@ -225,7 +231,11 @@ def build_relations(store: Store, *, new_claim_ids: list[str] | None = None,
         a, b = claims.get(cand.a_id), claims.get(cand.b_id)
         if not a or not b:
             continue
-        relation, needs_escalation = compare_claims(a, b, cand.similarity)
+        relation, needs_escalation = compare_claims(
+            a, b, cand.similarity,
+            subject_similarity=cand.subject_similarity,
+            predicate_similarity=cand.predicate_similarity,
+        )
         report.compared += 1
         if needs_escalation and escalate:
             pending.append((a, b, relation))

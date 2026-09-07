@@ -25,6 +25,8 @@ class Candidate:
     a_id: str
     b_id: str
     similarity: float
+    subject_similarity: float | None = None
+    predicate_similarity: float | None = None
 
 
 def find_candidates(store: Store, *, new_claim_ids: list[str] | None = None,
@@ -91,3 +93,50 @@ def find_candidates(store: Store, *, new_claim_ids: list[str] | None = None,
 
     out.sort(key=lambda c: -c.similarity)
     return out
+
+
+def gate_candidates(store: Store, candidates: list[Candidate], embedder,
+                    *, subject_threshold: float | None = None,
+                    predicate_threshold: float | None = None
+                    ) -> tuple[list[Candidate], int]:
+    """Drop pairs whose subjects or predicates are not actually the same thing.
+
+    The retrieval embedding covers subject and predicate together, which means
+    two claims about the same entity score highly even when they describe
+    completely unrelated properties -- enough to be reported as a contradiction.
+    Embedding subject and predicate independently and requiring both to clear a
+    floor removes that failure mode. Recall cost: short synonym predicates that
+    share no words ("headcount" vs "number of employees") can fall below the
+    floor and be missed. That trade is deliberate -- a false contradiction is
+    far more damaging than a missed corroboration.
+    """
+    subject_threshold = CONFIG.subject_threshold if subject_threshold is None else subject_threshold
+    predicate_threshold = (CONFIG.predicate_threshold if predicate_threshold is None
+                           else predicate_threshold)
+    if not candidates:
+        return [], 0
+
+    ids = sorted({c.a_id for c in candidates} | {c.b_id for c in candidates})
+    claims = store.get_claims(ids)
+
+    subjects = sorted({c["subject"].strip().lower() for c in claims.values()})
+    predicates = sorted({c["predicate"].strip().lower() for c in claims.values()})
+    s_vecs = {s: v for s, v in zip(subjects, embedder.encode(subjects))}
+    p_vecs = {p: v for p, v in zip(predicates, embedder.encode(predicates))}
+
+    kept: list[Candidate] = []
+    dropped = 0
+    for cand in candidates:
+        a, b = claims.get(cand.a_id), claims.get(cand.b_id)
+        if not a or not b:
+            dropped += 1
+            continue
+        s_sim = float(s_vecs[a["subject"].strip().lower()] @ s_vecs[b["subject"].strip().lower()])
+        p_sim = float(p_vecs[a["predicate"].strip().lower()] @ p_vecs[b["predicate"].strip().lower()])
+        if s_sim < subject_threshold or p_sim < predicate_threshold:
+            dropped += 1
+            continue
+        cand.subject_similarity = round(s_sim, 4)
+        cand.predicate_similarity = round(p_sim, 4)
+        kept.append(cand)
+    return kept, dropped

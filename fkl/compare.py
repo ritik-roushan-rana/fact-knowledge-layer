@@ -77,7 +77,9 @@ def _unit_verdict(a: dict, b: dict) -> tuple[str, str]:
     return ("same", f"comparable units ({a['raw']!r} vs {b['raw']!r})")
 
 
-def compare_claims(a: dict, b: dict, similarity: float) -> tuple[Relation, bool]:
+def compare_claims(a: dict, b: dict, similarity: float,
+                   subject_similarity: float | None = None,
+                   predicate_similarity: float | None = None) -> tuple[Relation, bool]:
     """Run the deterministic comparison.
 
     Returns (relation, needs_escalation). When needs_escalation is True the
@@ -88,9 +90,14 @@ def compare_claims(a: dict, b: dict, similarity: float) -> tuple[Relation, bool]
 
     subj_sim = fuzz.token_set_ratio(a["subject"].lower(), b["subject"].lower()) / 100.0
     pred_sim = fuzz.token_set_ratio(a["predicate"].lower(), b["predicate"].lower()) / 100.0
+    gate = ""
+    if subject_similarity is not None and predicate_similarity is not None:
+        gate = (f"; passed independent gates: subject embedding {subject_similarity:.3f}, "
+                f"predicate embedding {predicate_similarity:.3f}")
     trace.append(
-        f"matched on embedding similarity of (subject, predicate) = {similarity:.3f}; "
-        f"subject string similarity {subj_sim:.2f}, predicate string similarity {pred_sim:.2f}"
+        f"matched on embedding similarity of (subject, predicate) = {similarity:.3f}"
+        f"{gate}; subject string similarity {subj_sim:.2f}, "
+        f"predicate string similarity {pred_sim:.2f}"
     )
 
     # --- context ---------------------------------------------------------
