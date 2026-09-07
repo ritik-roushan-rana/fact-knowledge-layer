@@ -79,6 +79,10 @@ class Config:
     match_threshold: float = _env_float("FKL_MATCH_THRESHOLD", 0.62)
     # Max candidate partners considered per claim (keeps incremental ingest cheap).
     match_top_k: int = _env_int("FKL_MATCH_TOP_K", 15)
+    # Ceiling on LLM adjudications per run. Escalation is meant to be the
+    # exception; a run that wants to escalate everything is a signal the rules
+    # need work, not a reason to spend the token budget.
+    max_escalations: int = _env_int("FKL_MAX_ESCALATIONS", 40)
 
     def ensure_dirs(self) -> None:
         self.data_dir.mkdir(parents=True, exist_ok=True)

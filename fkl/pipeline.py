@@ -7,11 +7,14 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Callable
 
+from .compare import adjudicate, compare_claims
 from .config import CONFIG
 from .embed import Embedder
 from .extract import ChunkResult, Extractor
 from .ground import ground_claim, score_claim
-from .models import Claim, GroundedClaim
+from .llm import LLMClient
+from .match import find_candidates
+from .models import Claim, GroundedClaim, Relation
 from .pdf import Document, chunk_document, load_pdf
 from .store import Store
 
@@ -171,4 +174,91 @@ def ingest_pdf(path: str | Path, store: Store, *, max_pages: int | None = None,
     )
     if progress:
         progress("stored", report.as_dict())
+    return report
+
+
+# --------------------------------------------------------------------------
+# Cross-document relationship building
+# --------------------------------------------------------------------------
+@dataclass
+class RelateReport:
+    candidates: int = 0
+    compared: int = 0
+    escalated: int = 0
+    escalation_skipped: int = 0
+    by_kind: dict = field(default_factory=dict)
+
+    def as_dict(self) -> dict:
+        return {
+            "candidate_pairs": self.candidates, "compared": self.compared,
+            "escalated_to_llm": self.escalated,
+            "escalations_skipped_over_budget": self.escalation_skipped,
+            "by_kind": self.by_kind,
+        }
+
+
+def build_relations(store: Store, *, new_claim_ids: list[str] | None = None,
+                    escalate: bool = True, max_escalations: int | None = None,
+                    client: LLMClient | None = None,
+                    progress: Progress | None = None) -> RelateReport:
+    """Compare embedding-similar claims and persist the verdicts.
+
+    Passing new_claim_ids compares only the newly added claims against the rest
+    of the corpus, which is what makes ingesting document N+1 cheap.
+    """
+    report = RelateReport()
+    candidates = find_candidates(store, new_claim_ids=new_claim_ids)
+    report.candidates = len(candidates)
+    if progress:
+        progress("matching", {"candidate_pairs": len(candidates)})
+    if not candidates:
+        return report
+
+    ids = sorted({c.a_id for c in candidates} | {c.b_id for c in candidates})
+    claims = store.get_claims(ids)
+
+    budget = CONFIG.max_escalations if max_escalations is None else max_escalations
+    pending: list[tuple[dict, dict, Relation]] = []
+    relations: list[Relation] = []
+
+    for cand in candidates:
+        a, b = claims.get(cand.a_id), claims.get(cand.b_id)
+        if not a or not b:
+            continue
+        relation, needs_escalation = compare_claims(a, b, cand.similarity)
+        report.compared += 1
+        if needs_escalation and escalate:
+            pending.append((a, b, relation))
+        else:
+            relations.append(relation)
+
+    # Escalate the most similar ambiguous pairs first -- those are the ones most
+    # likely to be a real disagreement rather than a loose match.
+    pending.sort(key=lambda p: -p[2].similarity)
+    if pending and escalate:
+        if progress:
+            progress("adjudicating", {"ambiguous": len(pending),
+                                      "budget": budget})
+        client = client or LLMClient(model=CONFIG.judge_model)
+        for i, (a, b, relation) in enumerate(pending):
+            if i >= budget:
+                relation.reasoning_trace.append(
+                    "not escalated: per-run adjudication budget exhausted"
+                )
+                report.escalation_skipped += 1
+                relations.append(relation)
+                continue
+            relations.append(adjudicate(a, b, relation, client))
+            report.escalated += 1
+            if progress:
+                progress("adjudicating", {"done": i + 1,
+                                          "total": min(len(pending), budget)})
+    else:
+        relations.extend(r for _, _, r in pending)
+
+    store.insert_relations(relations)
+    for r in relations:
+        report.by_kind[r.kind] = report.by_kind.get(r.kind, 0) + 1
+    if progress:
+        progress("related", report.as_dict())
     return report
