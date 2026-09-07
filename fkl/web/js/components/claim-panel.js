@@ -7,6 +7,11 @@ import { html } from '../core/dom.js';
 import { evidenceText, pageOf, score, statedContext } from '../core/format.js';
 import { pill } from './primitives.js';
 
+/**
+ * Context chips. When nothing is stated that is said explicitly, because a
+ * missing qualifier is why a difference may be underspecified rather than a
+ * disagreement — it is information, not absence.
+ */
 export function contextChips(claim) {
   const stated = statedContext(claim);
   if (!stated.length) {

@@ -52,23 +52,28 @@ function jobCard(job) {
 }
 
 function documentsTable(documents) {
-  if (!documents.length) return empty('No documents yet', 'Upload a PDF to begin.');
+  if (!documents.length) {
+    return empty('No documents yet',
+      'Drop a PDF above. Extraction runs locally and takes a few seconds per document.', '◍');
+  }
   return html`
     <div class="card"><div class="scroll-x">
       <table class="table">
         <thead><tr>
-          <th>Document</th><th>Pages</th><th>Claims</th><th>Tables</th>
-          <th>Entity</th><th>Status</th><th><span class="visually-hidden">Actions</span></th>
+          <th>Document</th><th class="is-numeric">Pages</th><th class="is-numeric">Claims</th>
+          <th class="is-numeric">Tables</th><th>Detected entity</th><th>Status</th>
+          <th><span class="visually-hidden">Actions</span></th>
         </tr></thead>
         <tbody>${documents.map((doc) => {
           const s = doc.stats || {};
           return html`
             <tr>
-              <td><b>${doc.filename}</b><div class="cell-note mono">${doc.doc_id}</div></td>
-              <td class="num">${doc.pages_read}${doc.pages_read !== doc.n_pages
+              <td class="cell-title">${doc.filename}
+                <div class="cell-note mono">${doc.doc_id}</div></td>
+              <td class="is-numeric">${doc.pages_read}${doc.pages_read !== doc.n_pages
                 ? ` / ${doc.n_pages}` : ''}</td>
-              <td class="num">${doc.claim_count}</td>
-              <td class="num">${s.extractor_tables_found ?? '—'}</td>
+              <td class="is-numeric">${doc.claim_count}</td>
+              <td class="is-numeric">${s.extractor_tables_found ?? '—'}</td>
               <td>${s.extractor_primary_entity ?? '—'}</td>
               <td>${pill(doc.status)}${(s.errors || []).length
                 ? html`<div class="cell-note" style="color:var(--amber)">
@@ -83,14 +88,15 @@ function documentsTable(documents) {
 export async function render() {
   const [documents, jobs] = await Promise.all([api.documents(), api.jobs()]);
   return html`
-    <div class="card" style="margin-bottom:var(--s5)"><div class="card__body">
+    <div class="card"><div class="card__body">
       <div class="dropzone" id="dropzone" role="button" tabindex="0"
            aria-label="Upload a PDF">
+        <div class="dropzone__icon" aria-hidden="true">↑</div>
         <div class="dropzone__title">Drop a PDF here, or click to choose</div>
         <div class="dropzone__hint">Any PDF. Deterministic extraction — no API key required.</div>
         <input type="file" id="file-input" accept="application/pdf" multiple hidden>
       </div>
-      ${jobs.slice(0, 6).map(jobCard)}
+      ${jobs.length ? html`<div class="jobs">${jobs.slice(0, 6).map(jobCard)}</div>` : ''}
     </div></div>
     ${documentsTable(documents)}`;
 }

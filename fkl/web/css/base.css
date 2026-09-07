@@ -1,49 +1,85 @@
-/* Reset, document shell, and layout primitives. */
+/* Reset, document shell, layout primitives. No colours or sizes literal —
+   everything comes from tokens.css. */
 
 *, *::before, *::after { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
+
 body {
-  margin: 0; background: var(--bg); color: var(--text);
-  font: var(--t-md)/1.55 var(--font); -webkit-font-smoothing: antialiased;
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: var(--t-base);
+  line-height: var(--lh-normal);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "cv05" 1, "ss01" 1; /* Inter: friendlier l, single-storey a */
 }
-a { color: var(--accent); }
-button { font-family: inherit; }
+
+h1, h2, h3 { margin: 0; font-weight: var(--w-semi); line-height: var(--lh-tight);
+             letter-spacing: var(--ls-snug); text-wrap: balance; }
+p { margin: 0; }
+a { color: var(--accent); text-underline-offset: 2px; }
+button, input, select, textarea { font: inherit; color: inherit; }
 ::selection { background: var(--accent-soft); }
 
-/* --- app shell --- */
+/* One focus treatment for the whole app, keyboard-only. */
+:focus-visible { outline: none; box-shadow: var(--ring), var(--ring-strong); border-radius: var(--r-sm); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
+
+/* ---------------------------------------------------------------- shell */
 .topbar {
   position: sticky; top: 0; z-index: 30;
-  background: var(--surface); border-bottom: 1px solid var(--border);
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  backdrop-filter: saturate(180%) blur(12px);
+  border-bottom: 1px solid var(--border);
 }
 .topbar__inner {
-  max-width: var(--maxw); margin: 0 auto; padding: var(--s4) var(--s6);
+  max-width: var(--maxw); margin: 0 auto;
+  min-height: var(--topbar-h); padding: var(--s3) var(--s6);
   display: flex; align-items: center; gap: var(--s5); flex-wrap: wrap;
 }
 .topbar__right { margin-left: auto; display: flex; align-items: center; gap: var(--s3); }
-@media (max-width: 560px) { .topbar__right { margin-left: 0; width: 100%; } }
 
 .brand { display: flex; align-items: center; gap: var(--s4); min-width: 0; }
 .brand__mark {
-  width: 32px; height: 32px; border-radius: 9px; flex: 0 0 auto;
-  background: linear-gradient(135deg, var(--accent), #7c6cf7);
-  display: grid; place-items: center; color: #fff; font-weight: 700; font-size: 15px;
-  box-shadow: var(--shadow);
+  width: 30px; height: 30px; border-radius: var(--r); flex: 0 0 auto;
+  background: linear-gradient(140deg, var(--accent), color-mix(in srgb, var(--accent) 55%, #a78bfa));
+  display: grid; place-items: center;
+  color: var(--on-brand); font-weight: var(--w-bold); font-size: var(--t-sm);
+  letter-spacing: var(--ls-tight); box-shadow: var(--shadow-sm);
 }
-.brand__title { margin: 0; font-size: 15px; font-weight: 640; letter-spacing: -.01em; line-height: 1.2; }
-.brand__sub { margin: 1px 0 0; font-size: var(--t-sm); color: var(--text-3); line-height: 1.3; }
+.brand__title { font-size: var(--t-md); font-weight: var(--w-semi); }
+.brand__sub { margin-top: 1px; font-size: var(--t-xs); color: var(--text-3);
+              line-height: var(--lh-snug); }
 
-.page { max-width: var(--maxw); margin: 0 auto; padding: var(--s6) var(--s6) 60px; }
+.page { max-width: var(--maxw); margin: 0 auto; padding: var(--s6) var(--s6) var(--s8); }
 
-/* --- utilities --- */
-.stack > * + * { margin-top: var(--s4); }
+/* Vertical rhythm between the shell's stacked regions. */
+.page > * + * { margin-top: var(--s5); }
+.page__section { display: flex; flex-direction: column; gap: var(--s4); }
+
+/* ---------------------------------------------------------- utilities */
 .row { display: flex; align-items: center; gap: var(--s3); flex-wrap: wrap; }
 .push { margin-left: auto; }
 .muted { color: var(--text-3); }
 .num { font-variant-numeric: tabular-nums; }
 .mono { font-family: var(--mono); }
 .truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.scroll-x { overflow-x: auto; }
+.scroll-x { overflow-x: auto; overscroll-behavior-x: contain; }
 .visually-hidden {
   position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
   overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* ------------------------------------------------------------ responsive */
+@media (max-width: 900px) {
+  .topbar__inner, .page { padding-left: var(--s5); padding-right: var(--s5); }
+}
+@media (max-width: 620px) {
+  .topbar__right { margin-left: 0; width: 100%; }
+  .brand__sub { display: none; }
 }

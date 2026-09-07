@@ -1,70 +1,166 @@
 /* Design tokens.
-   The only file that names a colour. Everything else refers to these, so the
-   light and dark palettes stay in one place and cannot drift apart. */
+   The only file that defines a colour, a size, or a shadow. Everything else
+   refers to these names, so the two themes cannot drift apart and a visual
+   change is a change in one place. */
 
 :root {
-  /* surfaces */
-  --bg:#f7f8fa; --surface:#ffffff; --surface-2:#f2f4f7; --surface-3:#eaecf0;
-  --border:#e4e7ec; --border-strong:#d0d5dd;
+  /* ---- neutrals ----------------------------------------------------
+     Biased very slightly toward the indigo accent rather than pure grey,
+     so the greys read as part of the palette instead of a default. */
+  --bg:#fbfbfd;
+  --surface:#ffffff;
+  --surface-2:#f6f7f9;
+  --surface-3:#eef0f4;
+  --border:#e6e8ee;
+  --border-strong:#d3d7e0;
 
-  /* text */
-  --text:#101828; --text-2:#475467; --text-3:#98a2b3;
+  --text:#14161d;
+  --text-2:#4a5061;
+  --text-3:#8b91a3;
 
-  /* accent */
-  --accent:#4f46e5; --accent-soft:#eef2ff; --accent-border:#c7d2fe;
+  /* ---- accent ---- */
+  --accent:#4f46e5;
+  --accent-hover:#4338ca;
+  --accent-soft:#eef0ff;
+  --accent-border:#c8cbfb;
+  --accent-contrast:#ffffff;
+  /* Text on the brand gradient. Stays white in both themes because the
+     gradient itself stays saturated — unlike --accent-contrast, which flips. */
+  --on-brand:#ffffff;
 
-  /* semantic — one triple per verdict so badges stay consistent */
-  --ok:#067647;     --ok-soft:#ecfdf3;     --ok-border:#abefc6;
-  --bad:#b42318;    --bad-soft:#fef3f2;    --bad-border:#fecdca;
-  --violet:#6941c6; --violet-soft:#f4f3ff; --violet-border:#d9d6fe;
-  --blue:#175cd3;   --blue-soft:#eff8ff;   --blue-border:#b2ddff;
-  --amber:#b54708;  --amber-soft:#fffaeb;  --amber-border:#fedf89;
-  --slate:#475467;  --slate-soft:#f2f4f7;  --slate-border:#d0d5dd;
+  /* ---- verdict tiers -------------------------------------------------
+     Semantic, not decorative: each names what the verdict means, so the
+     mapping from engine verdict to colour lives in one place.
+       affirm  documents agree                (corroboration)
+       conflict genuine disagreement          (contradiction)
+       explain  differs, context accounts for it (reconciled)
+       revise   superseded by a later figure  (supersedes)
+       partial  measures part of the other    (partial_cover)
+       unknown  not enough context to judge   (underspecified) */
+  --v-affirm:#067647;   --v-affirm-soft:#ecfdf3;   --v-affirm-border:#a9efc5;
+  --v-conflict:#b42318; --v-conflict-soft:#fef3f2; --v-conflict-border:#fecdca;
+  --v-explain:#6941c6;  --v-explain-soft:#f5f3ff;  --v-explain-border:#ddd6fe;
+  --v-revise:#1570ef;   --v-revise-soft:#eff8ff;   --v-revise-border:#b2ddff;
+  --v-partial:#475467;  --v-partial-soft:#f6f7f9;  --v-partial-border:#d3d7e0;
+  --v-unknown:#b54708;  --v-unknown-soft:#fffaeb;  --v-unknown-border:#fedf89;
 
-  /* shape */
-  --r-sm:6px; --r:10px; --r-lg:14px; --r-pill:999px;
-  --shadow:0 1px 2px rgba(16,24,40,.05);
-  --shadow-md:0 2px 8px -2px rgba(16,24,40,.08), 0 4px 16px -4px rgba(16,24,40,.06);
+  /* ---- typography ----------------------------------------------------
+     One family across the app. Inter is loaded from Google Fonts in
+     index.html; the stack below is a real fallback, so removing that one
+     <link> degrades cleanly to the platform UI face. */
+  --font:"Inter","SF Pro Text",-apple-system,BlinkMacSystemFont,"Segoe UI",
+         Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:"SF Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
 
-  /* spacing scale */
-  --s1:4px; --s2:6px; --s3:9px; --s4:12px; --s5:16px; --s6:22px; --s7:32px;
+  --t-2xs:10.5px;  /* pills, table micro-labels */
+  --t-xs:11.5px;   /* meta, captions */
+  --t-sm:12.5px;   /* secondary text, table body */
+  --t-base:13.5px; /* body */
+  --t-md:15px;     /* card titles, claim predicate */
+  --t-lg:18px;     /* claim value */
+  --t-xl:22px;     /* metric figures */
+  --t-2xl:28px;    /* page-level figures */
 
-  /* type */
-  --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,"Helvetica Neue",sans-serif;
-  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
-  --t-xs:11px; --t-sm:12px; --t-base:13px; --t-md:14px; --t-lg:17px; --t-xl:22px;
+  --w-normal:400; --w-medium:500; --w-semi:600; --w-bold:680;
 
-  --maxw:1240px;
+  --lh-tight:1.25; --lh-snug:1.4; --lh-normal:1.55; --lh-relaxed:1.65;
+  --ls-tight:-.02em; --ls-snug:-.01em; --ls-wide:.04em;
+
+  /* ---- spacing (4px rhythm) ---- */
+  --s1:4px; --s2:6px; --s3:8px; --s4:12px; --s5:16px;
+  --s6:24px; --s7:32px; --s8:48px;
+
+  /* ---- radius ---- */
+  --r-xs:4px; --r-sm:6px; --r:8px; --r-md:10px; --r-lg:14px; --r-xl:18px;
+  --r-pill:999px;
+
+  /* ---- elevation ------------------------------------------------------
+     Layered rather than a single blur, so a lifted surface reads as lifted
+     instead of merely blurry. Spent by role: most blocks stay flat. */
+  --shadow-xs:0 1px 2px rgba(20,22,29,.04);
+  --shadow-sm:0 1px 2px rgba(20,22,29,.05), 0 1px 3px rgba(20,22,29,.04);
+  --shadow-md:0 2px 4px rgba(20,22,29,.04), 0 6px 16px -4px rgba(20,22,29,.08);
+  --shadow-lg:0 4px 8px rgba(20,22,29,.05), 0 16px 32px -8px rgba(20,22,29,.12);
+
+  /* ---- interaction ---- */
+  --ring:0 0 0 3px var(--accent-soft);
+  --ring-strong:0 0 0 2px var(--accent);
+  --dur-fast:.12s; --dur:.18s;
+  --ease:cubic-bezier(.2,0,.2,1);
+
+  /* ---- layout ---- */
+  --maxw:1280px;
+  --topbar-h:60px;
 }
 
-/* Dark applies when the viewer has not chosen, or has chosen dark. */
+/* Dark applies when the viewer has expressed no preference and the OS is
+   dark, or when they explicitly chose dark. Both blocks redefine tokens
+   only — no component ever styles itself inside a theme block. */
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) { color-scheme: dark;
-    --bg:#0c0e12; --surface:#14171d; --surface-2:#1a1e26; --surface-3:#222732;
-    --border:#252a34; --border-strong:#333a47;
-    --text:#f0f2f5; --text-2:#98a2b3; --text-3:#667085;
-    --accent:#8b8afb; --accent-soft:#1b1b3a; --accent-border:#3730a3;
-    --ok:#75e0a7;     --ok-soft:#0d2a1c;     --ok-border:#175d3a;
-    --bad:#fda29b;    --bad-soft:#33130f;    --bad-border:#7a271a;
-    --violet:#bdb4fe; --violet-soft:#231a45; --violet-border:#4a1fb8;
-    --blue:#84caff;   --blue-soft:#0d2137;   --blue-border:#1849a9;
-    --amber:#fec84b;  --amber-soft:#2b1c06;  --amber-border:#7a4708;
-    --slate:#98a2b3;  --slate-soft:#1a1e26;  --slate-border:#333a47;
-    --shadow:0 1px 2px rgba(0,0,0,.3);
-    --shadow-md:0 2px 8px -2px rgba(0,0,0,.4), 0 4px 16px -4px rgba(0,0,0,.3);
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg:#0b0c10;
+    --surface:#131519;
+    --surface-2:#191c22;
+    --surface-3:#21242c;
+    --border:#23262e;
+    --border-strong:#32363f;
+
+    --text:#eef0f4;
+    --text-2:#9aa1b1;
+    --text-3:#6b7280;
+
+    --accent:#8b8afb;
+    --accent-hover:#a5a4fc;
+    --accent-soft:#1a1a38;
+    --accent-border:#3b35b8;
+    --accent-contrast:#0b0c10;
+    --on-brand:#ffffff;
+
+    --v-affirm:#6ee7a8;   --v-affirm-soft:#0c2b1d;   --v-affirm-border:#14563a;
+    --v-conflict:#fda29b; --v-conflict-soft:#341311; --v-conflict-border:#7a271a;
+    --v-explain:#c4b5fd;  --v-explain-soft:#221a45;  --v-explain-border:#4c1fb5;
+    --v-revise:#7cc4fd;   --v-revise-soft:#0c2138;   --v-revise-border:#17509e;
+    --v-partial:#9aa1b1;  --v-partial-soft:#191c22;  --v-partial-border:#32363f;
+    --v-unknown:#fdb022;  --v-unknown-soft:#2b1c06;  --v-unknown-border:#7a4708;
+
+    --shadow-xs:0 1px 2px rgba(0,0,0,.4);
+    --shadow-sm:0 1px 2px rgba(0,0,0,.45), 0 1px 3px rgba(0,0,0,.35);
+    --shadow-md:0 2px 4px rgba(0,0,0,.4), 0 6px 16px -4px rgba(0,0,0,.5);
+    --shadow-lg:0 4px 8px rgba(0,0,0,.45), 0 16px 32px -8px rgba(0,0,0,.6);
+    --ring:0 0 0 3px rgba(139,138,251,.22);
   }
 }
-:root[data-theme="dark"] { color-scheme: dark;
-  --bg:#0c0e12; --surface:#14171d; --surface-2:#1a1e26; --surface-3:#222732;
-  --border:#252a34; --border-strong:#333a47;
-  --text:#f0f2f5; --text-2:#98a2b3; --text-3:#667085;
-  --accent:#8b8afb; --accent-soft:#1b1b3a; --accent-border:#3730a3;
-  --ok:#75e0a7;     --ok-soft:#0d2a1c;     --ok-border:#175d3a;
-  --bad:#fda29b;    --bad-soft:#33130f;    --bad-border:#7a271a;
-  --violet:#bdb4fe; --violet-soft:#231a45; --violet-border:#4a1fb8;
-  --blue:#84caff;   --blue-soft:#0d2137;   --blue-border:#1849a9;
-  --amber:#fec84b;  --amber-soft:#2b1c06;  --amber-border:#7a4708;
-  --slate:#98a2b3;  --slate-soft:#1a1e26;  --slate-border:#333a47;
-  --shadow:0 1px 2px rgba(0,0,0,.3);
-  --shadow-md:0 2px 8px -2px rgba(0,0,0,.4), 0 4px 16px -4px rgba(0,0,0,.3);
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg:#0b0c10;
+  --surface:#131519;
+  --surface-2:#191c22;
+  --surface-3:#21242c;
+  --border:#23262e;
+  --border-strong:#32363f;
+
+  --text:#eef0f4;
+  --text-2:#9aa1b1;
+  --text-3:#6b7280;
+
+  --accent:#8b8afb;
+  --accent-hover:#a5a4fc;
+  --accent-soft:#1a1a38;
+  --accent-border:#3b35b8;
+  --accent-contrast:#0b0c10;
+  --on-brand:#ffffff;
+
+  --v-affirm:#6ee7a8;   --v-affirm-soft:#0c2b1d;   --v-affirm-border:#14563a;
+  --v-conflict:#fda29b; --v-conflict-soft:#341311; --v-conflict-border:#7a271a;
+  --v-explain:#c4b5fd;  --v-explain-soft:#221a45;  --v-explain-border:#4c1fb5;
+  --v-revise:#7cc4fd;   --v-revise-soft:#0c2138;   --v-revise-border:#17509e;
+  --v-partial:#9aa1b1;  --v-partial-soft:#191c22;  --v-partial-border:#32363f;
+  --v-unknown:#fdb022;  --v-unknown-soft:#2b1c06;  --v-unknown-border:#7a4708;
+
+  --shadow-xs:0 1px 2px rgba(0,0,0,.4);
+  --shadow-sm:0 1px 2px rgba(0,0,0,.45), 0 1px 3px rgba(0,0,0,.35);
+  --shadow-md:0 2px 4px rgba(0,0,0,.4), 0 6px 16px -4px rgba(0,0,0,.5);
+  --shadow-lg:0 4px 8px rgba(0,0,0,.45), 0 16px 32px -8px rgba(0,0,0,.6);
+  --ring:0 0 0 3px rgba(139,138,251,.22);
 }

@@ -15,7 +15,26 @@ const VERDICT_LABELS = {
   unrelated: 'Unrelated',
 };
 
+/**
+ * What each verdict means, in one line. Shown next to the badge so a reader
+ * does not have to have learned the vocabulary first.
+ */
+const VERDICT_MEANINGS = {
+  contradiction: 'The documents disagree and context does not explain it',
+  reconciled: 'Values differ, but a difference in context accounts for it',
+  corroboration: 'The documents agree',
+  supersedes: 'The same measurement, revised by a later figure',
+  partial_cover: 'One claim measures only part of what the other measures',
+  underspecified: 'Not enough context stated to judge',
+  unrelated: 'Not the same property after all',
+};
+
 export const verdictLabel = (kind) => VERDICT_LABELS[kind] || kind;
+export const verdictMeaning = (kind) => VERDICT_MEANINGS[kind] || '';
+
+/** Below this, a confidence is shown in the caution tone rather than the accent. */
+export const LOW_CONFIDENCE = 0.5;
+export const isLow = (value) => Number(value) < LOW_CONFIDENCE;
 
 export const percent = (value) => Math.round((Number(value) || 0) * 100);
 export const score = (value) => (Number(value) || 0).toFixed(2);

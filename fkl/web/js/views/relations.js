@@ -4,23 +4,24 @@ import { api } from '../core/api.js';
 import { html } from '../core/dom.js';
 import { VERDICTS, verdictLabel } from '../core/format.js';
 import { relationCard } from '../components/relation-card.js';
-import { empty } from '../components/primitives.js';
+import { empty, verdictDot } from '../components/primitives.js';
 
 function filterBar(activeKind, counts, shown) {
   const available = VERDICTS.filter((kind) => counts[kind]);
   return html`
     <div class="toolbar">
       <div class="chips" role="group" aria-label="Filter by relationship type">
-        <button class="chip" data-kind="" aria-pressed="${activeKind === '' ? 'true' : 'false'}">
-          All</button>
+        <button class="chip" type="button" data-kind=""
+                aria-pressed="${activeKind === '' ? 'true' : 'false'}">All</button>
         ${available.map((kind) => html`
-          <button class="chip" data-kind="${kind}"
+          <button class="chip" type="button" data-kind="${kind}"
                   aria-pressed="${activeKind === kind ? 'true' : 'false'}">
-            ${verdictLabel(kind)}<span class="chip__count">${counts[kind]}</span>
+            ${verdictDot(kind)}${verdictLabel(kind)}
+            <span class="chip__count">${counts[kind]}</span>
           </button>`)}
       </div>
-      <span class="muted num push">${shown} shown</span>
-      <button class="btn btn--ghost" id="rebuild-relations">Rebuild all</button>
+      <span class="muted num push" style="font-size:var(--t-xs)">${shown} shown</span>
+      <button class="btn btn--ghost" type="button" id="rebuild-relations">Rebuild all</button>
     </div>`;
 }
 
@@ -34,11 +35,12 @@ export async function render(state) {
 
   if (!relations.length) {
     return html`${bar}${empty(
-      'No relationships of this type',
+      documents.length < 2 ? 'Nothing to compare yet' : 'No relationships of this type',
       documents.length < 2
-        ? 'Upload at least two documents that discuss overlapping facts.'
-        : 'Try another filter, or rebuild after changing thresholds.',
+        ? 'Relationships are found between documents. Upload a second PDF that covers overlapping facts.'
+        : 'Clear the filter to see other verdicts, or rebuild after changing thresholds.',
+      documents.length < 2 ? '⇄' : '⌕',
     )}`;
   }
-  return html`${bar}${relations.map(relationCard)}`;
+  return html`${bar}<div class="relation-list">${relations.map(relationCard)}</div>`;
 }

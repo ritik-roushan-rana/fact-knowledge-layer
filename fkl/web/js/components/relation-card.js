@@ -3,10 +3,12 @@
  *
  * Ordered the way the engine decides: what it concluded, how confident it is,
  * the two claims side by side, the explanation, and finally the rules that
- * actually fired.
+ * actually fired. The card's left edge carries the verdict colour so a long
+ * list is scannable without reading each badge.
  */
 
 import { html } from '../core/dom.js';
+import { verdictMeaning } from '../core/format.js';
 import { badge, meter } from './primitives.js';
 import { claimPanel } from './claim-panel.js';
 
@@ -26,15 +28,15 @@ function contextDiff(diff) {
 export function relationCard(relation) {
   const steps = relation.reasoning_trace || [];
   return html`
-    <article class="card relation">
+    <article class="card relation relation--${relation.kind}">
       <header class="card__head">
         ${badge(relation.kind)}
-        <div class="meters">
+        <span class="muted" style="font-size:var(--t-xs)">${verdictMeaning(relation.kind)}</span>
+        <div class="meters push">
           ${meter('confidence', relation.confidence)}
           ${meter('match', relation.match_confidence)}
           ${meter('verdict', relation.relationship_confidence)}
         </div>
-        <span class="relation__decided push">${decidedBy(relation)}</span>
       </header>
 
       <div class="claim-pair">
@@ -43,12 +45,13 @@ export function relationCard(relation) {
       </div>
 
       <div class="explanation">
-        <span class="explanation__label">Why</span>${relation.explanation}
+        <span class="explanation__label">Why</span>
+        <span class="explanation__body">${relation.explanation}</span>
         ${contextDiff(relation.context_diff)}
       </div>
 
       <details class="disclosure">
-        <summary>Reasoning trace · ${steps.length} steps</summary>
+        <summary>Reasoning trace · ${steps.length} steps · ${decidedBy(relation)}</summary>
         <ol class="trace">${steps.map((step) => html`<li class="trace__step">${step}</li>`)}</ol>
       </details>
     </article>`;

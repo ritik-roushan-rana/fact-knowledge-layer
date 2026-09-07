@@ -21,12 +21,15 @@ export async function render(state) {
   const bar = searchBar(state, documents, claims.length);
 
   if (!claims.length) {
-    return html`${bar}${empty('Nothing flagged for review',
-      'Every extracted claim was grounded successfully.')}`;
+    return html`${bar}${empty(
+      'Nothing flagged for review',
+      'Every extracted claim was located in its source document.',
+      '✓',
+    )}`;
   }
 
-  return html`${bar}${claims.map((claim) => html`
-    <article class="card relation">
+  return html`${bar}<div class="relation-list">${claims.map((claim) => html`
+    <article class="card relation relation--${claim.quarantined ? 'contradiction' : 'underspecified'}">
       <header class="card__head">
         <span class="badge badge--${claim.quarantined ? 'contradiction' : 'underspecified'}">
           ${claim.quarantined ? 'Quarantined' : 'Needs review'}</span>
@@ -41,10 +44,10 @@ export async function render(state) {
         <p class="evidence__label">What the extractor quoted</p>
         <blockquote class="evidence">${claim.span_text}</blockquote>
         <p class="evidence__label">Closest text actually in the document</p>
-        <blockquote class="evidence">${claim.matched_text
+        <blockquote class="evidence evidence--plain">${claim.matched_text
           || '— not found anywhere in the document —'}</blockquote>
         <ul class="review-reasons">${(claim.review_reasons || [])
           .map((reason) => html`<li>${reason}</li>`)}</ul>
       </div>
-    </article>`)}`;
+    </article>`)}</div>`;
 }
