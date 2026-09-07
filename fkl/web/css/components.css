@@ -239,3 +239,99 @@
 }
 .disclosure[open] > summary::before { transform: rotate(90deg); }
 .disclosure > summary:hover { background: var(--surface-2); color: var(--text); }
+
+/* ============================================================= uploader */
+.uploader { display: flex; flex-direction: column; gap: var(--s4); }
+
+.dropzone {
+  position: relative; display: flex; flex-direction: column; align-items: center;
+  gap: var(--s2); text-align: center; cursor: pointer;
+  padding: var(--s7) var(--s6);
+  border: 1.5px dashed var(--border-strong); border-radius: var(--r-lg);
+  background: var(--surface);
+  transition: border-color var(--dur) var(--ease), background var(--dur) var(--ease),
+              box-shadow var(--dur) var(--ease);
+}
+.dropzone:hover { border-color: var(--accent); background: var(--accent-soft); }
+.dropzone.is-active { border-color: var(--accent); background: var(--accent-soft);
+                      box-shadow: var(--ring); }
+
+/* The landing treatment: this is the first thing a new user sees, so it gets
+   room and a plain statement of what to do and what happens next. */
+.dropzone--hero { padding: var(--s8) var(--s6); gap: var(--s3); }
+.dropzone--hero .dropzone__icon { width: 56px; height: 56px; font-size: var(--t-xl); }
+.dropzone--hero .dropzone__title { font-size: var(--t-lg); }
+
+/* The in-page treatment once documents exist: same affordance, less room. */
+.dropzone--compact { padding: var(--s5) var(--s6); flex-direction: row; justify-content: center;
+                     gap: var(--s4); text-align: left; }
+.dropzone--compact .dropzone__icon { width: 32px; height: 32px; margin: 0; font-size: var(--t-base); }
+.dropzone--compact .dropzone__title { font-size: var(--t-base); }
+
+.dropzone__icon {
+  width: 44px; height: 44px; border-radius: var(--r-md); margin-bottom: var(--s1);
+  display: grid; place-items: center; font-size: var(--t-md);
+  background: var(--accent-soft); color: var(--accent); border: 1px solid var(--accent-border);
+}
+.dropzone__title { font-size: var(--t-md); font-weight: var(--w-semi); color: var(--text); }
+.dropzone__hint { font-size: var(--t-sm); color: var(--text-3); max-width: 52ch;
+                  line-height: var(--lh-snug); }
+.dropzone__meta { display: flex; gap: var(--s4); flex-wrap: wrap; justify-content: center;
+                  font-size: var(--t-xs); color: var(--text-3); margin-top: var(--s2); }
+.dropzone__meta span { display: inline-flex; align-items: center; gap: var(--s2); }
+
+/* Drop anywhere: a window-wide target beats hunting for the box. */
+.drop-overlay {
+  position: fixed; inset: 0; z-index: 100; display: grid; place-items: center;
+  background: var(--overlay); backdrop-filter: blur(3px);
+  animation: overlay-in var(--dur) var(--ease);
+}
+.drop-overlay[hidden] { display: none !important; }
+.drop-overlay__panel {
+  display: flex; flex-direction: column; align-items: center; gap: var(--s3);
+  padding: var(--s8) var(--s8);
+  min-width: min(440px, 82vw);
+  border: 2px dashed var(--accent); border-radius: var(--r-xl);
+  background: var(--overlay-panel); box-shadow: var(--shadow-lg);
+  text-align: center;
+}
+.drop-overlay__title { font-size: var(--t-lg); font-weight: var(--w-semi); color: var(--text); }
+.drop-overlay__hint { font-size: var(--t-sm); color: var(--text-3); }
+@keyframes overlay-in { from { opacity: 0; } to { opacity: 1; } }
+
+/* ---- job cards ---- */
+.jobs { display: flex; flex-direction: column; gap: var(--s3); }
+.job {
+  padding: var(--s4) var(--s5); border: 1px solid var(--border);
+  border-radius: var(--r-md); background: var(--surface-2);
+  border-left: 2px solid var(--job-tone, var(--border-strong));
+}
+.job--running, .job--queued { --job-tone: var(--accent); }
+.job--done   { --job-tone: var(--v-affirm); }
+.job--failed { --job-tone: var(--v-conflict); }
+.job__head { display: flex; align-items: center; gap: var(--s3); flex-wrap: wrap;
+             font-size: var(--t-sm); }
+.job__name { font-weight: var(--w-medium); color: var(--text); min-width: 0;
+             overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 42ch; }
+.job__status { font-size: var(--t-2xs); font-weight: var(--w-bold);
+               letter-spacing: var(--ls-wide); text-transform: uppercase;
+               color: var(--job-tone, var(--text-3)); }
+.job__stage { font-size: var(--t-xs); color: var(--text-3); }
+.job__result { font-size: var(--t-xs); color: var(--text-3); margin-top: var(--s2); }
+.job__error { font-size: var(--t-xs); color: var(--v-conflict); margin-top: var(--s2); }
+
+.progress { height: 4px; background: var(--surface-3); border-radius: var(--r-pill);
+            overflow: hidden; margin-top: var(--s3); }
+.progress__fill { display: block; height: 100%; background: var(--accent);
+                  border-radius: var(--r-pill); transition: width var(--dur) var(--ease); }
+/* An indeterminate stage still needs to look alive. */
+.progress--indeterminate .progress__fill {
+  width: 34%; animation: indeterminate 1.25s var(--ease) infinite;
+}
+@keyframes indeterminate { 0% { transform: translateX(-100%); } 100% { transform: translateX(320%); } }
+
+.upload-error {
+  font-size: var(--t-sm); color: var(--v-conflict);
+  background: var(--v-conflict-soft); border: 1px solid var(--v-conflict-border);
+  padding: var(--s3) var(--s4); border-radius: var(--r-sm);
+}

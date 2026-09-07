@@ -10,8 +10,9 @@ import { api } from './core/api.js';
 import { delegate, html, qs, render } from './core/dom.js';
 import { getState, setFilter, setState } from './core/state.js';
 import { theme } from './core/theme.js';
-import { engineBadge, metrics, tabs, themeButton } from './components/shell.js';
+import { engineBadge, metrics, tabs, themeButton, uploadButton } from './components/shell.js';
 import { errorState, skeleton } from './components/primitives.js';
+import { bindGlobalDrop, dropOverlay, openFilePicker } from './components/uploader.js';
 
 import * as relationsView from './views/relations.js';
 import * as claimsView from './views/claims.js';
@@ -108,6 +109,17 @@ function bindGlobalHandlers() {
     refreshView();
   });
 
+  // Upload is reachable from every view. If the picker is not on screen
+  // (any tab but Documents), go there first, then open it.
+  delegate(document, 'click', '#upload-trigger', async () => {
+    if (getState().tab !== 'documents') {
+      setState({ tab: 'documents' });
+      render('#tabs-slot', tabs('documents', getState().stats || {}));
+      await refreshView();
+    }
+    openFilePicker();
+  });
+
   delegate(document, 'click', '#theme-toggle', (_event, el) => {
     const next = theme.cycle();
     el.textContent = theme.glyph(next);
@@ -117,13 +129,23 @@ function bindGlobalHandlers() {
 
 /* ------------------------------------------------------------------ boot */
 function mountShell() {
-  render('#topbar-right', html`<div id="engine-slot"></div>${themeButton()}`);
+  render('#topbar-right',
+    html`<div id="engine-slot"></div>${uploadButton()}${themeButton()}`);
+  render('#overlay-slot', dropOverlay());
 }
 
 async function start() {
   theme.init();
   mountShell();
   bindGlobalHandlers();
+  bindGlobalDrop({ refresh: refreshAll });
+
+  // An empty corpus opens on the upload panel: with nothing ingested, the
+  // relationship view has nothing to say and adding a document is the only
+  // useful action.
+  const stats = await api.stats().catch(() => null);
+  if (stats && !stats.documents) setState({ tab: 'documents' });
+
   await refreshAll();
   setInterval(() => {
     if (getState().tab !== 'documents') refreshShell().catch(() => {});

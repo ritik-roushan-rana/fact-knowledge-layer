@@ -88,6 +88,10 @@
   --dur-fast:.12s; --dur:.18s;
   --ease:cubic-bezier(.2,0,.2,1);
 
+  /* ---- overlay (drop target) ---- */
+  --overlay:rgba(20,22,29,.55);
+  --overlay-panel:rgba(255,255,255,.96);
+
   /* ---- layout ---- */
   --maxw:1280px;
   --topbar-h:60px;
@@ -129,6 +133,8 @@
     --shadow-md:0 2px 4px rgba(0,0,0,.4), 0 6px 16px -4px rgba(0,0,0,.5);
     --shadow-lg:0 4px 8px rgba(0,0,0,.45), 0 16px 32px -8px rgba(0,0,0,.6);
     --ring:0 0 0 3px rgba(139,138,251,.22);
+    --overlay:rgba(4,5,8,.72);
+    --overlay-panel:rgba(19,21,25,.97);
   }
 }
 :root[data-theme="dark"] {
@@ -163,4 +169,6 @@
   --shadow-md:0 2px 4px rgba(0,0,0,.4), 0 6px 16px -4px rgba(0,0,0,.5);
   --shadow-lg:0 4px 8px rgba(0,0,0,.45), 0 16px 32px -8px rgba(0,0,0,.6);
   --ring:0 0 0 3px rgba(139,138,251,.22);
+  --overlay:rgba(4,5,8,.72);
+  --overlay-panel:rgba(19,21,25,.97);
 }

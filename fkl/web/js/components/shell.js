@@ -21,6 +21,10 @@ export function engineBadge(engine = {}) {
     </div>`;
 }
 
+/** Upload is the primary action, so it lives in the top bar on every view. */
+export const uploadButton = () => html`
+  <button class="btn" type="button" id="upload-trigger">Upload PDF</button>`;
+
 export const themeButton = () => html`
   <button class="btn btn--ghost btn--icon" id="theme-toggle" type="button"
           title="Theme: ${theme.current} (click to change)"

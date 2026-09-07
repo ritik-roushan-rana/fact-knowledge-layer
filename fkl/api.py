@@ -48,8 +48,10 @@ def store() -> Store:
 
 
 def _set_job(job_id: str, **fields) -> None:
+    """Create or update a job record. The id is always present in the record,
+    so callers never pass it as a field as well."""
     with _jobs_lock:
-        JOBS.setdefault(job_id, {}).update(fields)
+        JOBS.setdefault(job_id, {"job_id": job_id}).update(fields)
 
 
 # --------------------------------------------------------------------------
@@ -95,13 +97,18 @@ async def upload_document(background: BackgroundTasks, file: UploadFile = File(.
         raise HTTPException(status_code=400, detail="Only .pdf files are accepted.")
 
     CONFIG.ensure_dirs()
-    dest = CONFIG.upload_dir / f"{uuid.uuid4().hex[:8]}-{Path(file.filename).name}"
+    # Uniqueness goes on the directory, not the filename: the document keeps
+    # the name the user recognises, and two uploads called "report.pdf" still
+    # cannot collide on disk.
+    folder = CONFIG.upload_dir / uuid.uuid4().hex[:8]
+    folder.mkdir(parents=True, exist_ok=True)
+    dest = folder / Path(file.filename).name
     with open(dest, "wb") as fh:
         shutil.copyfileobj(file.file, fh)
 
     existing = store().get_document(file_id(dest))
     job_id = uuid.uuid4().hex[:12]
-    _set_job(job_id, job_id=job_id, filename=file.filename, status="queued",
+    _set_job(job_id, filename=file.filename, status="queued",
              stage="queued", already_ingested=bool(existing))
     background.add_task(_run_ingest, job_id, dest, relate, extractor, force)
     return {"job_id": job_id, "filename": file.filename,
@@ -213,7 +220,7 @@ async def stats():
 async def rebuild_relations(background: BackgroundTasks, escalate: bool = Query(True)):
     """Recompare the whole corpus. Useful after tuning thresholds."""
     job_id = uuid.uuid4().hex[:12]
-    _set_job(job_id, job_id=job_id, filename="(rebuild relations)", status="queued",
+    _set_job(job_id, filename="(rebuild relations)", status="queued",
              stage="queued", started_at=time.time())
 
     def run() -> None:
