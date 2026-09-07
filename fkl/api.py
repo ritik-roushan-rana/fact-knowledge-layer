@@ -8,6 +8,7 @@ part worth inspecting.
 """
 from __future__ import annotations
 
+import os
 import shutil
 import threading
 import time
@@ -20,6 +21,7 @@ from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 
 from .config import CONFIG
+from .extractors import build_extractor
 from .pdf import file_id
 from .pipeline import build_relations, ingest_pdf
 from .store import Store
@@ -53,7 +55,8 @@ def _set_job(job_id: str, **fields) -> None:
 # --------------------------------------------------------------------------
 # ingestion
 # --------------------------------------------------------------------------
-def _run_ingest(job_id: str, path: Path, relate: bool) -> None:
+def _run_ingest(job_id: str, path: Path, relate: bool,
+                extractor: str | None = None, force: bool = False) -> None:
     started = time.time()
     _set_job(job_id, status="running", stage="loading", detail={}, started_at=started)
 
@@ -61,7 +64,8 @@ def _run_ingest(job_id: str, path: Path, relate: bool) -> None:
         _set_job(job_id, stage=stage, detail=info, elapsed=round(time.time() - started, 1))
 
     try:
-        report = ingest_pdf(path, store(), progress=progress)
+        report = ingest_pdf(path, store(), extractor=extractor, force=force,
+                            progress=progress)
         _set_job(job_id, doc_id=report.doc_id, report=report.as_dict())
 
         if relate:
@@ -83,7 +87,9 @@ def _run_ingest(job_id: str, path: Path, relate: bool) -> None:
 
 @app.post("/api/documents")
 async def upload_document(background: BackgroundTasks, file: UploadFile = File(...),
-                          relate: bool = Query(True)):
+                          relate: bool = Query(True),
+                          extractor: str | None = Query(None),
+                          force: bool = Query(False)):
     """Accept a new PDF and start ingesting it. Returns a job id to poll."""
     if not file.filename or not file.filename.lower().endswith(".pdf"):
         raise HTTPException(status_code=400, detail="Only .pdf files are accepted.")
@@ -97,11 +103,12 @@ async def upload_document(background: BackgroundTasks, file: UploadFile = File(.
     job_id = uuid.uuid4().hex[:12]
     _set_job(job_id, job_id=job_id, filename=file.filename, status="queued",
              stage="queued", already_ingested=bool(existing))
-    background.add_task(_run_ingest, job_id, dest, relate)
+    background.add_task(_run_ingest, job_id, dest, relate, extractor, force)
     return {"job_id": job_id, "filename": file.filename,
             "already_ingested": bool(existing),
-            "note": "Ingest is paced against the provider's token limit and may "
-                    "take several minutes for a large PDF. Poll /api/jobs/{job_id}."}
+            "extractor": extractor or CONFIG.extractor,
+            "note": "Deterministic extraction runs at roughly 5 pages/second and "
+                    "needs no API key. Poll /api/jobs/{job_id} for progress."}
 
 
 @app.get("/api/jobs/{job_id}")
@@ -137,8 +144,10 @@ async def delete_document(doc_id: str):
 
 @app.get("/api/claims")
 async def list_claims(doc_id: str | None = None, needs_review: bool | None = None,
+                      quarantined: bool | None = None, origin: str | None = None,
                       search: str | None = None, limit: int = 100, offset: int = 0):
     return store().query_claims(doc_id=doc_id, needs_review=needs_review,
+                                quarantined=quarantined, origin=origin,
                                 search=search, limit=min(limit, 1000), offset=offset)
 
 
@@ -173,18 +182,29 @@ async def list_relations(kind: str | None = None, doc_id: str | None = None,
 async def stats():
     st = store()
     docs = st.list_documents()
+    extractor = build_extractor()
     return {
         "documents": len(docs),
         "claims": st.count_claims(),
+        "claims_from_tables": st.count_claims(origin="table"),
+        "claims_from_sentences": st.count_claims(origin="sentence"),
+        "claims_quarantined": st.count_claims(quarantined=True),
         "claims_needing_review": st.count_claims(needs_review=True),
         "relations_by_kind": st.relation_counts(),
-        "config": {
-            "model": CONFIG.llm_model,
-            "endpoint": CONFIG.llm_base_url,
-            "embedding_model": CONFIG.embed_model,
-            "grounding_threshold": CONFIG.grounding_threshold,
-            "match_threshold": CONFIG.match_threshold,
-            "review_threshold": CONFIG.review_threshold,
+        "engine": {
+            "extractor": extractor.name,
+            "requires_api_key": extractor.requires_api_key,
+            "llm_fallback_enabled": CONFIG.enable_llm_fallback,
+            "llm_configured": bool(os.environ.get(CONFIG.llm_api_key_env)),
+            "judge_model": CONFIG.judge_model,
+        },
+        "thresholds": {
+            "grounding": CONFIG.grounding_threshold,
+            "review": CONFIG.review_threshold,
+            "subject_match": CONFIG.subject_threshold,
+            "predicate_match": CONFIG.predicate_threshold,
+            "value_tolerance": CONFIG.value_tolerance,
+            "percentage_point_tolerance": CONFIG.percentage_point_tolerance,
         },
     }
 

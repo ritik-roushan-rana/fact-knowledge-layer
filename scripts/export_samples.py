@@ -28,6 +28,11 @@ CASES = [
      "Same entity, same property, comparable context -- and values that cannot both be right."),
     ("reconciled", "3. An apparent contradiction explained by context",
      "The values differ, but a difference in period, scope or unit accounts for it."),
+    ("supersedes", "3b. A revision rather than a disagreement",
+     "The same measurement at two stages -- an estimate and a later actual."),
+    ("partial_cover", "3c. Partial coverage, not conflict",
+     "One claim measures only part of what the other measures, so the values are "
+     "not expected to match."),
 ]
 
 
@@ -43,7 +48,9 @@ def fmt_claim(c: dict, label: str) -> str:
         f"| value | **{c['value']}** |\n"
         f"| context | {ctx_s} |\n"
         f"| confidence | {c['final_confidence']:.2f} "
-        f"(extraction {c['extraction_confidence']:.2f} x grounding {c['grounding_score']:.2f}) |\n\n"
+        f"(extraction {c['extraction_confidence']:.2f} x grounding {c['grounding_score']:.2f}) |\n"
+        f"| origin | {c.get('origin','sentence')}"
+        f"{' , bbox ' + str([round(v,1) for v in c['bbox']]) if c.get('bbox') else ''} |\n\n"
         f"> {(c['matched_text'] or c['span_text']).strip()}\n"
     )
 
@@ -86,6 +93,9 @@ def main() -> int:
         "claims": len(claims),
         "claims_needing_review": sum(1 for c in claims if c["needs_review"]),
         "relations_by_kind": store.relation_counts(),
+        "claims_quarantined": sum(1 for c in claims if c["quarantined"]),
+        "claims_from_tables": sum(1 for c in claims if c["origin"] == "table"),
+        "claims_from_sentences": sum(1 for c in claims if c["origin"] == "sentence"),
         "grounding": {
             "exact_match": sum(1 for c in claims if c["grounding_score"] == 1.0),
             "fuzzy_match": sum(1 for c in claims if 0 < c["grounding_score"] < 1.0),
@@ -121,7 +131,7 @@ def main() -> int:
            "Found by the grounding step, not staged. Each claim below was proposed "
            "by the extractor and then rejected or penalised because the quoted "
            "span could not be located in the document.", ""]
-    bad = sorted([c for c in claims if c["needs_review"]],
+    bad = sorted([c for c in claims if c["quarantined"] or c["needs_review"]],
                  key=lambda c: c["final_confidence"])
     if not bad:
         md += ["_Nothing currently flagged._", ""]

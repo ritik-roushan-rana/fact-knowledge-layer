@@ -1,0 +1,22 @@
+[
+  {
+    "mode": "deterministic",
+    "pdf_pages": 511,
+    "claims": 1731,
+    "grounded": 1710,
+    "quarantined": 21,
+    "table_claims": 1042,
+    "candidate_pairs": 886,
+    "corroboration": 1,
+    "contradiction": 0,
+    "reconciled": 24,
+    "partial_cover": 600,
+    "supersedes": 0,
+    "underspecified": 25,
+    "llm_calls": 0,
+    "llm_fallback_claims": 0,
+    "llm_fallback_pct": 0.0,
+    "ingest_seconds": 91.0,
+    "seconds": 91.1
+  }
+]

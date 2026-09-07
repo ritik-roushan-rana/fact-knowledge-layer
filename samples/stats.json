@@ -1,0 +1,19 @@
+{
+  "documents": 6,
+  "claims": 1731,
+  "claims_needing_review": 21,
+  "relations_by_kind": {
+    "corroboration": 1,
+    "partial_cover": 600,
+    "reconciled": 24,
+    "underspecified": 25
+  },
+  "claims_quarantined": 21,
+  "claims_from_tables": 1042,
+  "claims_from_sentences": 689,
+  "grounding": {
+    "exact_match": 1711,
+    "fuzzy_match": 20,
+    "not_located": 0
+  }
+}
