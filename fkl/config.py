@@ -8,6 +8,23 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
 
+def _load_dotenv() -> None:
+    """Read .env into the environment if present. Real env vars always win, and
+    .env is gitignored -- credentials never enter the repository."""
+    path = REPO_ROOT / ".env"
+    if not path.exists():
+        return
+    for line in path.read_text().splitlines():
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, _, value = line.partition("=")
+        os.environ.setdefault(key.strip(), value.strip().strip("'\""))
+
+
+_load_dotenv()
+
+
 def _env(name: str, default: str) -> str:
     return os.environ.get(name, default)
 
@@ -27,14 +44,28 @@ class Config:
     db_path: Path = Path(_env("FKL_DB_PATH", str(REPO_ROOT / "data" / "fkl.db")))
     upload_dir: Path = Path(_env("FKL_UPLOAD_DIR", str(REPO_ROOT / "data" / "uploads")))
 
+    # --- LLM provider -------------------------------------------------
+    # Defaults target Groq's OpenAI-compatible endpoint. All three are settings,
+    # so any OpenAI-compatible endpoint (xAI, OpenAI, a local server) works
+    # without a code change -- only this block is provider-specific.
+    llm_base_url: str = _env("FKL_LLM_BASE_URL", "https://api.groq.com/openai/v1")
+    llm_api_key_env: str = _env("FKL_LLM_API_KEY_ENV", "GROQ_API_KEY")
+    llm_model: str = _env("FKL_LLM_MODEL", "openai/gpt-oss-120b")
+    # Model used only for the small number of genuinely ambiguous comparisons.
+    judge_model: str = _env("FKL_JUDGE_MODEL", _env("FKL_LLM_MODEL", "openai/gpt-oss-120b"))
+    llm_max_retries: int = _env_int("FKL_LLM_MAX_RETRIES", 6)
+    # Reasoning depth. "low" gave identical extractions at half the output
+    # tokens in testing, which matters a lot under a tokens-per-minute cap.
+    reasoning_effort: str = _env("FKL_REASONING_EFFORT", "low")
+    # Tokens-per-minute ceiling to pace against. 0 disables pacing.
+    tpm_limit: int = _env_int("FKL_TPM_LIMIT", 8000)
+    expected_output_tokens: int = _env_int("FKL_EXPECTED_OUTPUT_TOKENS", 2000)
+
     # --- extraction ---
-    extract_model: str = _env("FKL_EXTRACT_MODEL", "claude-opus-5")
-    judge_model: str = _env("FKL_JUDGE_MODEL", "claude-opus-5")
-    effort: str = _env("FKL_EFFORT", "medium")
-    max_tokens: int = _env_int("FKL_MAX_TOKENS", 16000)
+    max_tokens: int = _env_int("FKL_MAX_TOKENS", 6000)
     # Characters of page text per LLM extraction call.
-    chunk_chars: int = _env_int("FKL_CHUNK_CHARS", 8000)
-    extract_concurrency: int = _env_int("FKL_EXTRACT_CONCURRENCY", 6)
+    chunk_chars: int = _env_int("FKL_CHUNK_CHARS", 9000)
+    extract_concurrency: int = _env_int("FKL_EXTRACT_CONCURRENCY", 2)
 
     # --- grounding ---
     # Minimum fuzzy similarity (0-1) for a proposed quote to count as located.

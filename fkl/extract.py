@@ -4,9 +4,9 @@ The prompt is deliberately domain-blind: it never names an industry, a metric,
 or a document type. What counts as a fact is decided by the document, which is
 what makes the pipeline generalise to PDFs it has not seen.
 
-Structured outputs (json_schema) are used rather than free-form JSON so the
+Strict json_schema structured output is used rather than free-form JSON so the
 response is schema-valid by construction and we can spend our error budget on
-grounding instead of parsing.
+grounding instead of parsing. The provider sits behind fkl.llm.
 """
 from __future__ import annotations
 
@@ -15,10 +15,10 @@ import logging
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
 
-import anthropic
 from pydantic import ValidationError
 
 from .config import CONFIG
+from .llm import LLMClient
 from .models import Claim, ClaimBatch
 from .pdf import Chunk
 
@@ -89,16 +89,38 @@ or generic marketing language with no verifiable content. Do not extract \
 anything you cannot quote verbatim.
 
 FIELDS
-- subject: the entity the claim is about, named as the document names it. If \
-  the text uses a pronoun or a generic reference ("the Company", "the Bank", \
-  "it") and the actual name appears elsewhere in this slice, use the actual \
-  name; otherwise use the referring phrase as written.
-- predicate: a short lowercase phrase naming the property being asserted. Write \
-  it the way the document frames it, but trim filler words. Do not invent a \
-  controlled vocabulary and do not force different documents into the same \
-  wording -- near-duplicate predicates are handled downstream.
-- value: the asserted value exactly as written, including any magnitude word \
-  that is part of it.
+- subject: the ENTITY the claim is about -- an organisation, country, person, \
+  place, market, product, or population. Not the metric, and not the metric \
+  plus a date. If the text uses a pronoun or a generic reference ("the \
+  Company", "the Bank", "it") and the actual name appears anywhere in this \
+  slice, use the actual name. If the whole slice is about one entity, use that \
+  entity for every claim so the same subject is written the same way \
+  throughout.
+- predicate: the specific property being asserted about that subject, as a \
+  short lowercase phrase. Include enough words to identify WHICH property it \
+  is, so it stands on its own. Write it the way the document frames it, but \
+  trim filler words. Do not invent a controlled vocabulary and do not force \
+  different documents into the same wording -- near-duplicate predicates are \
+  reconciled downstream.
+- value: ONE atomic asserted value, exactly as written, including any magnitude \
+  word that is part of it. If a sentence states several values -- a change from \
+  one figure to another, a figure for each of several periods, a range \
+  presented as two endpoints -- emit a SEPARATE claim for each, each with its \
+  own context. Never pack more than one figure into a single value.
+
+CRITICAL -- DO NOT DUPLICATE CONTEXT INTO subject OR predicate.
+The time period, the unit, the scope and the qualifiers belong in `context` and \
+nowhere else. Subject and predicate are what identify the same property across \
+different documents, so anything that varies between documents must be kept out \
+of them.
+  WRONG: subject "FY24 revenue from services", predicate "amount"
+  RIGHT: subject "<the named entity>", predicate "revenue from services",
+         context.period "FY24"
+  WRONG: subject "unemployment rate in 2023 (urban)", predicate "value"
+  RIGHT: subject "<the named entity>", predicate "unemployment rate",
+         context.period "2023", context.scope "urban"
+A predicate of "amount", "value", "figure", "number" or "rate" on its own is \
+always wrong -- it means the property name was left in the subject by mistake.
 - context: ALWAYS provide all four keys; use null only when the document really \
   does not state it. These fields are what later distinguishes a genuine \
   contradiction from two compatible measurements, so read the surrounding text, \
@@ -118,9 +140,16 @@ FIELDS
   claim. This is the single most important field. Rules:
     * Copy characters exactly as they appear, including punctuation, spacing, \
       digits and symbols. Do not paraphrase, correct, reformat, or normalise.
-    * It must be one unbroken run of text from ONE page. Never stitch together \
-      text from different lines that are not adjacent, different columns, or \
-      different pages.
+    * It must be one unbroken run of text from ONE page, in the order the text \
+      actually appears in the slice above. Never stitch together text from \
+      lines that are not adjacent, from different columns, or from different \
+      pages.
+    * Charts and tables are the main trap here. Their labels and their numbers \
+      are often far apart in the extracted text even though they look adjacent \
+      on the page. Do NOT rebuild the visual layout. Quote only the contiguous \
+      run that actually contains the value, even if that run looks incomplete \
+      or contains neighbouring values -- a short honest quote is always better \
+      than a reconstructed one.
     * It must contain the value, and ideally the subject cue too.
     * Aim for 15-300 characters. Prefer the shortest run that still supports \
       the claim.
@@ -154,9 +183,8 @@ class ChunkResult:
 
 
 class Extractor:
-    def __init__(self, client: anthropic.Anthropic | None = None, model: str | None = None):
-        self.client = client or anthropic.Anthropic()
-        self.model = model or CONFIG.extract_model
+    def __init__(self, client: LLMClient | None = None, model: str | None = None):
+        self.client = client or LLMClient(model=model)
 
     def _call(self, filename: str, total_pages: int, chunk: Chunk) -> ChunkResult:
         user = USER_TEMPLATE.format(
@@ -164,42 +192,34 @@ class Extractor:
             total=total_pages, text=chunk.text,
         )
         try:
-            resp = self.client.messages.create(
-                model=self.model,
-                max_tokens=CONFIG.max_tokens,
-                system=[{
-                    "type": "text",
-                    "text": SYSTEM_PROMPT,
-                    # Stable across every chunk and every document -- cache it.
-                    "cache_control": {"type": "ephemeral"},
-                }],
-                messages=[{"role": "user", "content": user}],
-                thinking={"type": "adaptive"},
-                output_config={
-                    "effort": CONFIG.effort,
-                    "format": {"type": "json_schema", "schema": CLAIM_SCHEMA},
-                },
+            result = self.client.complete_json(
+                system=SYSTEM_PROMPT, user=user,
+                schema=CLAIM_SCHEMA, schema_name="extracted_claims",
             )
-        except Exception as e:  # network, rate limit, validation -- all recorded, none fatal
+        except Exception as e:
+            # Network, rate limit, refusal, unparseable JSON -- all recorded per
+            # chunk so a partial document still yields usable claims and the
+            # failure stays visible in the ingest report.
             return ChunkResult(chunk=chunk, claims=[], error=f"{type(e).__name__}: {e}")
 
-        if resp.stop_reason == "refusal":
-            return ChunkResult(chunk=chunk, claims=[], error="model declined this slice")
+        payload = result.data
+        if not isinstance(payload, dict) or "claims" not in payload:
+            return ChunkResult(chunk=chunk, claims=[], error="response had no 'claims' key",
+                               input_tokens=result.input_tokens,
+                               output_tokens=result.output_tokens)
 
-        text = next((b.text for b in resp.content if b.type == "text"), None)
-        if not text:
-            return ChunkResult(chunk=chunk, claims=[], error="no text block in response")
-
-        try:
-            batch = ClaimBatch.model_validate(
-                {"claims": [_to_claim_dict(c, filename) for c in json.loads(text)["claims"]]}
-            )
-        except (json.JSONDecodeError, KeyError, ValidationError, TypeError) as e:
-            return ChunkResult(chunk=chunk, claims=[], error=f"unparseable output: {e}")
+        claims: list[Claim] = []
+        skipped = 0
+        for raw in payload.get("claims") or []:
+            try:
+                claims.append(Claim.model_validate(_to_claim_dict(raw, filename)))
+            except (ValidationError, KeyError, TypeError, ValueError):
+                skipped += 1  # one malformed claim must not lose the whole chunk
 
         return ChunkResult(
-            chunk=chunk, claims=batch.claims,
-            input_tokens=resp.usage.input_tokens, output_tokens=resp.usage.output_tokens,
+            chunk=chunk, claims=claims,
+            error=f"{skipped} malformed claim(s) discarded" if skipped else None,
+            input_tokens=result.input_tokens, output_tokens=result.output_tokens,
         )
 
     def extract_document(self, filename: str, total_pages: int, chunks: list[Chunk],
