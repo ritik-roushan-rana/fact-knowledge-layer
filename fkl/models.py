@@ -1,13 +1,16 @@
-"""Schemas.
+"""Claim and relationship schemas.
 
-Two layers on purpose:
+Three layers, kept separate on purpose so it is always obvious which field came
+from where:
 
-* ``Claim`` is exactly the shape the assignment specifies and exactly what the
-  LLM is asked to produce. It is the *proposal*.
-* ``GroundedClaim`` wraps a proposal with everything the pipeline computed about
-  it (where the quote really is, how well it matched, final confidence). Keeping
-  them separate makes it obvious which fields came from a model and which came
-  from code -- the reasoning stays inspectable instead of hiding in one blob.
+* ``Claim``          -- what an extractor asserted (deterministic rules or, optionally, an LLM)
+* ``GroundedClaim``  -- that claim plus what the grounding verifier proved about it
+* ``Relation``       -- a verdict about two grounded claims, with the rules that fired
+
+Confidence is deliberately *not* a single number. Extraction, grounding,
+matching and relationship confidence answer different questions, and collapsing
+them hides the case this system most needs to avoid: a weakly-extracted claim
+becoming a high-confidence contradiction just because two numbers differ.
 """
 from __future__ import annotations
 
@@ -15,94 +18,106 @@ from typing import Literal, Optional
 
 from pydantic import BaseModel, Field
 
-
 # --------------------------------------------------------------------------
-# Layer 1: what the model proposes
+# Context
 # --------------------------------------------------------------------------
 class ClaimContext(BaseModel):
-    """Qualifiers that decide whether two same-subject claims are comparable.
+    """Qualifiers that decide whether two claims are comparable at all.
 
-    Always present (fields may be null). This object is the whole reason a
-    "different value" can be a reconciliation rather than a contradiction.
+    A null field means "the document did not state this", which is NOT the same
+    as the two claims disagreeing. Missing context can never, on its own, create
+    a contradiction.
     """
 
-    period: Optional[str] = Field(
-        description="Time period the value refers to, verbatim from the document "
-        "(e.g. a fiscal year, quarter, calendar year, as-of date). Null if none stated."
-    )
-    unit: Optional[str] = Field(
-        description="Unit or denomination of the value (currency, scale such as "
-        "million/crore, percent, count, index). Null if the value is not numeric "
-        "or no unit is stated."
-    )
-    scope: Optional[str] = Field(
-        description="What entity or slice the value covers (consolidated vs "
-        "standalone, a segment, a region, a subset of a population). Null if not stated."
-    )
-    other_qualifiers: Optional[str] = Field(
-        description="Any remaining qualifier that changes how the value should be "
-        "read: basis of measurement, estimate vs actual, projection, restated, "
-        "adjusted, provisional, source attribution. Null if none."
-    )
+    period: Optional[str] = Field(default=None, description="Time period as written.")
+    unit: Optional[str] = Field(default=None, description="Unit/denomination as written.")
+    scope: Optional[str] = Field(default=None, description="Consolidated/standalone, segment, subset.")
+    basis: Optional[str] = Field(default=None, description="Reporting or accounting basis.")
+    geography: Optional[str] = Field(default=None, description="Country/region the value covers.")
+    as_of: Optional[str] = Field(default=None, description="Point-in-time date the value is stated as of.")
+    denominator: Optional[str] = Field(default=None, description="What a ratio/share is measured against.")
+    other_qualifiers: Optional[str] = Field(default=None, description="Anything else that changes reading.")
+
+    def stated(self) -> dict[str, str]:
+        return {k: v for k, v in self.model_dump().items() if v}
 
 
+# --------------------------------------------------------------------------
+# Evidence
+# --------------------------------------------------------------------------
 class SourceSpan(BaseModel):
-    page: int = Field(description="1-based page number of the document this text is on.")
-    text: str = Field(
-        description="Exact contiguous text copied verbatim from that page which "
-        "states the claim. Must appear in the document character for character."
-    )
+    """Where a claim came from. bbox/char_span are filled by grounding."""
+
+    page: int = Field(description="1-based PDF page index.")
+    text: str = Field(description="Verbatim text asserting the claim.")
+    char_span: Optional[tuple[int, int]] = Field(
+        default=None, description="Character range within the page's extracted text.")
+    bbox: Optional[tuple[float, float, float, float]] = Field(
+        default=None, description="Bounding box on the page, when recoverable.")
 
 
+Modality = Literal["reported", "estimate", "projection", "revised", "target", "provisional"]
+Origin = Literal["sentence", "table", "llm"]
+
+
+# --------------------------------------------------------------------------
+# Claim
+# --------------------------------------------------------------------------
 class Claim(BaseModel):
-    """A single atomic assertion proposed by the extractor."""
+    subject: str = Field(description="Entity the claim is about.")
+    predicate: str = Field(description="Property asserted about the subject.")
+    value: str = Field(description="Value exactly as written.")
 
-    subject: str = Field(description="The entity the claim is about.")
-    predicate: str = Field(
-        description="The property or relation being asserted about the subject, "
-        "as a short normalized phrase."
-    )
-    value: str = Field(description="The asserted value, as written.")
-    context: ClaimContext
-    source_document: str = Field(description="Filename of the source document.")
+    # Normalised numeric view, filled during normalisation. Non-numeric
+    # (semantic) claims keep value_num=None and are compared textually.
+    value_num: Optional[float] = Field(default=None, description="Scale-normalised numeric value.")
+    unit: Optional[str] = Field(default=None, description="Canonical unit, e.g. 'INR million', 'percent'.")
+
+    context: ClaimContext = Field(default_factory=ClaimContext)
+
+    asserted_by: Optional[str] = Field(
+        default=None, description="Who the document attributes the claim to, if stated.")
+    modality: Modality = Field(default="reported")
+
+    source_document: str
     source_span: SourceSpan
-    confidence: float = Field(
-        ge=0.0, le=1.0,
-        description="How confident the extractor is that this claim is stated by "
-        "the quoted span, 0-1.",
-    )
+    origin: Origin = Field(default="sentence", description="Which extraction path produced this.")
+    extraction_rule: Optional[str] = Field(
+        default=None, description="Name of the rule that fired -- keeps extraction auditable.")
+    confidence: float = Field(ge=0.0, le=1.0, default=0.5,
+                              description="Extraction confidence only.")
 
 
 class ClaimBatch(BaseModel):
-    """Structured-output envelope for one extraction call."""
-
+    """Envelope used by the optional LLM extractor."""
     claims: list[Claim]
 
 
 # --------------------------------------------------------------------------
-# Layer 2: what the pipeline verified
+# Grounding
 # --------------------------------------------------------------------------
 class Grounding(BaseModel):
-    """Result of programmatically locating the proposed quote in the real text."""
-
     located: bool
-    score: float = Field(ge=0.0, le=1.0, description="Fuzzy match quality, 0-1.")
-    page: Optional[int] = Field(default=None, description="Page the quote was actually found on.")
-    page_label: Optional[str] = Field(default=None, description="Printed page label, if the PDF has one.")
-    matched_text: Optional[str] = Field(
-        default=None, description="The verbatim document text the quote resolved to."
-    )
+    score: float = Field(ge=0.0, le=1.0)
+    page: Optional[int] = None
+    page_label: Optional[str] = None
+    matched_text: Optional[str] = None
     char_start: Optional[int] = None
     char_end: Optional[int] = None
-    page_shift: Optional[int] = Field(
-        default=None, description="Found page minus claimed page. Non-zero means the model misreported the page."
-    )
-    value_in_span: Optional[bool] = Field(
-        default=None,
-        description="Whether the numbers in the claim's value actually occur in the "
-        "matched text. None when the value contains no numbers.",
-    )
+    bbox: Optional[tuple[float, float, float, float]] = None
+    page_shift: Optional[int] = None
+    value_in_span: Optional[bool] = None
     note: Optional[str] = None
+
+
+class Confidence(BaseModel):
+    """Kept separate rather than multiplied into one opaque score."""
+    extraction: float = Field(ge=0.0, le=1.0)
+    grounding: float = Field(ge=0.0, le=1.0)
+
+    @property
+    def combined(self) -> float:
+        return round(self.extraction * self.grounding, 4)
 
 
 class GroundedClaim(BaseModel):
@@ -110,23 +125,28 @@ class GroundedClaim(BaseModel):
     doc_id: str
     claim: Claim
     grounding: Grounding
-    final_confidence: float = Field(
-        ge=0.0, le=1.0,
-        description="extraction confidence x grounding score, penalised if the "
-        "claim's numbers are absent from the located text.",
-    )
-    needs_review: bool
+    confidence: Confidence
+    # Quarantined claims are stored and visible but never enter comparison.
+    quarantined: bool = False
+    needs_review: bool = False
     review_reasons: list[str] = Field(default_factory=list)
 
+    @property
+    def final_confidence(self) -> float:
+        return self.confidence.combined
+
 
 # --------------------------------------------------------------------------
-# Cross-document relationships
+# Relationships
 # --------------------------------------------------------------------------
 RelationKind = Literal[
-    "corroboration",       # same thing said, same context, agreeing values
-    "contradiction",       # same thing, same context, values that cannot both hold
-    "reconciled",          # values differ, but a context difference explains it
-    "unresolved",          # related, but neither values nor context settle it
+    "corroboration",   # same claim, comparable context, equivalent values
+    "contradiction",   # same claim, comparable context, materially different values
+    "reconciled",      # values differ, but a context difference explains it
+    "supersedes",      # same measurement restated later; one revises the other
+    "partial_cover",   # one claim covers only part of what the other measures
+    "underspecified",  # related, but the documents omit context needed to judge
+    "unrelated",       # matched by similarity but not actually the same property
 ]
 
 Decider = Literal["rules", "llm"]
@@ -137,19 +157,24 @@ class Relation(BaseModel):
     claim_a_id: str
     claim_b_id: str
     kind: RelationKind
-    # How the verdict was reached -- deterministic comparison or escalated judgement.
-    decided_by: Decider
-    similarity: float = Field(description="Embedding cosine similarity of (subject, predicate).")
-    confidence: float = Field(ge=0.0, le=1.0)
-    explanation: str = Field(description="Human-readable reason for this verdict.")
+    decided_by: Decider = "rules"
+
+    similarity: float = Field(description="Combined (subject, predicate) embedding cosine.")
+    subject_similarity: Optional[float] = None
+    predicate_similarity: Optional[float] = None
+
+    # Distinct from claim confidence: how sure we are these describe the same
+    # measurement, versus how sure we are of the verdict about them.
+    match_confidence: float = Field(ge=0.0, le=1.0, default=0.0)
+    relationship_confidence: float = Field(ge=0.0, le=1.0, default=0.0)
+    confidence: float = Field(ge=0.0, le=1.0, default=0.0,
+                              description="Overall, bounded by the weaker claim's confidence.")
+
+    explanation: str
     reasoning_trace: list[str] = Field(
-        default_factory=list,
-        description="Ordered record of the checks that ran and what each concluded.",
-    )
-    context_diff: dict[str, list[Optional[str]]] = Field(
-        default_factory=dict,
-        description="Context fields that differ, as field -> [a_value, b_value].",
-    )
-    value_agreement: Optional[str] = Field(
-        default=None, description="How the two values compared: equal / equivalent / differ / incomparable."
-    )
+        default_factory=list, description="The rules that actually fired, in order.")
+    context_diff: dict[str, list[Optional[str]]] = Field(default_factory=dict)
+    value_agreement: Optional[str] = None
+    value_delta: Optional[dict] = Field(
+        default=None,
+        description="Absolute and relative difference, plus percentage points for rates.")
