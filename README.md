@@ -494,10 +494,44 @@ fkl/
   adjudicate.py     optional LLM fallback, isolated from the pipeline
   pipeline.py       ingest and relationship orchestration, resume
   store.py          SQLite, additive migrations
-  api.py            FastAPI + static UI
+  api.py            FastAPI, serving the JSON API and the static UI
+  web/              frontend (see below)
 scripts/            ingest.py, serve.py, benchmark.py, export_samples.py, check_llm.py
 tests/              60 offline tests
 ```
+
+### Frontend
+
+No build step, no framework, no bundler — the page is served as-is and edits
+are visible on reload. Native ES modules and separate stylesheets give the
+structure a build tool would otherwise provide:
+
+```
+fkl/web/
+  index.html            markup shell only; no inline styles or scripts
+  css/
+    tokens.css          the only file that names a colour (light + dark palettes)
+    base.css            reset, app shell, layout primitives
+    components.css      buttons, chips, cards, badges, tables, meters
+    views.css           view-specific layout
+  js/
+    app.js              entry point: routing, shared refresh, event delegation
+    core/
+      dom.js            auto-escaping `html` template tag, render, delegate
+      api.js            the only module that knows endpoint paths
+      format.js         verdict labels, scores, context fields, evidence choice
+      state.js          app state and a minimal pub/sub
+      theme.js          auto / light / dark, remembered per browser
+    components/         primitives, claim-panel, relation-card, shell
+    views/              relations, claims, review, documents
+```
+
+Two decisions worth naming. **Escaping is the default**: `html` is a tagged
+template that escapes every interpolated value and returns a marked result, so
+nesting templates composes correctly while a bare string is always escaped —
+an injection bug is hard to write by accident rather than merely discouraged.
+**Events are delegated** from stable containers rather than rebound after each
+render, because views re-render wholesale.
 
 ### On not hard-coding
 

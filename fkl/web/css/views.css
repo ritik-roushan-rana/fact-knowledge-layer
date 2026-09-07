@@ -1,0 +1,108 @@
+/* View-specific layout. Anything reusable belongs in components.css instead. */
+
+/* ---------- toolbar shared by list views ---------- */
+.toolbar { display: flex; gap: var(--s3); align-items: center; flex-wrap: wrap; margin-bottom: var(--s5); }
+
+/* ---------- relation card ---------- */
+.relation + .relation { margin-top: var(--s5); }
+.relation__decided { font-size: 11.5px; color: var(--text-3); }
+
+.claim-pair { display: grid; grid-template-columns: 1fr 1fr; position: relative; }
+.claim-pair::after {
+  content: ""; position: absolute; left: 50%; top: var(--s5); bottom: var(--s5);
+  width: 1px; background: var(--border);
+}
+@media (max-width: 860px) {
+  .claim-pair { grid-template-columns: 1fr; }
+  .claim-pair::after { display: none; }
+  .claim-panel + .claim-panel { border-top: 1px solid var(--border); }
+}
+
+/* ---------- claim panel ---------- */
+.claim-panel { padding: var(--s5); min-width: 0; }
+.claim-panel__source { display: flex; align-items: center; gap: 7px; margin-bottom: var(--s4);
+                       flex-wrap: wrap; }
+.claim-panel__file { font-family: var(--mono); font-size: var(--t-xs); color: var(--text-2);
+                     word-break: break-all; line-height: 1.35; }
+.claim-panel__triple { margin-bottom: var(--s3); line-height: 1.45; }
+.claim-panel__subject { color: var(--text-3); font-size: var(--t-sm); }
+.claim-panel__predicate { font-weight: 600; font-size: var(--t-md); display: block;
+                          margin: 1px 0 3px; letter-spacing: -.005em; }
+.claim-panel__value { font-size: var(--t-lg); font-weight: 680; letter-spacing: -.02em;
+                      color: var(--accent); font-variant-numeric: tabular-nums; }
+.claim-panel__meta { margin-top: var(--s3); display: flex; gap: var(--s4); flex-wrap: wrap;
+                     font-size: var(--t-xs); color: var(--text-3); }
+.claim-panel__meta .is-bad { color: var(--bad); font-weight: 560; }
+
+/* ---------- context chips ---------- */
+.context { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: var(--s4); }
+.context__item { font-size: var(--t-xs); padding: 2.5px 8px; border-radius: var(--r-sm);
+                 background: var(--surface-2); border: 1px solid var(--border); color: var(--text-2); }
+.context__key { color: var(--text-3); font-weight: 520; margin-right: var(--s1); }
+.context__none { font-size: var(--t-xs); color: var(--text-3); font-style: italic; }
+
+/* ---------- evidence ---------- */
+.evidence {
+  margin: 0; padding: 9px 12px; border-left: 2.5px solid var(--accent-border);
+  background: var(--accent-soft); font-size: var(--t-sm); color: var(--text);
+  white-space: pre-wrap; max-height: 130px; overflow: auto;
+  border-radius: 0 7px 7px 0; line-height: 1.5;
+}
+.evidence__label { font-size: var(--t-xs); color: var(--text-3); margin: var(--s4) 0 var(--s2); }
+.evidence__label:first-child { margin-top: 0; }
+
+/* ---------- explanation ---------- */
+.explanation { padding: var(--s5); border-top: 1px solid var(--border);
+               font-size: 13.5px; line-height: 1.6; }
+.explanation__label { font-weight: 640; color: var(--text-2); margin-right: 5px; }
+.context-diff { margin-top: var(--s3); display: flex; gap: var(--s2); flex-wrap: wrap; }
+.context-diff__item { font-size: 11.5px; padding: 3px 9px; border-radius: var(--r-sm);
+                      background: var(--violet-soft); border: 1px solid var(--violet-border);
+                      color: var(--violet); }
+
+/* ---------- reasoning trace ---------- */
+.trace { list-style: none; padding: 2px var(--s5) var(--s5); margin: 0; }
+.trace__step {
+  position: relative; padding: 0 0 11px 24px; font-size: var(--t-sm); color: var(--text-2);
+  line-height: 1.5; border-left: 1.5px solid var(--border); margin-left: var(--s2);
+}
+.trace__step::before {
+  content: ""; position: absolute; left: -5px; top: 5px; width: 8px; height: 8px;
+  border-radius: 50%; background: var(--border-strong); border: 2px solid var(--surface);
+}
+.trace__step:last-child { border-left-color: transparent; padding-bottom: 2px;
+                          color: var(--text); font-weight: 540; }
+.trace__step:last-child::before { background: var(--accent); }
+
+/* ---------- review view ---------- */
+.review-reasons { list-style: none; padding: 0; margin: var(--s4) 0 0;
+                  display: flex; flex-direction: column; gap: 5px; }
+.review-reasons li { font-size: var(--t-sm); color: var(--amber); background: var(--amber-soft);
+                     border: 1px solid var(--amber-border); padding: 5px 10px; border-radius: var(--r-sm); }
+
+/* ---------- documents view ---------- */
+.dropzone {
+  border: 1.5px dashed var(--border-strong); border-radius: var(--r-lg);
+  padding: 34px var(--s6); text-align: center; cursor: pointer;
+  transition: border-color .15s, background .15s; background: var(--surface);
+}
+.dropzone:hover, .dropzone.is-active { border-color: var(--accent); background: var(--accent-soft); }
+.dropzone__title { font-size: 14.5px; font-weight: 600; margin-bottom: var(--s1); }
+.dropzone__hint { font-size: var(--t-sm); color: var(--text-3); }
+
+.job { padding: var(--s4) var(--s5); border: 1px solid var(--border); border-radius: var(--r);
+       margin-top: 11px; background: var(--surface-2); }
+.job__head { display: flex; align-items: center; gap: var(--s3); flex-wrap: wrap; font-size: var(--t-sm); }
+.job__status { font-weight: 640; text-transform: capitalize; }
+.job__status--done { color: var(--ok); }
+.job__status--failed { color: var(--bad); }
+.job__status--running, .job__status--queued { color: var(--accent); }
+.progress { height: 5px; background: var(--surface-3); border-radius: 3px;
+            overflow: hidden; margin-top: var(--s3); }
+.progress__fill { display: block; height: 100%; background: var(--accent); transition: width .35s; }
+
+/* ---------- confidence bar in tables ---------- */
+.confbar { display: inline-flex; align-items: center; gap: 7px; }
+.confbar__track { width: 36px; height: 5px; background: var(--surface-3);
+                  border-radius: 3px; overflow: hidden; }
+.confbar__fill { display: block; height: 100%; background: var(--accent); }

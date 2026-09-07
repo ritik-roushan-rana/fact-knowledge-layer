@@ -1,0 +1,70 @@
+/* Design tokens.
+   The only file that names a colour. Everything else refers to these, so the
+   light and dark palettes stay in one place and cannot drift apart. */
+
+:root {
+  /* surfaces */
+  --bg:#f7f8fa; --surface:#ffffff; --surface-2:#f2f4f7; --surface-3:#eaecf0;
+  --border:#e4e7ec; --border-strong:#d0d5dd;
+
+  /* text */
+  --text:#101828; --text-2:#475467; --text-3:#98a2b3;
+
+  /* accent */
+  --accent:#4f46e5; --accent-soft:#eef2ff; --accent-border:#c7d2fe;
+
+  /* semantic — one triple per verdict so badges stay consistent */
+  --ok:#067647;     --ok-soft:#ecfdf3;     --ok-border:#abefc6;
+  --bad:#b42318;    --bad-soft:#fef3f2;    --bad-border:#fecdca;
+  --violet:#6941c6; --violet-soft:#f4f3ff; --violet-border:#d9d6fe;
+  --blue:#175cd3;   --blue-soft:#eff8ff;   --blue-border:#b2ddff;
+  --amber:#b54708;  --amber-soft:#fffaeb;  --amber-border:#fedf89;
+  --slate:#475467;  --slate-soft:#f2f4f7;  --slate-border:#d0d5dd;
+
+  /* shape */
+  --r-sm:6px; --r:10px; --r-lg:14px; --r-pill:999px;
+  --shadow:0 1px 2px rgba(16,24,40,.05);
+  --shadow-md:0 2px 8px -2px rgba(16,24,40,.08), 0 4px 16px -4px rgba(16,24,40,.06);
+
+  /* spacing scale */
+  --s1:4px; --s2:6px; --s3:9px; --s4:12px; --s5:16px; --s6:22px; --s7:32px;
+
+  /* type */
+  --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,"Helvetica Neue",sans-serif;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  --t-xs:11px; --t-sm:12px; --t-base:13px; --t-md:14px; --t-lg:17px; --t-xl:22px;
+
+  --maxw:1240px;
+}
+
+/* Dark applies when the viewer has not chosen, or has chosen dark. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { color-scheme: dark;
+    --bg:#0c0e12; --surface:#14171d; --surface-2:#1a1e26; --surface-3:#222732;
+    --border:#252a34; --border-strong:#333a47;
+    --text:#f0f2f5; --text-2:#98a2b3; --text-3:#667085;
+    --accent:#8b8afb; --accent-soft:#1b1b3a; --accent-border:#3730a3;
+    --ok:#75e0a7;     --ok-soft:#0d2a1c;     --ok-border:#175d3a;
+    --bad:#fda29b;    --bad-soft:#33130f;    --bad-border:#7a271a;
+    --violet:#bdb4fe; --violet-soft:#231a45; --violet-border:#4a1fb8;
+    --blue:#84caff;   --blue-soft:#0d2137;   --blue-border:#1849a9;
+    --amber:#fec84b;  --amber-soft:#2b1c06;  --amber-border:#7a4708;
+    --slate:#98a2b3;  --slate-soft:#1a1e26;  --slate-border:#333a47;
+    --shadow:0 1px 2px rgba(0,0,0,.3);
+    --shadow-md:0 2px 8px -2px rgba(0,0,0,.4), 0 4px 16px -4px rgba(0,0,0,.3);
+  }
+}
+:root[data-theme="dark"] { color-scheme: dark;
+  --bg:#0c0e12; --surface:#14171d; --surface-2:#1a1e26; --surface-3:#222732;
+  --border:#252a34; --border-strong:#333a47;
+  --text:#f0f2f5; --text-2:#98a2b3; --text-3:#667085;
+  --accent:#8b8afb; --accent-soft:#1b1b3a; --accent-border:#3730a3;
+  --ok:#75e0a7;     --ok-soft:#0d2a1c;     --ok-border:#175d3a;
+  --bad:#fda29b;    --bad-soft:#33130f;    --bad-border:#7a271a;
+  --violet:#bdb4fe; --violet-soft:#231a45; --violet-border:#4a1fb8;
+  --blue:#84caff;   --blue-soft:#0d2137;   --blue-border:#1849a9;
+  --amber:#fec84b;  --amber-soft:#2b1c06;  --amber-border:#7a4708;
+  --slate:#98a2b3;  --slate-soft:#1a1e26;  --slate-border:#333a47;
+  --shadow:0 1px 2px rgba(0,0,0,.3);
+  --shadow-md:0 2px 8px -2px rgba(0,0,0,.4), 0 4px 16px -4px rgba(0,0,0,.3);
+}
