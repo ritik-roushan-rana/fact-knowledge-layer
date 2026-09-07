@@ -28,6 +28,13 @@ BBox = tuple[float, float, float, float]
 # A table needs at least this much structure to be worth reading.
 MIN_ROWS, MIN_COLS = 2, 2
 MIN_QUALITY = 0.34
+# Every table claim needs a numeric cell, so a grid with almost none cannot
+# produce one. The case this rejects is a multi-column page layout: the gutter
+# between text columns looks exactly like a column separator, so prose gets
+# parsed as a wide, well-formed, entirely non-numeric "table".
+MIN_NUMERIC_DENSITY = 0.10
+# Data cells are short. A grid whose cells average sentence length is prose.
+MAX_MEAN_CELL_CHARS = 45
 
 
 @dataclass
@@ -75,6 +82,11 @@ def score_grid(grid: list[list[str]]) -> float:
 
     filled = sum(1 for c in cells if c.strip()) / len(cells)
     numeric = sum(1 for c in cells if _is_number(c)) / len(cells)
+
+    non_empty = [c for c in cells if c.strip()]
+    mean_len = sum(len(c) for c in non_empty) / max(1, len(non_empty))
+    if numeric < MIN_NUMERIC_DENSITY or mean_len > MAX_MEAN_CELL_CHARS:
+        return 0.0
 
     # A usable table has a mostly-textual first row and first column.
     head = grid[0]
@@ -242,21 +254,24 @@ class TableExtractor:
     # -- individual strategies -------------------------------------------
     @staticmethod
     def _word_grid(page) -> list[tuple[list[list[str]], BBox, str]]:
-        """Build a grid from word coordinates alone.
+        """Build grids from word coordinates alone.
 
         Ruled-line and text-alignment strategies both fail on wide statistical
         tables: they over-segment into a sparse grid where most cells are
-        empty. The words themselves carry positions, so rows can be recovered
-        by clustering on y and columns by finding the vertical whitespace that
-        no word crosses. This needs no ruling lines and no consistent
-        left-alignment, which is exactly what those tables lack.
+        empty. The words themselves carry the structure.
+
+        The page is not treated as one grid. A table is found first as a *band*
+        of consecutive rows that carry several numbers, and columns are then
+        derived from the words in that band alone. Doing it the other way round
+        reads a two-column page layout as a two-column table, because the
+        gutter between text columns looks exactly like a column separator.
         """
         try:
             words = page.get_text("words")
         except Exception:
             return []
         words = [w for w in words if str(w[4]).strip()]
-        if len(words) < 24:
+        if len(words) < 12:
             return []
 
         heights = sorted(w[3] - w[1] for w in words)
@@ -271,25 +286,64 @@ class TableExtractor:
                 rows[-1][1].append(w)
             else:
                 rows.append([centre, [w]])
-        row_words = [r[1] for r in rows if len(r[1]) >= 2]
+        row_words = [r[1] for r in rows]
         if len(row_words) < MIN_ROWS + 1:
             return []
 
-        # --- columns: vertical bands almost no row crosses ---
-        # Occupancy is counted per ROW, not per word, and only over rows that
-        # look tabular. Counting words means a single full-width title or
-        # footnote line covers every x and erases every column gap; counting
-        # rows lets a small number of such lines be tolerated.
-        tabular = [r for r in row_words if len(r) >= 3]
-        if len(tabular) < MIN_ROWS + 1:
-            return []
+        # --- bands: runs of rows carrying several figures ---
+        def numeric_count(row) -> int:
+            return sum(1 for w in row if _is_number(str(w[4])))
+
+        counts = [numeric_count(r) for r in row_words]
+        bands, run = [], []
+        gap = 0
+        for i, n in enumerate(counts):
+            if n >= 2:
+                run.append(i)
+                gap = 0
+            elif run:
+                gap += 1
+                if gap > 1:            # one non-numeric row inside a table is fine
+                    bands.append(run)
+                    run, gap = [], 0
+                else:
+                    run.append(i)
+        if run:
+            bands.append(run)
+
+        out: list[tuple[list[list[str]], BBox, str]] = []
+        for band in bands:
+            data_rows = [i for i in band if counts[i] >= 2]
+            if len(data_rows) < MIN_ROWS:
+                continue
+            # Take up to three preceding rows as a possible header.
+            first = band[0]
+            header_start = max(0, first - 3)
+            indices = list(range(header_start, band[-1] + 1))
+            grid = TableExtractor._grid_for(
+                [row_words[i] for i in indices], line_h)
+            if grid is None:
+                continue
+            cells, bbox = grid
+            if len(cells) >= MIN_ROWS + 1 and len(cells[0]) >= MIN_COLS:
+                out.append((cells, bbox, "word-grid"))
+        return out
+
+    @staticmethod
+    def _grid_for(band_rows: list[list], line_h: float):
+        """Columns are derived from the words of one band, not the whole page."""
+        words = [w for row in band_rows for w in row]
+        if not words:
+            return None
         x0 = min(w[0] for w in words)
         x1 = max(w[2] for w in words)
         span = int(x1 - x0) + 2
         if span <= 4:
-            return []
+            return None
+
+        # Occupancy per row, so a single wide caption cannot erase every gap.
         occupied = [0] * span
-        for row in tabular:
+        for row in band_rows:
             covered: set[int] = set()
             for w in row:
                 covered.update(range(max(0, int(w[0] - x0)),
@@ -297,7 +351,7 @@ class TableExtractor:
             for x in covered:
                 occupied[x] += 1
 
-        threshold = max(0, int(len(tabular) * 0.10))
+        threshold = max(0, int(len(band_rows) * 0.10))
         min_gap = max(3, int(line_h * 0.5))
         separators, run_start = [], None
         for x in range(span):
@@ -307,15 +361,13 @@ class TableExtractor:
                 if run_start is not None and x - run_start >= min_gap:
                     separators.append((run_start + x) / 2 + x0)
                 run_start = None
-        if run_start is not None and span - run_start >= min_gap:
-            separators.append((run_start + span) / 2 + x0)
-        if len(separators) < 1:
-            return []
+        if not separators:
+            return None
 
         bounds = [x0 - 1] + separators + [x1 + 1]
         n_cols = len(bounds) - 1
         if not (MIN_COLS <= n_cols <= 24):
-            return []
+            return None
 
         def column_of(w) -> int:
             centre = (w[0] + w[2]) / 2
@@ -325,7 +377,7 @@ class TableExtractor:
             return n_cols - 1
 
         grid: list[list[str]] = []
-        for row in row_words:
+        for row in band_rows:
             cells = [[] for _ in range(n_cols)]
             for w in sorted(row, key=lambda w: w[0]):
                 cells[column_of(w)].append(str(w[4]))
@@ -333,11 +385,8 @@ class TableExtractor:
             if sum(1 for c in built if c) >= 2:
                 grid.append(built)
 
-        if len(grid) < MIN_ROWS + 1:
-            return []
         bbox = (x0, min(w[1] for w in words), x1, max(w[3] for w in words))
-        return [(grid, bbox, "word-grid")]
-
+        return (grid, bbox) if grid else None
 
     def _pymupdf_tables(self, page) -> list[tuple[list[list[str]], BBox, str]]:
         out = []

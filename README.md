@@ -216,12 +216,15 @@ the best kept. Multi-row headers are merged into one header per column, the row
 that names the periods is preferred as the column header over a spanning title,
 and units are inherited from the corner cell, caption or header.
 
-Result: **221 usable tables across 511 pages**, producing 3,060 structured
-claims, with chart slides and catastrophically-merged tables correctly rejected
-so those pages fall back to sentence extraction. Adding the coordinate strategy
-took the IMF staff report from 8 tables to 21, which is what made its
-"Selected Economic Indicators" table — six years of GDP, inflation and fiscal
-figures — available as claims at all.
+A table is found as a *band* of consecutive rows carrying several figures, and
+columns are derived from the words in that band alone. Doing it the other way
+round — deriving columns from the whole page — reads a two-column article
+layout as a two-column table, because the gutter between text columns looks
+exactly like a column separator.
+
+Result: **430 usable tables across 511 pages**, producing 4,173 structured
+claims, with chart slides, prose columns and catastrophically-merged tables
+correctly rejected so those pages fall back to sentence extraction.
 
 ### Rule-based claim extraction
 
@@ -335,14 +338,14 @@ Full starter corpus, deterministic, no API key
 | metric | value |
 |---|---|
 | PDF pages read | 511 |
-| claims extracted | 3,750 |
-| grounded claims | 3,682 |
-| quarantined claims | 68 |
-| tables reconstructed | 221 |
-| claims reconstructed from tables | 3,060 |
-| candidate pairs compared | 1,502 |
+| claims extracted | 4,815 |
+| grounded claims | 4,730 |
+| quarantined claims | 85 |
+| tables reconstructed | 430 |
+| claims reconstructed from tables | 4,173 |
+| candidate pairs compared | 1,716 |
 | LLM calls | **0** |
-| total runtime | **98 seconds** |
+| total runtime | **~100 seconds** |
 
 Against the LLM-based pipeline it replaced, on the same machine and corpus:
 
@@ -445,6 +448,16 @@ made things worse (`Tons`, `However`), so I reverted it rather than keep a
 change I could not justify. It is also unstable: the winner can change with the
 number of pages sampled.
 
+### Two-column documents extract poorly
+
+Tested against an academic paper (a two-column ACM article) the sentence rules
+produce garbled predicates — "ing to the following criteria", "find th" —
+because PyMuPDF's reading order interleaves the columns and hyphenation splits
+across them. Tables are recovered correctly now that they are found as bands,
+but prose is not. **Next step:** order text by column before sentence
+segmentation, using the same vertical-gutter detection the table finder
+already has.
+
 ### Other known gaps
 
 - **No OCR.** Scanned or image-only PDFs yield nothing. The architecture has a
@@ -454,7 +467,7 @@ number of pages sampled.
   rather than compared. That is deliberate — `revenue = 33%` and
   `revenue = 7.46%` are proportions of different bases — but it also skips
   genuine share-vs-share comparisons.
-- **Sentence recall is lower than table recall.** 3,060 of 3,750 claims come
+- **Sentence recall is lower than table recall.** 4,173 of 4,815 claims come
   from tables. Prose-heavy documents give up fewer claims because the sentence
   rules need a label-linking-phrase-value pattern that much real writing does
   not follow ("Following economic growth of 6.5 percent…", "down from 9.8

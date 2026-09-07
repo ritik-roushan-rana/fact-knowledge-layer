@@ -134,7 +134,8 @@ def unit_signature(unit: str | None, value: ParsedValue | None = None) -> dict:
 # --- periods ---------------------------------------------------------------
 _YEAR_RE = re.compile(r"\b(19|20)(\d{2})\b")
 _SHORT_FY_RE = re.compile(r"\bfy\s*[-']?\s*(\d{2,4})\b")
-_QUARTER_RE = re.compile(r"\bq([1-4])\b")
+# Both orders occur: "Q1 FY24" and the finance-style "1Q24".
+_QUARTER_RE = re.compile(r"\bq([1-4])\b|\b([1-4])q(?:\d{2,4})?\b")
 _HALF_RE = re.compile(r"\bh([12])\b")
 _MONTHS = ["january", "february", "march", "april", "may", "june", "july",
            "august", "september", "october", "november", "december"]
@@ -199,7 +200,7 @@ def period_signature(period: str | None) -> PeriodSignature:
             sig.years.add(2000 + n if n < 80 else 1900 + n)
 
     for m in _QUARTER_RE.finditer(low):
-        sig.quarters.add(int(m.group(1)))
+        sig.quarters.add(int(m.group(1) or m.group(2)))
     for m in _HALF_RE.finditer(low):
         sig.halves.add(int(m.group(1)))
     for name in _MONTHS:

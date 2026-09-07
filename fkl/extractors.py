@@ -18,7 +18,8 @@ from dataclasses import dataclass, field
 import pymupdf
 
 from .config import CONFIG
-from .extract_rules import detect_entities, sentence_claims, table_claims
+from .extract_rules import (detect_entities, end_matter_start,
+                            sentence_claims, table_claims)
 from .models import Claim
 from .pdf import Document, repeated_line_texts
 from .tables import TableExtractor
@@ -54,6 +55,7 @@ class DeterministicClaimExtractor(ClaimExtractor):
         started = time.time()
         entity, known = detect_entities(document)
         furniture = repeated_line_texts(document)
+        end_matter = end_matter_start(document)
         log.info("primary entity for %s: %r", document.filename, entity)
 
         claims: list[Claim] = []
@@ -73,7 +75,8 @@ class DeterministicClaimExtractor(ClaimExtractor):
         try:
             for page in document.pages:
                 try:
-                    claims.extend(sentence_claims(document, page, entity, furniture, known))
+                    claims.extend(sentence_claims(document, page, entity, furniture,
+                                                  known, end_matter))
                 except Exception as e:
                     errors.append(f"page {page.number} sentence rules: {type(e).__name__}: {e}")
 
@@ -109,6 +112,7 @@ class DeterministicClaimExtractor(ClaimExtractor):
                 "tables_found": n_tables,
                 "claims_by_origin": by_origin,
                 "furniture_lines": len(furniture),
+                "end_matter_page": end_matter[0] if end_matter else None,
                 "seconds": round(time.time() - started, 2),
                 "llm_calls": 0,
                 "input_tokens": 0,

@@ -196,3 +196,13 @@ RATE_PREDICATE_TERMS = {
     "returns", "deficit", "surplus", "coverage", "density", "incidence",
     "prevalence", "unemployment", "participation", "literacy", "mortality",
 }
+
+
+# Headings that mark the end of a document's own assertions. Everything after
+# one of these is other people's titles, dates and identifiers -- mining it
+# yields claims like "arxiv = 1903.02613". A general document convention, in
+# the same category as running headers, not domain knowledge.
+END_MATTER_HEADINGS = {
+    "references", "reference", "bibliography", "works cited", "citations",
+    "further reading", "notes and references",
+}

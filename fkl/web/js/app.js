@@ -32,9 +32,27 @@ const JOB_POLL_MS = 2000;
 let pollTimer = null;
 
 /* ---------------------------------------------------------------- header */
-async function refreshShell() {
+let shellSignature = null;
+
+/**
+ * Repaint the shell only when something it displays actually changed.
+ *
+ * The stats poll runs every ten seconds; re-rendering unconditionally
+ * replaced the tab buttons each time, which discards focus and any open
+ * state on elements the user is in the middle of using.
+ */
+async function refreshShell({ force = false } = {}) {
   const stats = await api.stats();
   setState({ stats });
+
+  const signature = JSON.stringify([
+    stats.documents, stats.claims, stats.claims_from_tables,
+    stats.claims_quarantined, stats.claims_needing_review,
+    stats.relations_by_kind, stats.engine, getState().tab,
+  ]);
+  if (!force && signature === shellSignature) return stats;
+  shellSignature = signature;
+
   render('#engine-slot', engineBadge(stats.engine));
   render('#metrics-slot', metrics(stats));
   render('#tabs-slot', tabs(getState().tab, stats));
@@ -68,7 +86,7 @@ function schedulePolling(view) {
 }
 
 async function refreshAll() {
-  await refreshShell().catch(() => {});
+  await refreshShell({ force: true }).catch(() => {});
   await refreshView();
 }
 

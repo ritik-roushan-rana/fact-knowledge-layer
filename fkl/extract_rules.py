@@ -22,9 +22,9 @@ from collections import Counter
 from dataclasses import dataclass
 
 from .lexicon import (ATTRIBUTION_PATTERNS, BASIS_TERMS, CHANGE_PHRASES,
-                      CLAUSE_OPENERS, ENTITY_STOPWORDS, LEADING_FILLER,
-                      LINKING_PHRASES, MODALITY_TERMS, ORG_SUFFIXES,
-                      SCOPE_TERMS, TRAILING_FILLER)
+                      CLAUSE_OPENERS, END_MATTER_HEADINGS, ENTITY_STOPWORDS,
+                      LEADING_FILLER, LINKING_PHRASES, MODALITY_TERMS,
+                      ORG_SUFFIXES, SCOPE_TERMS, TRAILING_FILLER)
 from .models import Claim, ClaimContext, SourceSpan
 from .normalize import parse_value, period_signature
 from .pdf import Document, Page, repeated_line_texts
@@ -109,7 +109,13 @@ def _clean_label(text: str) -> str:
 
 
 def _plausible_predicate(text: str) -> bool:
-    if not (2 <= len(text) <= 80):
+    if not (3 <= len(text) <= 80):
+        return False
+    # A lone qualifier ("net", "total", "real") names no property on its own;
+    # it only modifies one. Predicates like these produced comparisons between
+    # unrelated figures that merely shared the word.
+    bare = text.strip().lower()
+    if bare in SCOPE_TERMS or bare in BASIS_TERMS or bare in MODALITY_TERMS:
         return False
     if text.count("(") != text.count(")") or text.count("[") != text.count("]"):
         return False              # a fragment sliced out of a longer phrase
@@ -270,6 +276,23 @@ def detect_primary_entity(document: Document, sample_pages: int = 25) -> str | N
     return detect_entities(document, sample_pages)[0]
 
 
+def end_matter_start(document: Document) -> tuple[int, int] | None:
+    """Where the document stops making its own claims.
+
+    Returns (page number, character offset) of a references-style heading, or
+    None. Only the last such heading in the final third of the document counts,
+    so a table of contents entry or a forward reference does not truncate the
+    document.
+    """
+    threshold = max(0, int(len(document.pages) * 0.55))
+    for page in reversed(document.pages[threshold:]):
+        for line in page.lines:
+            text = line.text.strip().lower().strip(" .:0123456789")
+            if text in END_MATTER_HEADINGS:
+                return (page.number, line.char_start)
+    return None
+
+
 def _subject_for(sentence: str, label: str, primary: str | None,
                  known: set[str] | None = None) -> tuple[str, str]:
     """Split an entity off the front of a label if one is there.
@@ -326,11 +349,23 @@ def _skip_value(raw: str, start: int, value_text: str) -> bool:
 
 def sentence_claims(document: Document, page: Page, primary: str | None,
                     furniture: set[str] | None = None,
-                    known: set[str] | None = None) -> list[Claim]:
+                    known: set[str] | None = None,
+                    end_matter: tuple[int, int] | None = None) -> list[Claim]:
     claims: list[Claim] = []
     raw = page.raw
     furniture = furniture or set()
+
+    # Past the references heading the document is listing other people's work.
+    cutoff = None
+    if end_matter is not None:
+        end_page, end_char = end_matter
+        if page.number > end_page:
+            return []
+        if page.number == end_page:
+            cutoff = end_char
     for sent_start, sentence in _iter_sentences(raw):
+        if cutoff is not None and sent_start >= cutoff:
+            break
         if len(sentence) > 600:
             continue
         if sentence.strip() in furniture:
@@ -427,16 +462,28 @@ def _unit_label(parsed) -> str | None:
 _MAX_PERIOD_CHARS = 32
 
 
-def _is_measurement_cell(text: str) -> bool:
-    """Is this table cell a figure, rather than prose that happens to contain one?
+# Only the unambiguously-marked forms: "1/", "2*", "3†". A bare "5" or a
+# parenthesised "(6)" is a real value in a financial table, so neither is
+# treated as a marker here.
+_CELL_FOOTNOTE = re.compile(r"^\d{1,2}\s*[/*†‡]$")
 
-    Without this, a cell reading "expiry of 60 days from the date of receipt of
-    the consideration" becomes the numeric claim "60" and can then contradict a
-    real measurement.
+
+def _is_measurement_cell(text: str) -> bool:
+    """Is this table cell a figure, rather than something that merely has digits?
+
+    Three things get rejected, each seen producing a bogus claim:
+      * prose that happens to contain a number ("expiry of 60 days from the
+        date of receipt of the consideration" -> the claim "60")
+      * a marked footnote reference ("1/", "2*")
+      * a period fragment ("1Q", "FY24" -> the claim "1" or "24")
     """
     t = text.strip()
     if not t or len(t) > 24:
         return False
+    if _CELL_FOOTNOTE.match(t):
+        return False
+    if not period_signature(t).empty:
+        return False          # a period labels a measurement, it is not one
     if parse_value(t).base_number is None:
         return False
     compact = t.replace(" ", "")

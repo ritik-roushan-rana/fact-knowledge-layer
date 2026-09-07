@@ -1,26 +1,26 @@
 {
   "documents": 6,
-  "claims": 3750,
-  "claims_needing_review": 68,
+  "claims": 4815,
+  "claims_needing_review": 85,
   "relations_by_kind": {
     "corroboration": 1,
-    "partial_cover": 942,
-    "reconciled": 142,
-    "underspecified": 31
+    "partial_cover": 1642,
+    "reconciled": 28,
+    "underspecified": 45
   },
-  "claims_quarantined": 68,
-  "claims_from_tables": 3060,
-  "claims_from_sentences": 690,
+  "claims_quarantined": 85,
+  "claims_from_tables": 4173,
+  "claims_from_sentences": 642,
   "grounding": {
-    "exact_match": 3683,
-    "fuzzy_match": 67,
+    "exact_match": 4731,
+    "fuzzy_match": 84,
     "not_located": 0
   },
   "sampled_for_export": {
     "claims_written": 600,
-    "claims_total": 3750,
-    "relations_written": 324,
-    "relations_total": 1116,
+    "claims_total": 4815,
+    "relations_written": 224,
+    "relations_total": 1716,
     "note": "Row files are a sample; the counts above are complete."
   }
 }
