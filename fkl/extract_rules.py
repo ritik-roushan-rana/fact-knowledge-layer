@@ -179,7 +179,8 @@ def find_modality(text: str) -> str:
 # --------------------------------------------------------------------------
 # entity detection
 # --------------------------------------------------------------------------
-def detect_primary_entity(document: Document, sample_pages: int = 25) -> str | None:
+def detect_entities(document: Document, sample_pages: int = 25,
+                    top_n: int = 12) -> tuple[str | None, set[str]]:
     """Pick the entity a document is mostly about, from the text alone.
 
     Frequency-driven: the most repeated proper-noun phrase wins. Organisation
@@ -224,7 +225,7 @@ def detect_primary_entity(document: Document, sample_pages: int = 25) -> str | N
                 counts[phrase] += 1
                 pages_seen.setdefault(phrase, set()).add(page.number)
     if not counts:
-        return None
+        return (None, set())
 
     def score(item: tuple[str, int]) -> float:
         """Spread across pages beats raw frequency.
@@ -243,17 +244,30 @@ def detect_primary_entity(document: Document, sample_pages: int = 25) -> str | N
             s *= 1.3
         return s
 
-    best = max(counts.items(), key=score)
+    ranked = sorted(counts.items(), key=score, reverse=True)
+    best = ranked[0]
     # Prefer the longest frequent form ("Delhivery" -> "Delhivery Limited").
     head = best[0]
     for phrase, n in counts.items():
         if phrase != head and phrase.lower().startswith(head.lower()) \
                 and n >= best[1] * 0.25 and len(phrase) > len(head):
             head = phrase
-    return head
+    # The vocabulary of entities this document actually discusses. A claim may
+    # only take a subject from this set; any other capitalised word in the
+    # sentence is far more likely to be a stray ("Global", "Core", "Chart I.42")
+    # than a real actor, and letting those through fragments the entity
+    # clusters that cross-document comparison depends on.
+    known = {p for p, _ in ranked[:top_n]}
+    known.add(head)
+    return (head, known)
 
 
-def _subject_for(sentence: str, label: str, primary: str | None) -> tuple[str, str]:
+def detect_primary_entity(document: Document, sample_pages: int = 25) -> str | None:
+    return detect_entities(document, sample_pages)[0]
+
+
+def _subject_for(sentence: str, label: str, primary: str | None,
+                 known: set[str] | None = None) -> tuple[str, str]:
     """Split an entity off the front of a label if one is there.
 
     "Delhivery Limited revenue" -> ("Delhivery Limited", "revenue").
@@ -262,16 +276,22 @@ def _subject_for(sentence: str, label: str, primary: str | None) -> tuple[str, s
     """
     label = re.sub(r"\s+", " ", label).strip()
     m = _PROPER.match(label)
-    if m and len(m.group(1)) < len(label) - 2:
-        rest = _clean_label(label[m.end():])
-        if _plausible_predicate(rest):
-            return (m.group(1).strip(), rest)
+    if m and len(m.group(1)) < len(label) - 2 and known:
+        candidate = m.group(1).strip()
+        # Split an entity off the label only if it is a name this document uses.
+        if any(candidate.lower() == k.lower() for k in known):
+            rest = _clean_label(label[m.end():])
+            if _plausible_predicate(rest):
+                return (candidate, rest)
     if primary and primary.lower() in sentence.lower():
         return (primary, label)
-    for m in _PROPER.finditer(sentence):
-        cand = re.sub(r"\s+", " ", m.group(1)).strip()
-        if cand.lower() not in ENTITY_STOPWORDS and len(cand.split()) >= 2:
-            return (cand, label)
+    # Only a name the document actually uses as an entity may override the
+    # document's primary subject.
+    if known:
+        low = sentence.lower()
+        matches = [k for k in known if k.lower() in low]
+        if matches:
+            return (max(matches, key=len), label)
     return (primary or "(unspecified entity)", label)
 
 
@@ -301,7 +321,8 @@ def _skip_value(raw: str, start: int, value_text: str) -> bool:
 
 
 def sentence_claims(document: Document, page: Page, primary: str | None,
-                    furniture: set[str] | None = None) -> list[Claim]:
+                    furniture: set[str] | None = None,
+                    known: set[str] | None = None) -> list[Claim]:
     claims: list[Claim] = []
     raw = page.raw
     furniture = furniture or set()
@@ -333,7 +354,7 @@ def sentence_claims(document: Document, page: Page, primary: str | None,
             if not _plausible_predicate(label):
                 continue
 
-            subject, predicate = _subject_for(sentence, label, primary)
+            subject, predicate = _subject_for(sentence, label, primary, known)
             if not _plausible_predicate(predicate):
                 continue
             if is_change:
@@ -408,7 +429,7 @@ def _find_line_containing(page: Page, needle: str, bbox=None):
 
 
 def table_claims(document: Document, page: Page, table: Table,
-                 primary: str | None) -> list[Claim]:
+                 primary: str | None, known: set[str] | None = None) -> list[Claim]:
     claims: list[Claim] = []
     heading = page.lines and page.heading_before(page.lines[0].char_start) or ""
     caption_ctx = f"{table.caption or ''} {heading or ''}"

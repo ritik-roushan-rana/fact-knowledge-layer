@@ -240,12 +240,20 @@ class Extractor:
 
 def _to_claim_dict(raw: dict, filename: str) -> dict:
     """Flatten the model's response shape into the assignment's Claim shape."""
+    ctx = dict(raw.get("context") or {})
     return {
         "subject": raw["subject"],
         "predicate": raw["predicate"],
         "value": raw["value"],
-        "context": raw["context"],
+        "context": {
+            "period": ctx.get("period"), "unit": ctx.get("unit"),
+            "scope": ctx.get("scope"), "basis": None, "geography": None,
+            "as_of": None, "denominator": None,
+            "other_qualifiers": ctx.get("other_qualifiers"),
+        },
         "source_document": filename,
         "source_span": {"page": int(raw["source_page"]), "text": raw["source_text"]},
+        "origin": "llm",
+        "extraction_rule": "llm_chunk_extraction",
         "confidence": max(0.0, min(1.0, float(raw["confidence"]))),
     }

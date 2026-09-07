@@ -226,8 +226,10 @@ def compare_periods(a: str | None, b: str | None) -> tuple[str, str]:
         return ("different", f"different sub-period: {a!r} vs {b!r}")
     if sa.years and sb.years and sa.years.isdisjoint(sb.years):
         return ("different", f"different years: {a!r} vs {b!r}")
-    if sa.months != sb.months and (sa.months and sb.months):
-        return ("different", f"different months: {a!r} vs {b!r}")
+    # A month-level period and a year-level one describe different windows even
+    # when the year matches: "September 2025" is not "FY25".
+    if sa.months != sb.months:
+        return ("different", f"different granularity or month: {a!r} vs {b!r}")
     if sa.years == sb.years and sa.quarters == sb.quarters:
         return ("same", f"same period ({a!r} ~ {b!r})")
     return ("unknown", f"periods overlap but are not identical: {a!r} vs {b!r}")

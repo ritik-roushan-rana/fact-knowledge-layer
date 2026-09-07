@@ -62,6 +62,12 @@ class Config:
     expected_output_tokens: int = _env_int("FKL_EXPECTED_OUTPUT_TOKENS", 2200)
 
     # --- extraction ---
+    # Which extractor the pipeline uses. "deterministic" needs no API key and
+    # is the default; nothing in the pipeline assumes a provider exists.
+    extractor: str = _env("FKL_EXTRACTOR", "deterministic")
+    # LLM adjudication of genuinely ambiguous pairs. Off unless switched on.
+    enable_llm_fallback: bool = _env("FKL_ENABLE_LLM_FALLBACK", "0") not in ("0", "", "false", "False")
+    hybrid_max_llm_pages: int = _env_int("FKL_HYBRID_MAX_LLM_PAGES", 15)
     max_tokens: int = _env_int("FKL_MAX_TOKENS", 6000)
     # Characters of page text per LLM extraction call.
     chunk_chars: int = _env_int("FKL_CHUNK_CHARS", 13000)
@@ -73,7 +79,16 @@ class Config:
     # Claims below this final confidence land on the "needs review" list.
     review_threshold: float = _env_float("FKL_REVIEW_THRESHOLD", 0.60)
 
+    # --- comparison tolerances ---
+    value_tolerance: float = _env_float("FKL_VALUE_TOLERANCE", 0.005)
+    rounding_tolerance: float = _env_float("FKL_ROUNDING_TOLERANCE", 0.02)
+    # Rates are compared in percentage points, not relative terms.
+    percentage_point_tolerance: float = _env_float("FKL_PP_TOLERANCE", 0.05)
+
     # --- embeddings / matching ---
+    # Matching is deterministic (entity clustering + predicate blocking), so
+    # embeddings are off by default: one less heavy dependency on the hot path.
+    enable_embeddings: bool = _env("FKL_ENABLE_EMBEDDINGS", "0") not in ("0", "", "false", "False")
     embed_model: str = _env("FKL_EMBED_MODEL", "sentence-transformers/all-MiniLM-L6-v2")
     # Cosine similarity floor for two claims to be considered "about the same thing".
     match_threshold: float = _env_float("FKL_MATCH_THRESHOLD", 0.62)

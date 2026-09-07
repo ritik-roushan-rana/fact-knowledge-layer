@@ -22,12 +22,19 @@ def main() -> int:
     ap.add_argument("pdfs", nargs="+")
     ap.add_argument("--max-pages", type=int, default=None,
                     help="Only read the first N pages (useful for a fast smoke test).")
+    ap.add_argument("--extractor", default=None,
+                    choices=["deterministic", "hybrid", "llm"],
+                    help="Extraction strategy. Default: deterministic (no API key needed).")
+    ap.add_argument("--force", action="store_true",
+                    help="Re-ingest even if this exact file was already completed.")
+    ap.add_argument("--batch-id", default=None)
     ap.add_argument("--db", default=None)
     ap.add_argument("--json", action="store_true", help="Print the report as JSON.")
     ap.add_argument("--no-relate", action="store_true",
                     help="Skip cross-document relationship building.")
-    ap.add_argument("--no-escalate", action="store_true",
-                    help="Rules only; never escalate ambiguous pairs to the LLM.")
+    ap.add_argument("--escalate", action="store_true",
+                    help="Send genuinely ambiguous pairs to the LLM for adjudication. "
+                         "Off by default: the pipeline is deterministic and needs no API key.")
     args = ap.parse_args()
 
     store = Store(args.db)
@@ -36,27 +43,33 @@ def main() -> int:
         if args.json:
             return
         if stage == "extracting":
-            msg = f"  chunk {info['done']}/{info['total']}: {info['claims']} claims"
-            if info.get("error"):
-                msg += f"  [ERROR: {info['error']}]"
-            print(msg, flush=True)
+            if info["done"] % 25 and info["done"] != info["total"]:
+                return
+            print(f"  page {info['done']}/{info['total']}: "
+                  f"{info['claims']} claims so far", flush=True)
         else:
             print(f"[{stage}] {info}", flush=True)
 
     reports = []
     for pdf in args.pdfs:
         print(f"\n=== {pdf} ===", flush=True)
-        report = ingest_pdf(pdf, store, max_pages=args.max_pages, progress=progress)
+        report = ingest_pdf(pdf, store, max_pages=args.max_pages,
+                            extractor=args.extractor, force=args.force,
+                            batch_id=args.batch_id, progress=progress)
         reports.append(report.as_dict())
         if not args.json:
             r = report.as_dict()
-            print(f"  stored={r['claims_stored']} grounded={r['claims_grounded']} "
-                  f"review={r['claims_needing_review']} "
-                  f"tokens_in={r['input_tokens']} tokens_out={r['output_tokens']}")
+            if r["skipped_resume"]:
+                print(f"  already ingested ({r['claims_stored']} claims); skipped. "
+                      f"Use --force to redo.")
+            else:
+                print(f"  stored={r['claims_stored']} grounded={r['claims_grounded']} "
+                      f"quarantined={r['claims_quarantined']} "
+                      f"review={r['claims_needing_review']} in {r['seconds']}s")
 
     if not args.no_relate:
         print("\n=== building cross-document relationships ===", flush=True)
-        rel = build_relations(store, escalate=not args.no_escalate, progress=progress)
+        rel = build_relations(store, escalate=args.escalate, progress=progress)
         reports.append({"relations": rel.as_dict()})
         if not args.json:
             print(f"  {rel.as_dict()}")

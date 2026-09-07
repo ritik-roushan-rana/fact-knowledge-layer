@@ -18,6 +18,10 @@ LINKING_PHRASES = [
     "was recorded at", "were recorded at", "was reported at", "were reported at",
     "was estimated at", "were estimated at", "was projected at", "were projected at",
     "is estimated at", "are estimated at", "is projected at", "are projected at",
+    "moderated to", "moderating to", "eased to", "easing to", "softened to",
+    "accelerated to", "picked up to", "settled at", "printed at",
+    "was placed at", "were placed at", "is placed at", "averaged", "averaging",
+    "hovered around", "stood around", "came to", "worked out to",
     "stood at", "stands at", "amounted to", "amounts to", "totalled", "totaled",
     "totalling", "came in at", "increased to", "decreased to", "rose to", "fell to",
     "grew to", "declined to", "remained at", "reached", "registered", "recorded",
@@ -98,12 +102,31 @@ LEADING_FILLER = {
     "the", "a", "an", "its", "their", "our", "this", "that", "these", "those",
     "and", "but", "however", "meanwhile", "overall", "in", "for", "of", "on",
     "at", "as", "while", "with", "by", "total",
+    # Prepositions and pronoun/verb openers. Without these, "we had cash" and
+    # "swung to a profit" survive as predicates and fail to match the plain
+    # property name the other document uses.
+    "to", "from", "into", "onto", "upto", "up", "down", "we", "it", "they",
+    "he", "she", "there", "had", "have", "has", "having", "been", "being",
+    "achieved", "delivered", "generated", "maintained", "held", "saw", "reaching",
 }
 
 # Trailing words that are grammatical glue rather than part of the property name.
 TRAILING_FILLER = {
     "of", "for", "in", "at", "to", "on", "by", "with", "from", "the", "a", "an",
     "was", "were", "is", "are", "and", "or",
+    # Auxiliaries, bare verbs and hedges that trail a label but are not part of
+    # the property name: "headline inflation has", "GDP is projected to grow".
+    "has", "have", "had", "been", "being", "be", "will", "would", "may",
+    "grow", "grew", "grown", "rise", "rose", "risen", "fall", "fell", "fallen",
+    "reach", "reached", "stand", "stood", "remain", "remained", "come", "came",
+    "print", "printed", "place", "placed", "record", "recorded", "register",
+    "registered", "post", "posted", "expand", "expanded", "moderate",
+    "moderated", "ease", "eased", "decline", "declined", "increase",
+    "increased", "decrease", "decreased",
+    "projected", "estimated", "expected", "forecast", "revised", "provisional",
+    "about", "around", "nearly", "approximately", "roughly", "some", "over",
+    "under", "above", "below", "just", "only", "also", "still", "further",
+    "respectively", "buoyant", "strong", "weak", "higher", "lower",
 }
 
 # Generic organisation suffixes. Used only to *boost* a candidate entity's
@@ -126,4 +149,50 @@ ENTITY_STOPWORDS = {
     "march", "april", "may", "june", "july", "august", "september", "october",
     "november", "december", "monday", "tuesday", "wednesday", "thursday",
     "friday", "saturday", "sunday",
+}
+
+
+# Pairs of qualifiers that describe mutually exclusive ways of measuring the
+# same thing. If one predicate carries one and the other carries its opposite,
+# they are not the same measurement -- comparing them would manufacture a
+# contradiction out of a definitional difference.
+ANTONYM_GROUPS = [
+    {"net", "gross"},
+    {"real", "nominal"},
+    {"standalone", "consolidated"},
+    {"urban", "rural"},
+    {"domestic", "external", "foreign", "overseas"},
+    {"current", "constant"},
+    {"export", "exports", "import", "imports"},
+    {"inflow", "inflows", "outflow", "outflows"},
+    {"revenue", "expense", "expenses", "expenditure", "cost", "costs"},
+    {"asset", "assets", "liability", "liabilities"},
+    {"opening", "closing"},
+    {"average", "median", "total", "peak", "minimum", "maximum"},
+    {"male", "female"},
+    {"public", "private"},
+    {"short-term", "long-term"},
+]
+
+# Words carrying no discriminating power inside a predicate.
+PREDICATE_STOPWORDS = {
+    "the", "a", "an", "of", "for", "in", "at", "on", "to", "by", "with", "from",
+    "and", "or", "as", "per", "its", "their", "our", "value", "values",
+    "amount", "amounts", "figure", "figures", "number", "numbers", "level",
+    "levels", "rate", "was", "were", "is", "are", "during", "over",
+}
+
+
+# Words that make a predicate inherently a rate or a ratio. A percentage value
+# under such a predicate is expected and self-describing ("CPI inflation =
+# 4.0%"). A percentage under a predicate that names a LEVEL ("revenue = 33%")
+# is a share or a margin whose denominator the extractor did not capture, and
+# comparing two such figures is meaningless -- they are proportions of
+# different bases.
+RATE_PREDICATE_TERMS = {
+    "growth", "inflation", "rate", "rates", "margin", "margins", "share",
+    "ratio", "yield", "change", "cagr", "percentage", "percent", "proportion",
+    "penetration", "utilisation", "utilization", "occupancy", "return",
+    "returns", "deficit", "surplus", "coverage", "density", "incidence",
+    "prevalence", "unemployment", "participation", "literacy", "mortality",
 }
