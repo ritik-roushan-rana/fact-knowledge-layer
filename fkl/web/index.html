@@ -5,348 +5,604 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Fact Knowledge Layer</title>
 <style>
-  :root{
-    --bg:#0f1115; --panel:#171a21; --panel2:#1e222b; --line:#2a2f3a;
-    --fg:#e6e9ef; --dim:#98a2b3; --accent:#6aa9ff;
-    --ok:#3fb950; --bad:#f85149; --warn:#d29922; --info:#a371f7;
-    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+:root{
+  --bg:#f7f8fa; --surface:#ffffff; --surface-2:#f2f4f7; --surface-3:#eaecf0;
+  --border:#e4e7ec; --border-strong:#d0d5dd;
+  --text:#101828; --text-2:#475467; --text-3:#98a2b3;
+  --accent:#4f46e5; --accent-soft:#eef2ff; --accent-border:#c7d2fe;
+  --ok:#067647; --ok-soft:#ecfdf3; --ok-border:#abefc6;
+  --bad:#b42318; --bad-soft:#fef3f2; --bad-border:#fecdca;
+  --violet:#6941c6; --violet-soft:#f4f3ff; --violet-border:#d9d6fe;
+  --blue:#175cd3; --blue-soft:#eff8ff; --blue-border:#b2ddff;
+  --amber:#b54708; --amber-soft:#fffaeb; --amber-border:#fedf89;
+  --slate:#475467; --slate-soft:#f2f4f7; --slate-border:#d0d5dd;
+  --radius:10px; --radius-lg:14px;
+  --shadow:0 1px 2px rgba(16,24,40,.05);
+  --shadow-md:0 2px 8px -2px rgba(16,24,40,.08),0 4px 16px -4px rgba(16,24,40,.06);
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,"Helvetica Neue",sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){   --bg:#0c0e12; --surface:#14171d; --surface-2:#1a1e26; --surface-3:#222732;
+    --border:#252a34; --border-strong:#333a47;
+    --text:#f0f2f5; --text-2:#98a2b3; --text-3:#667085;
+    --accent:#8b8afb; --accent-soft:#1b1b3a; --accent-border:#3730a3;
+    --ok:#75e0a7; --ok-soft:#0d2a1c; --ok-border:#175d3a;
+    --bad:#fda29b; --bad-soft:#33130f; --bad-border:#7a271a;
+    --violet:#bdb4fe; --violet-soft:#231a45; --violet-border:#4a1fb8;
+    --blue:#84caff; --blue-soft:#0d2137; --blue-border:#1849a9;
+    --amber:#fec84b; --amber-soft:#2b1c06; --amber-border:#7a4708;
+    --slate:#98a2b3; --slate-soft:#1a1e26; --slate-border:#333a47;
+    --shadow:0 1px 2px rgba(0,0,0,.3);
+    --shadow-md:0 2px 8px -2px rgba(0,0,0,.4),0 4px 16px -4px rgba(0,0,0,.3);
   }
-  *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--fg);
-       font:14px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
-  header{padding:18px 22px;border-bottom:1px solid var(--line);
-         display:flex;gap:22px;align-items:center;flex-wrap:wrap;
-         position:sticky;top:0;background:var(--bg);z-index:10}
-  h1{font-size:17px;margin:0;font-weight:650;letter-spacing:.2px}
-  h1 small{display:block;font-weight:400;color:var(--dim);font-size:11.5px;margin-top:2px}
-  .stats{display:flex;gap:16px;flex-wrap:wrap;margin-left:auto}
-  .stat{text-align:right}
-  .stat b{display:block;font-size:17px}
-  .stat span{color:var(--dim);font-size:11px;text-transform:uppercase;letter-spacing:.6px}
-  main{padding:20px 22px;max-width:1180px;margin:0 auto}
-  .tabs{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap}
-  .tab{padding:7px 14px;border:1px solid var(--line);background:var(--panel);
-       border-radius:7px;cursor:pointer;color:var(--dim);font-size:13px}
-  .tab.on{background:var(--panel2);color:var(--fg);border-color:var(--accent)}
-  .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;
-        padding:15px 17px;margin-bottom:13px}
-  .badge{display:inline-block;padding:2.5px 9px;border-radius:999px;font-size:11px;
-         font-weight:650;text-transform:uppercase;letter-spacing:.5px}
-  .corroboration{background:rgba(63,185,80,.16);color:var(--ok)}
-  .contradiction{background:rgba(248,81,73,.16);color:var(--bad)}
-  .reconciled{background:rgba(163,113,247,.16);color:var(--info)}
-  .unresolved,.underspecified{background:rgba(210,153,34,.16);color:var(--warn)}
-  .supersedes{background:rgba(106,169,255,.16);color:var(--accent)}
-  .partial_cover{background:rgba(139,148,158,.18);color:#8b949e}
-  .unrelated{background:rgba(139,148,158,.12);color:#6e7681}
-  .pair{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
-  @media(max-width:820px){.pair{grid-template-columns:1fr}}
-  .side{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:11px 13px}
-  .doc{font-family:var(--mono);font-size:11px;color:var(--accent);
-       word-break:break-all;margin-bottom:7px}
-  .triple{font-size:13.5px;margin-bottom:7px}
-  .triple .s{color:var(--dim)} .triple .p{font-weight:600}
-  .triple .v{color:var(--ok);font-weight:650}
-  .ctx{font-size:11.5px;color:var(--dim);font-family:var(--mono);margin-bottom:8px}
-  .ctx span{margin-right:9px}
-  blockquote{margin:0;padding:8px 11px;border-left:3px solid var(--accent);
-             background:rgba(106,169,255,.06);font-size:12.5px;color:#c9d1d9;
-             white-space:pre-wrap;max-height:118px;overflow:auto;border-radius:0 5px 5px 0}
-  .why{margin-top:11px;font-size:13px;color:#c9d1d9;
-       border-top:1px solid var(--line);padding-top:11px}
-  details{margin-top:9px}
-  summary{cursor:pointer;color:var(--dim);font-size:12px;user-select:none}
-  .trace{list-style:none;padding:9px 0 0;margin:0;font-family:var(--mono);font-size:11.5px}
-  .trace li{padding:3.5px 0 3.5px 15px;border-left:2px solid var(--line);
-            margin-left:3px;color:var(--dim)}
-  .trace li:last-child{color:var(--fg)}
-  .meta{color:var(--dim);font-size:11.5px;font-family:var(--mono)}
-  .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
-  input[type=text],select{background:var(--panel2);border:1px solid var(--line);
-    color:var(--fg);padding:7px 10px;border-radius:7px;font-size:13px}
-  input[type=text]{min-width:230px}
-  button{background:var(--accent);border:0;color:#04101f;font-weight:650;
-         padding:8px 15px;border-radius:7px;cursor:pointer;font-size:13px}
-  button.ghost{background:var(--panel2);color:var(--fg);border:1px solid var(--line);font-weight:500}
-  button:disabled{opacity:.5;cursor:default}
-  .drop{border:1.5px dashed var(--line);border-radius:10px;padding:26px;text-align:center;
-        color:var(--dim);cursor:pointer}
-  .drop.hot{border-color:var(--accent);background:rgba(106,169,255,.06)}
-  .bar{height:5px;background:var(--panel2);border-radius:3px;overflow:hidden;margin-top:9px}
-  .bar>i{display:block;height:100%;background:var(--accent);transition:width .4s}
-  .empty{color:var(--dim);padding:34px;text-align:center}
-  table{width:100%;border-collapse:collapse;font-size:12.5px}
-  th,td{text-align:left;padding:7px 9px;border-bottom:1px solid var(--line);vertical-align:top}
-  th{color:var(--dim);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.5px}
-  .pill{font-family:var(--mono);font-size:11px;padding:1.5px 6px;border-radius:4px;
-        background:var(--panel2);color:var(--dim)}
-  .rlist{display:flex;gap:5px;flex-wrap:wrap;margin-top:5px}
-  .rlist li{list-style:none;font-size:11.5px;color:var(--warn);
-            background:rgba(210,153,34,.1);padding:2px 7px;border-radius:4px}
+}
+:root[data-theme="dark"]{   --bg:#0c0e12; --surface:#14171d; --surface-2:#1a1e26; --surface-3:#222732;
+    --border:#252a34; --border-strong:#333a47;
+    --text:#f0f2f5; --text-2:#98a2b3; --text-3:#667085;
+    --accent:#8b8afb; --accent-soft:#1b1b3a; --accent-border:#3730a3;
+    --ok:#75e0a7; --ok-soft:#0d2a1c; --ok-border:#175d3a;
+    --bad:#fda29b; --bad-soft:#33130f; --bad-border:#7a271a;
+    --violet:#bdb4fe; --violet-soft:#231a45; --violet-border:#4a1fb8;
+    --blue:#84caff; --blue-soft:#0d2137; --blue-border:#1849a9;
+    --amber:#fec84b; --amber-soft:#2b1c06; --amber-border:#7a4708;
+    --slate:#98a2b3; --slate-soft:#1a1e26; --slate-border:#333a47;
+    --shadow:0 1px 2px rgba(0,0,0,.3);
+    --shadow-md:0 2px 8px -2px rgba(0,0,0,.4),0 4px 16px -4px rgba(0,0,0,.3);
+  }
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--text);font:14px/1.55 var(--sans);
+     -webkit-font-smoothing:antialiased}
+
+/* ---------- top bar ---------- */
+.topbar{position:sticky;top:0;z-index:30;background:var(--surface);
+        border-bottom:1px solid var(--border);backdrop-filter:saturate(180%) blur(8px)}
+.topbar-inner{max-width:1240px;margin:0 auto;padding:14px 24px;
+              display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:11px;min-width:0}
+.mark{width:32px;height:32px;border-radius:9px;flex:0 0 auto;
+      background:linear-gradient(135deg,var(--accent),#7c6cf7);
+      display:grid;place-items:center;color:#fff;font-weight:700;font-size:15px;
+      box-shadow:var(--shadow)}
+.brand h1{margin:0;font-size:15px;font-weight:640;letter-spacing:-.01em;line-height:1.2}
+.brand p{margin:1px 0 0;font-size:12px;color:var(--text-3);line-height:1.3}
+.topbar-right{margin-left:auto;display:flex;align-items:center;gap:8px;flex-wrap:nowrap}
+@media(max-width:560px){.topbar-right{margin-left:0;width:100%}}
+.engine{display:flex;align-items:center;gap:8px;
+        padding:6px 11px;border-radius:999px;font-size:12px;font-weight:560;
+        background:var(--ok-soft);color:var(--ok);border:1px solid var(--ok-border)}
+.engine.warn{background:var(--amber-soft);color:var(--amber);border-color:var(--amber-border)}
+.dot{width:6px;height:6px;border-radius:50%;background:currentColor}
+.theme-btn{flex:0 0 auto;width:32px;height:32px;border-radius:8px;cursor:pointer;
+  border:1px solid var(--border-strong);background:var(--surface);color:var(--text-2);
+  display:grid;place-items:center;font-size:14px;transition:.12s;padding:0}
+.theme-btn:hover{border-color:var(--accent);color:var(--text)}
+
+/* ---------- metrics ---------- */
+main{max-width:1240px;margin:0 auto;padding:22px 24px 60px}
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));
+         gap:10px;margin-bottom:22px}
+.metric{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+        padding:13px 15px;box-shadow:var(--shadow)}
+.metric .n{font-size:22px;font-weight:660;letter-spacing:-.02em;line-height:1.1;
+           font-variant-numeric:tabular-nums}
+.metric .l{margin-top:3px;font-size:11.5px;color:var(--text-3);font-weight:520}
+.metric.ok .n{color:var(--ok)} .metric.bad .n{color:var(--bad)}
+.metric.violet .n{color:var(--violet)} .metric.amber .n{color:var(--amber)}
+
+/* ---------- tabs ---------- */
+.tabs{display:inline-flex;gap:2px;padding:3px;background:var(--surface-2);
+      border:1px solid var(--border);border-radius:10px;margin-bottom:18px;flex-wrap:wrap}
+.tab{padding:7px 14px;border-radius:7px;cursor:pointer;font-size:13px;font-weight:530;
+     color:var(--text-2);border:0;background:transparent;transition:.12s}
+.tab:hover{color:var(--text)}
+.tab.on{background:var(--surface);color:var(--text);box-shadow:var(--shadow);font-weight:580}
+.tab .cnt{margin-left:6px;font-size:11px;color:var(--text-3);font-variant-numeric:tabular-nums}
+
+/* ---------- toolbar ---------- */
+.toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:16px}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{padding:5px 11px;border-radius:999px;font-size:12px;font-weight:540;cursor:pointer;
+      border:1px solid var(--border-strong);background:var(--surface);color:var(--text-2);
+      transition:.12s;display:inline-flex;align-items:center;gap:6px}
+.chip:hover{border-color:var(--accent);color:var(--text)}
+.chip.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.chip .c{font-size:11px;opacity:.75;font-variant-numeric:tabular-nums}
+input[type=text],select{background:var(--surface);border:1px solid var(--border-strong);
+  color:var(--text);padding:7px 11px;border-radius:8px;font-size:13px;font-family:inherit;
+  outline:none;transition:.12s}
+input[type=text]:focus,select:focus{border-color:var(--accent);
+  box-shadow:0 0 0 3px var(--accent-soft)}
+input[type=text]{min-width:230px}
+.btn{background:var(--accent);border:1px solid var(--accent);color:#fff;font-weight:560;
+     padding:7px 14px;border-radius:8px;cursor:pointer;font-size:13px;font-family:inherit;
+     transition:.12s}
+.btn:hover{filter:brightness(1.08)}
+.btn.ghost{background:var(--surface);color:var(--text-2);border-color:var(--border-strong)}
+.btn.ghost:hover{color:var(--text);border-color:var(--accent)}
+.btn:disabled{opacity:.55;cursor:default;filter:none}
+.spacer{margin-left:auto}
+.count{font-size:12.5px;color:var(--text-3);font-variant-numeric:tabular-nums}
+
+/* ---------- cards ---------- */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);
+      margin-bottom:14px;box-shadow:var(--shadow);overflow:hidden}
+.card-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+           padding:13px 17px;border-bottom:1px solid var(--border);background:var(--surface-2)}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:999px;
+       font-size:11px;font-weight:650;letter-spacing:.02em;text-transform:uppercase;
+       border:1px solid transparent}
+.corroboration{background:var(--ok-soft);color:var(--ok);border-color:var(--ok-border)}
+.contradiction{background:var(--bad-soft);color:var(--bad);border-color:var(--bad-border)}
+.reconciled{background:var(--violet-soft);color:var(--violet);border-color:var(--violet-border)}
+.supersedes{background:var(--blue-soft);color:var(--blue);border-color:var(--blue-border)}
+.partial_cover{background:var(--slate-soft);color:var(--slate);border-color:var(--slate-border)}
+.underspecified{background:var(--amber-soft);color:var(--amber);border-color:var(--amber-border)}
+.unrelated{background:var(--surface-3);color:var(--text-3);border-color:var(--border)}
+
+/* confidence meters */
+.meters{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.meter{display:flex;align-items:center;gap:7px;font-size:11.5px;color:var(--text-3)}
+.meter .bar{width:44px;height:5px;border-radius:3px;background:var(--surface-3);overflow:hidden}
+.meter .bar i{display:block;height:100%;background:var(--accent);border-radius:3px}
+.meter b{color:var(--text-2);font-weight:580;font-variant-numeric:tabular-nums}
+.decided{font-size:11.5px;color:var(--text-3);display:inline-flex;align-items:center;gap:5px}
+
+/* claim pair */
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:0;position:relative}
+.pair::after{content:"";position:absolute;left:50%;top:14px;bottom:14px;width:1px;
+             background:var(--border)}
+@media(max-width:860px){.pair{grid-template-columns:1fr}
+  .pair::after{display:none}
+  .side+.side{border-top:1px solid var(--border)}}
+.side{padding:15px 17px;min-width:0}
+.src{display:flex;align-items:center;gap:7px;margin-bottom:10px;flex-wrap:wrap}
+.src .file{font-family:var(--mono);font-size:11px;color:var(--text-2);
+           word-break:break-all;line-height:1.35}
+.pill{font-family:var(--mono);font-size:10.5px;padding:2px 7px;border-radius:5px;
+      background:var(--surface-3);color:var(--text-2);white-space:nowrap;font-weight:500}
+.triple{margin-bottom:9px;line-height:1.45}
+.triple .s{color:var(--text-3);font-size:12.5px}
+.triple .p{font-weight:600;font-size:14px;display:block;margin:1px 0 3px;letter-spacing:-.005em}
+.triple .v{font-size:17px;font-weight:680;letter-spacing:-.02em;color:var(--accent);
+           font-variant-numeric:tabular-nums}
+.ctx{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px}
+.ctx .kv{font-size:11px;padding:2.5px 8px;border-radius:6px;background:var(--surface-2);
+         border:1px solid var(--border);color:var(--text-2)}
+.ctx .kv b{color:var(--text-3);font-weight:520;margin-right:4px}
+.ctx .none{font-size:11px;color:var(--text-3);font-style:italic}
+blockquote{margin:0;padding:9px 12px;border-left:2.5px solid var(--accent-border);
+           background:var(--accent-soft);font-size:12.5px;color:var(--text);
+           white-space:pre-wrap;max-height:130px;overflow:auto;border-radius:0 7px 7px 0;
+           line-height:1.5}
+.side-meta{margin-top:9px;display:flex;gap:10px;flex-wrap:wrap;font-size:11px;color:var(--text-3)}
+.side-meta .bad{color:var(--bad);font-weight:560}
+
+/* why + trace */
+.why{padding:14px 17px;border-top:1px solid var(--border);font-size:13.5px;
+     color:var(--text);line-height:1.6}
+.why .lbl{font-weight:640;color:var(--text-2);margin-right:5px}
+.diffs{margin-top:9px;display:flex;gap:6px;flex-wrap:wrap}
+.diff{font-size:11.5px;padding:3px 9px;border-radius:6px;background:var(--violet-soft);
+      border:1px solid var(--violet-border);color:var(--violet)}
+details{border-top:1px solid var(--border)}
+summary{cursor:pointer;padding:11px 17px;font-size:12.5px;color:var(--text-2);
+        font-weight:540;user-select:none;list-style:none;display:flex;align-items:center;gap:7px}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"›";display:inline-block;transition:.15s;font-size:15px;color:var(--text-3)}
+details[open] summary::before{transform:rotate(90deg)}
+summary:hover{color:var(--text);background:var(--surface-2)}
+.trace{list-style:none;padding:2px 17px 15px 17px;margin:0}
+.trace li{position:relative;padding:0 0 11px 24px;font-size:12.5px;color:var(--text-2);
+          line-height:1.5;border-left:1.5px solid var(--border);margin-left:6px}
+.trace li:last-child{border-left-color:transparent;padding-bottom:2px;color:var(--text);
+                     font-weight:540}
+.trace li::before{content:"";position:absolute;left:-5px;top:5px;width:8px;height:8px;
+                  border-radius:50%;background:var(--border-strong);
+                  border:2px solid var(--surface)}
+.trace li:last-child::before{background:var(--accent)}
+.trace code{font-family:var(--mono);font-size:11.5px;background:var(--surface-2);
+            padding:1px 5px;border-radius:4px}
+
+/* table */
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+thead th{position:sticky;top:0;background:var(--surface-2);text-align:left;
+         padding:10px 14px;font-size:11px;font-weight:620;color:var(--text-3);
+         text-transform:uppercase;letter-spacing:.04em;border-bottom:1px solid var(--border);
+         white-space:nowrap}
+tbody td{padding:11px 14px;border-bottom:1px solid var(--border);vertical-align:top}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:hover{background:var(--surface-2)}
+td.num{font-variant-numeric:tabular-nums;font-weight:620;color:var(--accent);white-space:nowrap}
+td .ev{color:var(--text-3);font-size:11.5px;margin-top:3px;max-width:400px;line-height:1.45}
+.confbar{display:inline-flex;align-items:center;gap:7px}
+.confbar .bar{width:36px;height:5px;background:var(--surface-3);border-radius:3px;overflow:hidden}
+.confbar .bar i{display:block;height:100%;background:var(--accent)}
+
+/* upload */
+.drop{border:1.5px dashed var(--border-strong);border-radius:var(--radius-lg);padding:34px 20px;
+      text-align:center;cursor:pointer;transition:.15s;background:var(--surface)}
+.drop:hover,.drop.hot{border-color:var(--accent);background:var(--accent-soft)}
+.drop .big{font-size:14.5px;font-weight:600;margin-bottom:4px}
+.drop .sub{font-size:12.5px;color:var(--text-3)}
+.job{padding:13px 16px;border:1px solid var(--border);border-radius:var(--radius);
+     margin-top:11px;background:var(--surface-2)}
+.job-head{display:flex;align-items:center;gap:9px;flex-wrap:wrap;font-size:12.5px}
+.job-head .st{font-weight:640;text-transform:capitalize}
+.progress{height:5px;background:var(--surface-3);border-radius:3px;overflow:hidden;margin-top:9px}
+.progress i{display:block;height:100%;background:var(--accent);transition:width .35s}
+.rlist{list-style:none;padding:0;margin:10px 0 0;display:flex;flex-direction:column;gap:5px}
+.rlist li{font-size:12px;color:var(--amber);background:var(--amber-soft);
+          border:1px solid var(--amber-border);padding:5px 10px;border-radius:6px}
+
+.empty{text-align:center;padding:56px 24px;color:var(--text-3);
+       background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg)}
+.empty .big{font-size:15px;font-weight:580;color:var(--text-2);margin-bottom:5px}
+.skel{height:112px;border-radius:var(--radius-lg);background:linear-gradient(90deg,
+      var(--surface) 25%,var(--surface-2) 37%,var(--surface) 63%);
+      background-size:400% 100%;animation:sh 1.3s ease infinite;margin-bottom:14px}
+@keyframes sh{0%{background-position:100% 0}100%{background-position:-100% 0}}
 </style>
 </head>
 <body>
-<header>
-  <h1>Fact Knowledge Layer
-    <small>deterministic extraction &middot; claims grounded in source evidence
-    &middot; compared across documents</small></h1>
-  <div class="stats" id="stats"></div>
-</header>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="mark">FK</div>
+      <div>
+        <h1>Fact Knowledge Layer</h1>
+        <p>Claims grounded in source evidence, compared across documents</p>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <div id="engine"></div>
+      <button class="theme-btn" id="theme" title="Toggle theme"></button>
+    </div>
+  </div>
+</div>
 
 <main>
+  <div class="metrics" id="metrics"></div>
   <div class="tabs" id="tabs"></div>
   <div id="view"></div>
 </main>
 
 <script>
 const $ = (s,r=document)=>r.querySelector(s);
-const esc = s => String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+/* ---------- theme: auto / light / dark, remembered per browser ---------- */
+const THEMES=['auto','light','dark'], GLYPH={auto:'◐',light:'☀',dark:'☾'};
+function applyTheme(t){
+  if(t==='auto') document.documentElement.removeAttribute('data-theme');
+  else document.documentElement.setAttribute('data-theme',t);
+  const b=$('#theme'); if(b){ b.textContent=GLYPH[t]; b.title=`Theme: ${t} (click to change)`; }
+}
+function initTheme(){
+  let t='auto';
+  try{ t=localStorage.getItem('fkl-theme')||'auto'; }catch(e){}
+  applyTheme(t);
+  const b=$('#theme');
+  if(b) b.onclick=()=>{
+    const next=THEMES[(THEMES.indexOf(t)+1)%THEMES.length]; t=next;
+    try{ localStorage.setItem('fkl-theme',next); }catch(e){}
+    applyTheme(next);
+  };
+}
+const esc = s => String(s??'').replace(/[&<>"']/g,c=>(
+  {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const KINDS = ['contradiction','reconciled','corroboration','supersedes',
                'partial_cover','underspecified'];
-let TAB = 'relations', FILTER = {kind:'', search:'', doc:''};
+const LABEL = {contradiction:'Contradiction',reconciled:'Reconciled',
+  corroboration:'Corroboration',supersedes:'Supersedes',partial_cover:'Partial cover',
+  underspecified:'Underspecified',unrelated:'Unrelated'};
 
-async function api(path, opts){ const r = await fetch(path, opts);
+let TAB='relations', FILTER={kind:'',search:'',doc:''}, STATS=null;
+
+async function api(path,opts){
+  const r = await fetch(path,opts);
   if(!r.ok) throw new Error((await r.json().catch(()=>({detail:r.statusText}))).detail);
-  return r.json(); }
+  return r.json();
+}
+const pct = v => Math.round((v||0)*100);
 
-/* ---------- shared renderers ---------- */
-function ctxLine(c){
-  const bits = [];
-  if(c.ctx_period) bits.push(`<span>period: ${esc(c.ctx_period)}</span>`);
-  if(c.ctx_unit)   bits.push(`<span>unit: ${esc(c.ctx_unit)}</span>`);
-  if(c.ctx_scope)  bits.push(`<span>scope: ${esc(c.ctx_scope)}</span>`);
-  if(c.ctx_other)  bits.push(`<span>qual: ${esc(c.ctx_other)}</span>`);
-  return bits.length ? `<div class="ctx">${bits.join('')}</div>`
-                     : `<div class="ctx"><span>no context stated</span></div>`;
+/* ---------- shared ---------- */
+function ctxChips(c){
+  const f=[['period',c.ctx_period],['unit',c.ctx_unit],['scope',c.ctx_scope],
+           ['basis',c.ctx_basis],['geography',c.ctx_geography],['as of',c.ctx_as_of],
+           ['denominator',c.ctx_denominator],['qualifier',c.ctx_other]].filter(x=>x[1]);
+  if(!f.length) return '<div class="ctx"><span class="none">no context stated</span></div>';
+  return '<div class="ctx">'+f.map(([k,v])=>
+    `<span class="kv"><b>${k}</b>${esc(v)}</span>`).join('')+'</div>';
+}
+function evidenceOf(c){
+  /* A table cell's located text is just the number. The assembled
+     "row label | column header | cell" reads as evidence; the bare cell does not. */
+  const m=(c.matched_text||'').trim(), sp=(c.span_text||'').trim();
+  return (m.length>=12 || !sp) ? m : sp;
 }
 function claimSide(c){
-  if(!c) return '<div class="side">claim missing</div>';
+  if(!c) return '<div class="side"><span class="ctx none">claim unavailable</span></div>';
+  const page = c.grounding_page ?? c.span_page;
   return `<div class="side">
-    <div class="doc">${esc(c.source_document)} &middot; page ${c.grounding_page ?? c.span_page}</div>
-    <div class="triple"><span class="s">${esc(c.subject)}</span> &mdash;
-      <span class="p">${esc(c.predicate)}</span> &rarr;
-      <span class="v">${esc(c.value)}</span></div>
-    ${ctxLine(c)}
-    <blockquote>${esc(c.matched_text || c.span_text)}</blockquote>
-    <div class="meta" style="margin-top:7px">
-      extraction ${(c.extraction_confidence??0).toFixed(2)} &middot;
-      grounding ${(c.grounding_score).toFixed(2)} &middot;
+    <div class="src">
+      <span class="file">${esc(c.source_document)}</span>
+      <span class="pill">p.${page}</span>
       <span class="pill">${esc(c.origin||'sentence')}</span>
-      ${c.bbox?' <span class="pill">bbox</span>':''}
-      ${c.value_in_span===false?' &middot; <span style="color:var(--bad)">value not in evidence</span>':''}
+      ${c.bbox?'<span class="pill">bbox</span>':''}
+    </div>
+    <div class="triple">
+      <span class="s">${esc(c.subject)}</span>
+      <span class="p">${esc(c.predicate)}</span>
+      <span class="v">${esc(c.value)}</span>
+    </div>
+    ${ctxChips(c)}
+    <blockquote>${esc(evidenceOf(c))}</blockquote>
+    <div class="side-meta">
+      <span>extraction ${(c.extraction_confidence??0).toFixed(2)}</span>
+      <span>grounding ${(c.grounding_score??0).toFixed(2)}</span>
+      ${c.modality && c.modality!=='reported'?`<span>${esc(c.modality)}</span>`:''}
+      ${c.value_in_span===false?'<span class="bad">value not in evidence</span>':''}
     </div></div>`;
+}
+function meter(label,v){
+  return `<span class="meter">${label}<span class="bar"><i style="width:${pct(v)}%"></i></span>
+          <b>${(v||0).toFixed(2)}</b></span>`;
 }
 
 /* ---------- relationships ---------- */
 async function viewRelations(){
-  const q = new URLSearchParams({limit:'200'});
-  if(FILTER.kind) q.set('kind', FILTER.kind);
-  const rels = await api('/api/relations?'+q);
-  const docs = await api('/api/documents');
+  const q=new URLSearchParams({limit:'200'});
+  if(FILTER.kind) q.set('kind',FILTER.kind);
+  const [rels,docs]=await Promise.all([api('/api/relations?'+q),api('/api/documents')]);
+  const counts=(STATS&&STATS.relations_by_kind)||{};
 
-  const filterBar = `<div class="row">
-    <select id="fk"><option value="">all relationship types</option>
-      ${KINDS.map(k=>`<option value="${k}" ${FILTER.kind===k?'selected':''}>${k}</option>`).join('')}
-    </select>
-    <span class="meta">${rels.length} cross-document relationship${rels.length===1?'':'s'}</span>
-    <button class="ghost" id="rebuild" style="margin-left:auto">rebuild all</button>
+  const bar=`<div class="toolbar">
+    <div class="chips">
+      <button class="chip ${FILTER.kind===''?'on':''}" data-k="">All</button>
+      ${KINDS.filter(k=>counts[k]).map(k=>
+        `<button class="chip ${FILTER.kind===k?'on':''}" data-k="${k}">${LABEL[k]}
+         <span class="c">${counts[k]}</span></button>`).join('')}
+    </div>
+    <span class="count spacer">${rels.length} shown</span>
+    <button class="btn ghost" id="rebuild">Rebuild all</button>
   </div>`;
 
   if(!rels.length){
-    $('#view').innerHTML = filterBar + `<div class="empty">
-      No cross-document relationships yet.<br>
-      ${docs.length<2?'Upload at least two documents that discuss overlapping facts.':'Try rebuilding, or lower the match threshold.'}
-    </div>`;
-    wireRelBar(); return;
+    $('#view').innerHTML=bar+`<div class="empty">
+      <div class="big">No relationships of this type</div>
+      ${docs.length<2?'Upload at least two documents that discuss overlapping facts.'
+                     :'Try another filter, or rebuild after changing thresholds.'}</div>`;
+    wireRel(); return;
   }
 
-  $('#view').innerHTML = filterBar + rels.map(r=>`
-    <div class="card">
-      <div class="row" style="margin-bottom:2px">
-        <span class="badge ${r.kind}">${r.kind}</span>
-        <span class="meta">confidence ${r.confidence.toFixed(2)}
-          &middot; match ${(r.match_confidence??0).toFixed(2)}
-          &middot; verdict ${(r.relationship_confidence??0).toFixed(2)}
-          &middot; ${r.decided_by === 'llm' ? 'LLM adjudication' : 'deterministic rules'}
-          ${r.value_delta && r.value_delta.percentage_point_difference!==undefined
-            ? ` &middot; ${r.value_delta.percentage_point_difference} pp apart` : ''}</span>
+  $('#view').innerHTML=bar+rels.map(r=>{
+    const pp=r.value_delta&&r.value_delta.percentage_point_difference;
+    return `<div class="card">
+      <div class="card-head">
+        <span class="badge ${r.kind}">${LABEL[r.kind]||r.kind}</span>
+        <div class="meters">
+          ${meter('confidence',r.confidence)}
+          ${meter('match',r.match_confidence)}
+          ${meter('verdict',r.relationship_confidence)}
+        </div>
+        <span class="decided spacer">
+          ${r.decided_by==='llm'?'LLM adjudication':'Deterministic rules'}
+          ${pp!==undefined?` · ${pp} pp apart`:''}
+        </span>
       </div>
       <div class="pair">${claimSide(r.claim_a)}${claimSide(r.claim_b)}</div>
-      <div class="why"><b>Why:</b> ${esc(r.explanation)}</div>
-      ${Object.keys(r.context_diff||{}).length ? `<div class="meta" style="margin-top:7px">
-        context differences: ${Object.entries(r.context_diff)
-          .map(([k,v])=>`${esc(k)} (${esc(v[0]??'—')} vs ${esc(v[1]??'—')})`).join(' &middot; ')}</div>`:''}
-      <details><summary>show reasoning trace (${(r.reasoning_trace||[]).length} steps)</summary>
+      <div class="why"><span class="lbl">Why</span>${esc(r.explanation)}
+        ${Object.keys(r.context_diff||{}).length?`<div class="diffs">${
+          Object.entries(r.context_diff).map(([k,v])=>
+            `<span class="diff">${esc(k)}: ${esc(v[0]??'—')} vs ${esc(v[1]??'—')}</span>`
+          ).join('')}</div>`:''}
+      </div>
+      <details><summary>Reasoning trace · ${(r.reasoning_trace||[]).length} steps</summary>
         <ul class="trace">${(r.reasoning_trace||[]).map(t=>`<li>${esc(t)}</li>`).join('')}</ul>
       </details>
-    </div>`).join('');
-  wireRelBar();
+    </div>`;}).join('');
+  wireRel();
 }
-function wireRelBar(){
-  const sel = $('#fk'); if(sel) sel.onchange = e => { FILTER.kind = e.target.value; render(); };
-  const rb = $('#rebuild');
-  if(rb) rb.onclick = async () => { rb.disabled = true; rb.textContent='rebuilding…';
+function wireRel(){
+  document.querySelectorAll('[data-k]').forEach(b=>b.onclick=()=>{
+    FILTER.kind=b.dataset.k; render(); });
+  const rb=$('#rebuild');
+  if(rb) rb.onclick=async()=>{ rb.disabled=true; rb.textContent='Rebuilding…';
     await api('/api/relations/rebuild',{method:'POST'});
-    setTimeout(()=>{rb.disabled=false; render();}, 4000); };
+    setTimeout(()=>render(),3500); };
 }
 
 /* ---------- claims ---------- */
-async function viewClaims(needsReview){
-  const q = new URLSearchParams({limit:'300'});
-  if(needsReview) q.set('needs_review','true');
-  if(FILTER.search) q.set('search', FILTER.search);
-  if(FILTER.doc) q.set('doc_id', FILTER.doc);
-  const [claims, docs] = await Promise.all([api('/api/claims?'+q), api('/api/documents')]);
+async function viewClaims(review){
+  const q=new URLSearchParams({limit:'300'});
+  if(review) q.set('needs_review','true');
+  if(FILTER.search) q.set('search',FILTER.search);
+  if(FILTER.doc) q.set('doc_id',FILTER.doc);
+  const [claims,docs]=await Promise.all([api('/api/claims?'+q),api('/api/documents')]);
 
-  const bar = `<div class="row">
-    <input type="text" id="q" placeholder="search subject, predicate or value"
+  const bar=`<div class="toolbar">
+    <input type="text" id="q" placeholder="Search subject, predicate or value"
            value="${esc(FILTER.search)}">
-    <select id="fd"><option value="">all documents</option>
-      ${docs.map(d=>`<option value="${d.doc_id}" ${FILTER.doc===d.doc_id?'selected':''}>${esc(d.filename)}</option>`).join('')}
-    </select>
-    <span class="meta">${claims.length} claim${claims.length===1?'':'s'}</span></div>`;
+    <select id="fd"><option value="">All documents</option>
+      ${docs.map(d=>`<option value="${d.doc_id}" ${FILTER.doc===d.doc_id?'selected':''}>
+        ${esc(d.filename)}</option>`).join('')}</select>
+    <span class="count spacer">${claims.length} claim${claims.length===1?'':'s'}</span></div>`;
 
-  if(!claims.length){ $('#view').innerHTML = bar +
-    `<div class="empty">${needsReview?'Nothing flagged for review.':'No claims yet — upload a PDF.'}</div>`;
-    wireClaimBar(); return; }
-
-  if(needsReview){
-    $('#view').innerHTML = bar + claims.map(c=>`
-      <div class="card">
-        <div class="doc">${esc(c.source_document)} &middot; claimed page ${c.span_page}${
-          c.grounding_page && c.grounding_page!==c.span_page ? ` &middot; found on page ${c.grounding_page}` : ''}</div>
-        <div class="triple"><span class="s">${esc(c.subject)}</span> &mdash;
-          <span class="p">${esc(c.predicate)}</span> &rarr;
-          <span class="v">${esc(c.value)}</span></div>
-        ${ctxLine(c)}
-        <div class="meta">what the model quoted:</div>
-        <blockquote>${esc(c.span_text)}</blockquote>
-        <div class="meta" style="margin-top:8px">what the document actually contains at the best match:</div>
-        <blockquote>${esc(c.matched_text || '— not found anywhere in the document —')}</blockquote>
-        <ul class="rlist">${(c.review_reasons||[]).map(r=>`<li>${esc(r)}</li>`).join('')}</ul>
-        <div class="meta" style="margin-top:7px">final confidence ${c.final_confidence.toFixed(2)}
-          &middot; grounding ${c.grounding_score.toFixed(2)}</div>
-      </div>`).join('');
-  } else {
-    $('#view').innerHTML = bar + `<div class="card"><table>
-      <tr><th>subject</th><th>predicate</th><th>value</th><th>context</th>
-          <th>evidence</th><th>conf</th></tr>
-      ${claims.map(c=>`<tr>
-        <td>${esc(c.subject)}</td><td>${esc(c.predicate)}</td>
-        <td style="color:var(--ok);font-weight:600">${esc(c.value)}</td>
-        <td class="meta">${[c.ctx_period,c.ctx_unit,c.ctx_scope,c.ctx_other]
-            .filter(Boolean).map(esc).join('<br>')||'—'}</td>
-        <td><span class="pill">p${c.grounding_page ?? c.span_page}</span>
-            <div style="margin-top:3px;color:var(--dim);max-width:330px">${esc((c.matched_text||c.span_text).slice(0,150))}…</div></td>
-        <td>${c.final_confidence.toFixed(2)}</td></tr>`).join('')}
-    </table></div>`;
+  if(!claims.length){
+    $('#view').innerHTML=bar+`<div class="empty"><div class="big">
+      ${review?'Nothing flagged for review':'No claims yet'}</div>
+      ${review?'Every extracted claim was grounded successfully.':'Upload a PDF to begin.'}</div>`;
+    wireClaims(); return;
   }
-  wireClaimBar();
+
+  if(review){
+    $('#view').innerHTML=bar+claims.map(c=>`
+      <div class="card">
+        <div class="card-head">
+          <span class="badge ${c.quarantined?'contradiction':'underspecified'}">
+            ${c.quarantined?'Quarantined':'Needs review'}</span>
+          <span class="file">${esc(c.source_document)}</span>
+          <span class="pill">claimed p.${c.span_page}</span>
+          ${c.grounding_page&&c.grounding_page!==c.span_page
+            ?`<span class="pill">found p.${c.grounding_page}</span>`:''}
+        </div>
+        <div class="side">
+          <div class="triple"><span class="s">${esc(c.subject)}</span>
+            <span class="p">${esc(c.predicate)}</span>
+            <span class="v">${esc(c.value)}</span></div>
+          ${ctxChips(c)}
+          <div class="side-meta" style="margin:0 0 6px">What the extractor quoted</div>
+          <blockquote>${esc(c.span_text)}</blockquote>
+          <div class="side-meta" style="margin:12px 0 6px">Closest text actually in the document</div>
+          <blockquote>${esc(c.matched_text || '— not found anywhere in the document —')}</blockquote>
+          <ul class="rlist">${(c.review_reasons||[]).map(r=>`<li>${esc(r)}</li>`).join('')}</ul>
+        </div></div>`).join('');
+  } else {
+    $('#view').innerHTML=bar+`<div class="card"><div class="tbl-wrap"><table>
+      <thead><tr><th>Subject</th><th>Predicate</th><th>Value</th><th>Context</th>
+        <th>Evidence</th><th>Confidence</th></tr></thead><tbody>
+      ${claims.map(c=>`<tr>
+        <td>${esc(c.subject)}</td>
+        <td><b>${esc(c.predicate)}</b></td>
+        <td class="num">${esc(c.value)}</td>
+        <td>${[c.ctx_period,c.ctx_unit,c.ctx_scope,c.ctx_basis].filter(Boolean)
+              .map(v=>`<span class="pill">${esc(v)}</span>`).join(' ')||
+              '<span class="ctx none">—</span>'}</td>
+        <td><span class="pill">p.${c.grounding_page ?? c.span_page}</span>
+            <span class="pill">${esc(c.origin||'sentence')}</span>
+            <div class="ev">${esc(evidenceOf(c).slice(0,140))}${
+              evidenceOf(c).length>140?'…':''}</div></td>
+        <td><span class="confbar"><span class="bar">
+            <i style="width:${pct(c.final_confidence)}%"></i></span>
+            ${(c.final_confidence??0).toFixed(2)}</span></td></tr>`).join('')}
+      </tbody></table></div></div>`;
+  }
+  wireClaims();
 }
-function wireClaimBar(){
-  const q = $('#q');
-  if(q) q.onkeydown = e => { if(e.key==='Enter'){ FILTER.search = e.target.value; render(); } };
-  const d = $('#fd'); if(d) d.onchange = e => { FILTER.doc = e.target.value; render(); };
+function wireClaims(){
+  const q=$('#q');
+  if(q) q.onkeydown=e=>{ if(e.key==='Enter'){ FILTER.search=e.target.value; render(); } };
+  const d=$('#fd'); if(d) d.onchange=e=>{ FILTER.doc=e.target.value; render(); };
 }
 
-/* ---------- documents + upload ---------- */
-async function viewDocuments(){
-  const [docs, jobs] = await Promise.all([api('/api/documents'), api('/api/jobs')]);
-  const active = jobs.filter(j=>['queued','running'].includes(j.status));
+/* ---------- documents ---------- */
+async function viewDocs(){
+  const [docs,jobs]=await Promise.all([api('/api/documents'),api('/api/jobs')]);
+  const active=jobs.filter(j=>['queued','running'].includes(j.status));
 
-  $('#view').innerHTML = `
-    <div class="card">
+  $('#view').innerHTML=`
+    <div class="card"><div class="side">
       <div class="drop" id="drop">
-        <b>Drop a PDF here</b> or click to choose &mdash; any PDF, no prior configuration
+        <div class="big">Drop a PDF here, or click to choose</div>
+        <div class="sub">Any PDF. Deterministic extraction — no API key required.</div>
         <input type="file" id="file" accept="application/pdf" multiple hidden>
       </div>
-      <div id="jobs">${jobs.map(jobHtml).join('')}</div>
-    </div>
-    ${docs.length ? `<div class="card"><table>
-      <tr><th>document</th><th>pages</th><th>claims</th><th>status</th><th></th></tr>
-      ${docs.map(d=>`<tr>
-        <td>${esc(d.filename)}<div class="meta">${esc(d.doc_id)}</div></td>
-        <td>${d.pages_read}${d.pages_read!==d.n_pages?` / ${d.n_pages}`:''}</td>
-        <td>${d.claim_count}</td>
+      <div id="jobs">${jobs.slice(0,6).map(jobHtml).join('')}</div>
+    </div></div>
+    ${docs.length?`<div class="card"><div class="tbl-wrap"><table>
+      <thead><tr><th>Document</th><th>Pages</th><th>Claims</th><th>Tables</th>
+        <th>Entity</th><th>Status</th><th></th></tr></thead><tbody>
+      ${docs.map(d=>{const st=d.stats||{};return `<tr>
+        <td><b>${esc(d.filename)}</b><div class="ev">${esc(d.doc_id)}</div></td>
+        <td class="num">${d.pages_read}${d.pages_read!==d.n_pages?` / ${d.n_pages}`:''}</td>
+        <td class="num">${d.claim_count}</td>
+        <td class="num">${st.extractor_tables_found ?? '—'}</td>
+        <td>${esc(st.extractor_primary_entity ?? '—')}</td>
         <td><span class="pill">${esc(d.status)}</span>
-          ${(d.stats&&d.stats.chunk_errors&&d.stats.chunk_errors.length)
-            ? `<div class="meta" style="color:var(--warn)">${d.stats.chunk_errors.length} chunk error(s)</div>`:''}</td>
-        <td><button class="ghost" data-del="${d.doc_id}">remove</button></td></tr>`).join('')}
-    </table></div>` : '<div class="empty">No documents yet.</div>'}`;
+          ${(st.errors&&st.errors.length)?`<div class="ev" style="color:var(--amber)">
+            ${st.errors.length} warning(s)</div>`:''}</td>
+        <td><button class="btn ghost" data-del="${d.doc_id}">Remove</button></td></tr>`;
+      }).join('')}</tbody></table></div></div>`
+      :'<div class="empty"><div class="big">No documents yet</div>Upload a PDF to begin.</div>'}`;
 
-  const drop = $('#drop'), input = $('#file');
-  drop.onclick = () => input.click();
-  drop.ondragover = e => { e.preventDefault(); drop.classList.add('hot'); };
-  drop.ondragleave = () => drop.classList.remove('hot');
-  drop.ondrop = e => { e.preventDefault(); drop.classList.remove('hot'); send(e.dataTransfer.files); };
-  input.onchange = e => send(e.target.files);
-  document.querySelectorAll('[data-del]').forEach(b => b.onclick = async () => {
-    await api('/api/documents/'+b.dataset.del, {method:'DELETE'}); render(); });
-
-  if(active.length) setTimeout(()=>{ if(TAB==='documents') viewDocuments(); }, 2500);
+  const drop=$('#drop'),input=$('#file');
+  drop.onclick=()=>input.click();
+  drop.ondragover=e=>{e.preventDefault();drop.classList.add('hot');};
+  drop.ondragleave=()=>drop.classList.remove('hot');
+  drop.ondrop=e=>{e.preventDefault();drop.classList.remove('hot');send(e.dataTransfer.files);};
+  input.onchange=e=>send(e.target.files);
+  document.querySelectorAll('[data-del]').forEach(b=>b.onclick=async()=>{
+    await api('/api/documents/'+b.dataset.del,{method:'DELETE'}); render(); });
+  if(active.length) setTimeout(()=>{ if(TAB==='documents') viewDocs(); },2000);
 }
 function jobHtml(j){
-  const d = j.detail || {};
-  let line = j.stage || j.status;
-  if(j.stage==='extracting' && d.total) line = `extracting claims — chunk ${d.done}/${d.total}`;
-  if(j.stage==='grounding') line = `verifying ${d.total} quotes against the document`;
-  if(j.stage==='matching') line = `matching — ${d.candidate_pairs ?? '…'} candidate pairs`;
-  if(j.stage==='adjudicating') line = `adjudicating ambiguous pairs ${d.done??0}/${d.total??d.ambiguous??''}`;
-  const pct = (j.stage==='extracting' && d.total) ? Math.round(100*d.done/d.total)
-            : j.status==='done' ? 100 : null;
-  const colour = j.status==='failed' ? 'var(--bad)' : j.status==='done' ? 'var(--ok)' : 'var(--accent)';
-  const r = j.report;
-  return `<div style="margin-top:12px">
-    <div class="meta"><b style="color:${colour}">${esc(j.status)}</b> — ${esc(j.filename)} — ${esc(line)}
-      ${j.elapsed?` · ${j.elapsed}s`:''}</div>
-    ${pct!==null?`<div class="bar"><i style="width:${pct}%"></i></div>`:''}
-    ${j.error?`<div class="meta" style="color:var(--bad)">${esc(j.error)}</div>`:''}
-    ${r?`<div class="meta">${r.claims_stored} claims · ${r.claims_grounded} grounded ·
-        ${r.claims_needing_review} flagged for review${
-        j.relations?` · ${JSON.stringify(j.relations.by_kind)}`:''}</div>`:''}
-  </div>`;
+  const d=j.detail||{};
+  let line=j.stage||j.status;
+  if(j.stage==='extracting'&&d.total) line=`Extracting — page ${d.done} of ${d.total}`;
+  else if(j.stage==='grounding') line=`Verifying ${d.total} pieces of evidence`;
+  else if(j.stage==='matching') line=`Matching — ${d.candidate_pairs ?? '…'} candidate pairs`;
+  else if(j.stage==='adjudicating') line=`Adjudicating ${d.done??0}/${d.total??''}`;
+  else if(j.stage==='complete') line='Complete';
+  const p=(j.stage==='extracting'&&d.total)?Math.round(100*d.done/d.total)
+          :(j.status==='done'?100:null);
+  const col=j.status==='failed'?'var(--bad)':j.status==='done'?'var(--ok)':'var(--accent)';
+  const r=j.report;
+  return `<div class="job">
+    <div class="job-head"><span class="st" style="color:${col}">${esc(j.status)}</span>
+      <span class="file">${esc(j.filename)}</span>
+      <span class="count spacer">${esc(line)}${j.elapsed?` · ${j.elapsed}s`:''}</span></div>
+    ${p!==null?`<div class="progress"><i style="width:${p}%"></i></div>`:''}
+    ${j.error?`<div class="ev" style="color:var(--bad);margin-top:7px">${esc(j.error)}</div>`:''}
+    ${r?`<div class="ev" style="margin-top:7px">${r.claims_stored} claims ·
+       ${r.claims_grounded} grounded · ${r.claims_quarantined} quarantined
+       ${r.skipped_resume?' · already ingested, skipped':''}</div>`:''}</div>`;
 }
 async function send(files){
   for(const f of files){
-    const fd = new FormData(); fd.append('file', f);
-    await fetch('/api/documents', {method:'POST', body:fd});
+    const fd=new FormData(); fd.append('file',f);
+    await fetch('/api/documents',{method:'POST',body:fd});
   }
-  viewDocuments();
+  viewDocs();
 }
 
 /* ---------- shell ---------- */
-async function renderStats(){
-  const s = await api('/api/stats');
-  const k = s.relations_by_kind || {};
-  $('#stats').innerHTML = [
-    ['documents', s.documents], ['claims', s.claims],
-    ['from tables', s.claims_from_tables||0],
-    ['corroborations', k.corroboration||0], ['contradictions', k.contradiction||0],
-    ['reconciled', k.reconciled||0], ['quarantined', s.claims_quarantined||0],
-  ].map(([l,v])=>`<div class="stat"><b>${v}</b><span>${l}</span></div>`).join('')
-   + `<div class="stat"><b style="color:${s.engine.requires_api_key?'var(--warn)':'var(--ok)'}">`
-   + `${s.engine.extractor}</b><span>engine${s.engine.requires_api_key?'':' · no API key'}</span></div>`;
+async function renderHeader(){
+  const s=STATS=await api('/api/stats');
+  const k=s.relations_by_kind||{}, e=s.engine||{};
+  const noKey=!e.requires_api_key;
+  $('#engine').innerHTML=`<div class="engine ${noKey?'':'warn'}"><span class="dot"></span>
+    ${esc(e.extractor||'—')} engine${noKey?' · no API key required':''}</div>`;
+  $('#metrics').innerHTML=[
+    ['Documents',s.documents,''],['Claims',s.claims,''],
+    ['From tables',s.claims_from_tables||0,''],
+    ['Corroborations',k.corroboration||0,'ok'],
+    ['Contradictions',k.contradiction||0,'bad'],
+    ['Reconciled',k.reconciled||0,'violet'],
+    ['Quarantined',s.claims_quarantined||0,'amber'],
+  ].map(([l,v,c])=>`<div class="metric ${c}"><div class="n">${v}</div>
+    <div class="l">${l}</div></div>`).join('');
 }
-const TABS = [['relations','Relationships'],['claims','Claims'],
-              ['review','Needs review'],['documents','Documents & upload']];
+const TABS=[['relations','Relationships'],['claims','Claims'],
+            ['review','Needs review'],['documents','Documents']];
 function renderTabs(){
-  $('#tabs').innerHTML = TABS.map(([k,l])=>
-    `<div class="tab ${TAB===k?'on':''}" data-t="${k}">${l}</div>`).join('');
-  document.querySelectorAll('[data-t]').forEach(t =>
-    t.onclick = () => { TAB = t.dataset.t; render(); });
+  const s=STATS||{}, k=s.relations_by_kind||{};
+  const totals={relations:Object.entries(k).filter(([kk])=>kk!=='unrelated')
+                  .reduce((a,[,v])=>a+v,0),
+                claims:s.claims, review:s.claims_needing_review, documents:s.documents};
+  $('#tabs').innerHTML=TABS.map(([key,label])=>
+    `<button class="tab ${TAB===key?'on':''}" data-t="${key}">${label}
+     ${totals[key]!==undefined?`<span class="cnt">${totals[key]}</span>`:''}</button>`).join('');
+  document.querySelectorAll('[data-t]').forEach(t=>t.onclick=()=>{TAB=t.dataset.t;render();});
 }
 async function render(){
-  renderTabs();
   try{
+    await renderHeader(); renderTabs();
+    $('#view').innerHTML='<div class="skel"></div><div class="skel"></div>';
     if(TAB==='relations') await viewRelations();
     else if(TAB==='claims') await viewClaims(false);
     else if(TAB==='review') await viewClaims(true);
-    else await viewDocuments();
-    await renderStats();
-  }catch(e){ $('#view').innerHTML = `<div class="empty" style="color:var(--bad)">${esc(e.message)}</div>`; }
+    else await viewDocs();
+  }catch(e){
+    $('#view').innerHTML=`<div class="empty"><div class="big" style="color:var(--bad)">
+      Could not load</div>${esc(e.message)}</div>`;
+  }
 }
+initTheme();
 render();
-setInterval(renderStats, 8000);
+setInterval(()=>{ if(TAB!=='documents') renderHeader().catch(()=>{}); },10000);
 </script>
 </body>
 </html>
