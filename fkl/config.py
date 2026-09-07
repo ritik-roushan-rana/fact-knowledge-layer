@@ -59,12 +59,12 @@ class Config:
     reasoning_effort: str = _env("FKL_REASONING_EFFORT", "low")
     # Tokens-per-minute ceiling to pace against. 0 disables pacing.
     tpm_limit: int = _env_int("FKL_TPM_LIMIT", 8000)
-    expected_output_tokens: int = _env_int("FKL_EXPECTED_OUTPUT_TOKENS", 2000)
+    expected_output_tokens: int = _env_int("FKL_EXPECTED_OUTPUT_TOKENS", 2200)
 
     # --- extraction ---
     max_tokens: int = _env_int("FKL_MAX_TOKENS", 6000)
     # Characters of page text per LLM extraction call.
-    chunk_chars: int = _env_int("FKL_CHUNK_CHARS", 9000)
+    chunk_chars: int = _env_int("FKL_CHUNK_CHARS", 13000)
     extract_concurrency: int = _env_int("FKL_EXTRACT_CONCURRENCY", 2)
 
     # --- grounding ---

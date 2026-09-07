@@ -88,7 +88,7 @@ class TokenBucket:
 
 def estimate_tokens(text: str) -> int:
     """Rough char->token estimate. Only needs to be good enough to pace."""
-    return max(1, len(text) // 3)
+    return max(1, len(text) // 4)
 
 
 class LLMClient:
@@ -124,9 +124,11 @@ class LLMClient:
         if CONFIG.reasoning_effort:
             params["reasoning_effort"] = CONFIG.reasoning_effort
 
-        # Budget = what we send plus what we expect back.
+        # Budget = what we send plus what we expect back. English averages
+        # ~4 chars/token; over-estimating here directly costs throughput,
+        # because reserved-but-unused budget is not refunded to the window.
         prompt_chars = sum(len(m.get("content") or "") for m in messages)
-        estimate = (prompt_chars // 3) + CONFIG.expected_output_tokens
+        estimate = (prompt_chars // 4) + CONFIG.expected_output_tokens
 
         attempts = 0
         while True:

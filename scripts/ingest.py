@@ -13,7 +13,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from fkl.pipeline import ingest_pdf  # noqa: E402
+from fkl.pipeline import build_relations, ingest_pdf  # noqa: E402
 from fkl.store import Store  # noqa: E402
 
 
@@ -24,6 +24,10 @@ def main() -> int:
                     help="Only read the first N pages (useful for a fast smoke test).")
     ap.add_argument("--db", default=None)
     ap.add_argument("--json", action="store_true", help="Print the report as JSON.")
+    ap.add_argument("--no-relate", action="store_true",
+                    help="Skip cross-document relationship building.")
+    ap.add_argument("--no-escalate", action="store_true",
+                    help="Rules only; never escalate ambiguous pairs to the LLM.")
     args = ap.parse_args()
 
     store = Store(args.db)
@@ -49,6 +53,13 @@ def main() -> int:
             print(f"  stored={r['claims_stored']} grounded={r['claims_grounded']} "
                   f"review={r['claims_needing_review']} "
                   f"tokens_in={r['input_tokens']} tokens_out={r['output_tokens']}")
+
+    if not args.no_relate:
+        print("\n=== building cross-document relationships ===", flush=True)
+        rel = build_relations(store, escalate=not args.no_escalate, progress=progress)
+        reports.append({"relations": rel.as_dict()})
+        if not args.json:
+            print(f"  {rel.as_dict()}")
 
     if args.json:
         print(json.dumps(reports, indent=2))

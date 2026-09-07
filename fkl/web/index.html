@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fact Knowledge Layer</title>
+<style>
+  :root{
+    --bg:#0f1115; --panel:#171a21; --panel2:#1e222b; --line:#2a2f3a;
+    --fg:#e6e9ef; --dim:#98a2b3; --accent:#6aa9ff;
+    --ok:#3fb950; --bad:#f85149; --warn:#d29922; --info:#a371f7;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);
+       font:14px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+  header{padding:18px 22px;border-bottom:1px solid var(--line);
+         display:flex;gap:22px;align-items:center;flex-wrap:wrap;
+         position:sticky;top:0;background:var(--bg);z-index:10}
+  h1{font-size:17px;margin:0;font-weight:650;letter-spacing:.2px}
+  h1 small{display:block;font-weight:400;color:var(--dim);font-size:11.5px;margin-top:2px}
+  .stats{display:flex;gap:16px;flex-wrap:wrap;margin-left:auto}
+  .stat{text-align:right}
+  .stat b{display:block;font-size:17px}
+  .stat span{color:var(--dim);font-size:11px;text-transform:uppercase;letter-spacing:.6px}
+  main{padding:20px 22px;max-width:1180px;margin:0 auto}
+  .tabs{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap}
+  .tab{padding:7px 14px;border:1px solid var(--line);background:var(--panel);
+       border-radius:7px;cursor:pointer;color:var(--dim);font-size:13px}
+  .tab.on{background:var(--panel2);color:var(--fg);border-color:var(--accent)}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;
+        padding:15px 17px;margin-bottom:13px}
+  .badge{display:inline-block;padding:2.5px 9px;border-radius:999px;font-size:11px;
+         font-weight:650;text-transform:uppercase;letter-spacing:.5px}
+  .corroboration{background:rgba(63,185,80,.16);color:var(--ok)}
+  .contradiction{background:rgba(248,81,73,.16);color:var(--bad)}
+  .reconciled{background:rgba(163,113,247,.16);color:var(--info)}
+  .unresolved{background:rgba(210,153,34,.16);color:var(--warn)}
+  .pair{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
+  @media(max-width:820px){.pair{grid-template-columns:1fr}}
+  .side{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:11px 13px}
+  .doc{font-family:var(--mono);font-size:11px;color:var(--accent);
+       word-break:break-all;margin-bottom:7px}
+  .triple{font-size:13.5px;margin-bottom:7px}
+  .triple .s{color:var(--dim)} .triple .p{font-weight:600}
+  .triple .v{color:var(--ok);font-weight:650}
+  .ctx{font-size:11.5px;color:var(--dim);font-family:var(--mono);margin-bottom:8px}
+  .ctx span{margin-right:9px}
+  blockquote{margin:0;padding:8px 11px;border-left:3px solid var(--accent);
+             background:rgba(106,169,255,.06);font-size:12.5px;color:#c9d1d9;
+             white-space:pre-wrap;max-height:118px;overflow:auto;border-radius:0 5px 5px 0}
+  .why{margin-top:11px;font-size:13px;color:#c9d1d9;
+       border-top:1px solid var(--line);padding-top:11px}
+  details{margin-top:9px}
+  summary{cursor:pointer;color:var(--dim);font-size:12px;user-select:none}
+  .trace{list-style:none;padding:9px 0 0;margin:0;font-family:var(--mono);font-size:11.5px}
+  .trace li{padding:3.5px 0 3.5px 15px;border-left:2px solid var(--line);
+            margin-left:3px;color:var(--dim)}
+  .trace li:last-child{color:var(--fg)}
+  .meta{color:var(--dim);font-size:11.5px;font-family:var(--mono)}
+  .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
+  input[type=text],select{background:var(--panel2);border:1px solid var(--line);
+    color:var(--fg);padding:7px 10px;border-radius:7px;font-size:13px}
+  input[type=text]{min-width:230px}
+  button{background:var(--accent);border:0;color:#04101f;font-weight:650;
+         padding:8px 15px;border-radius:7px;cursor:pointer;font-size:13px}
+  button.ghost{background:var(--panel2);color:var(--fg);border:1px solid var(--line);font-weight:500}
+  button:disabled{opacity:.5;cursor:default}
+  .drop{border:1.5px dashed var(--line);border-radius:10px;padding:26px;text-align:center;
+        color:var(--dim);cursor:pointer}
+  .drop.hot{border-color:var(--accent);background:rgba(106,169,255,.06)}
+  .bar{height:5px;background:var(--panel2);border-radius:3px;overflow:hidden;margin-top:9px}
+  .bar>i{display:block;height:100%;background:var(--accent);transition:width .4s}
+  .empty{color:var(--dim);padding:34px;text-align:center}
+  table{width:100%;border-collapse:collapse;font-size:12.5px}
+  th,td{text-align:left;padding:7px 9px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--dim);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.5px}
+  .pill{font-family:var(--mono);font-size:11px;padding:1.5px 6px;border-radius:4px;
+        background:var(--panel2);color:var(--dim)}
+  .rlist{display:flex;gap:5px;flex-wrap:wrap;margin-top:5px}
+  .rlist li{list-style:none;font-size:11.5px;color:var(--warn);
+            background:rgba(210,153,34,.1);padding:2px 7px;border-radius:4px}
+</style>
+</head>
+<body>
+<header>
+  <h1>Fact Knowledge Layer
+    <small>claims grounded in source evidence, compared across documents</small></h1>
+  <div class="stats" id="stats"></div>
+</header>
+
+<main>
+  <div class="tabs" id="tabs"></div>
+  <div id="view"></div>
+</main>
+
+<script>
+const $ = (s,r=document)=>r.querySelector(s);
+const esc = s => String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const KINDS = ['contradiction','reconciled','corroboration','unresolved'];
+let TAB = 'relations', FILTER = {kind:'', search:'', doc:''};
+
+async function api(path, opts){ const r = await fetch(path, opts);
+  if(!r.ok) throw new Error((await r.json().catch(()=>({detail:r.statusText}))).detail);
+  return r.json(); }
+
+/* ---------- shared renderers ---------- */
+function ctxLine(c){
+  const bits = [];
+  if(c.ctx_period) bits.push(`<span>period: ${esc(c.ctx_period)}</span>`);
+  if(c.ctx_unit)   bits.push(`<span>unit: ${esc(c.ctx_unit)}</span>`);
+  if(c.ctx_scope)  bits.push(`<span>scope: ${esc(c.ctx_scope)}</span>`);
+  if(c.ctx_other)  bits.push(`<span>qual: ${esc(c.ctx_other)}</span>`);
+  return bits.length ? `<div class="ctx">${bits.join('')}</div>`
+                     : `<div class="ctx"><span>no context stated</span></div>`;
+}
+function claimSide(c){
+  if(!c) return '<div class="side">claim missing</div>';
+  return `<div class="side">
+    <div class="doc">${esc(c.source_document)} &middot; page ${c.grounding_page ?? c.span_page}</div>
+    <div class="triple"><span class="s">${esc(c.subject)}</span> &mdash;
+      <span class="p">${esc(c.predicate)}</span> &rarr;
+      <span class="v">${esc(c.value)}</span></div>
+    ${ctxLine(c)}
+    <blockquote>${esc(c.matched_text || c.span_text)}</blockquote>
+    <div class="meta" style="margin-top:7px">
+      confidence ${(c.final_confidence).toFixed(2)} &middot;
+      grounding ${(c.grounding_score).toFixed(2)}
+      ${c.value_in_span===false?' &middot; <span style="color:var(--bad)">value not in evidence</span>':''}
+    </div></div>`;
+}
+
+/* ---------- relationships ---------- */
+async function viewRelations(){
+  const q = new URLSearchParams({limit:'200'});
+  if(FILTER.kind) q.set('kind', FILTER.kind);
+  const rels = await api('/api/relations?'+q);
+  const docs = await api('/api/documents');
+
+  const filterBar = `<div class="row">
+    <select id="fk"><option value="">all relationship types</option>
+      ${KINDS.map(k=>`<option value="${k}" ${FILTER.kind===k?'selected':''}>${k}</option>`).join('')}
+    </select>
+    <span class="meta">${rels.length} cross-document relationship${rels.length===1?'':'s'}</span>
+    <button class="ghost" id="rebuild" style="margin-left:auto">rebuild all</button>
+  </div>`;
+
+  if(!rels.length){
+    $('#view').innerHTML = filterBar + `<div class="empty">
+      No cross-document relationships yet.<br>
+      ${docs.length<2?'Upload at least two documents that discuss overlapping facts.':'Try rebuilding, or lower the match threshold.'}
+    </div>`;
+    wireRelBar(); return;
+  }
+
+  $('#view').innerHTML = filterBar + rels.map(r=>`
+    <div class="card">
+      <div class="row" style="margin-bottom:2px">
+        <span class="badge ${r.kind}">${r.kind}</span>
+        <span class="meta">similarity ${r.similarity.toFixed(3)}
+          &middot; confidence ${r.confidence.toFixed(2)}
+          &middot; decided by ${r.decided_by === 'llm' ? 'LLM adjudication' : 'deterministic rules'}</span>
+      </div>
+      <div class="pair">${claimSide(r.claim_a)}${claimSide(r.claim_b)}</div>
+      <div class="why"><b>Why:</b> ${esc(r.explanation)}</div>
+      ${Object.keys(r.context_diff||{}).length ? `<div class="meta" style="margin-top:7px">
+        context differences: ${Object.entries(r.context_diff)
+          .map(([k,v])=>`${esc(k)} (${esc(v[0]??'—')} vs ${esc(v[1]??'—')})`).join(' &middot; ')}</div>`:''}
+      <details><summary>show reasoning trace (${(r.reasoning_trace||[]).length} steps)</summary>
+        <ul class="trace">${(r.reasoning_trace||[]).map(t=>`<li>${esc(t)}</li>`).join('')}</ul>
+      </details>
+    </div>`).join('');
+  wireRelBar();
+}
+function wireRelBar(){
+  const sel = $('#fk'); if(sel) sel.onchange = e => { FILTER.kind = e.target.value; render(); };
+  const rb = $('#rebuild');
+  if(rb) rb.onclick = async () => { rb.disabled = true; rb.textContent='rebuilding…';
+    await api('/api/relations/rebuild',{method:'POST'});
+    setTimeout(()=>{rb.disabled=false; render();}, 4000); };
+}
+
+/* ---------- claims ---------- */
+async function viewClaims(needsReview){
+  const q = new URLSearchParams({limit:'300'});
+  if(needsReview) q.set('needs_review','true');
+  if(FILTER.search) q.set('search', FILTER.search);
+  if(FILTER.doc) q.set('doc_id', FILTER.doc);
+  const [claims, docs] = await Promise.all([api('/api/claims?'+q), api('/api/documents')]);
+
+  const bar = `<div class="row">
+    <input type="text" id="q" placeholder="search subject, predicate or value"
+           value="${esc(FILTER.search)}">
+    <select id="fd"><option value="">all documents</option>
+      ${docs.map(d=>`<option value="${d.doc_id}" ${FILTER.doc===d.doc_id?'selected':''}>${esc(d.filename)}</option>`).join('')}
+    </select>
+    <span class="meta">${claims.length} claim${claims.length===1?'':'s'}</span></div>`;
+
+  if(!claims.length){ $('#view').innerHTML = bar +
+    `<div class="empty">${needsReview?'Nothing flagged for review.':'No claims yet — upload a PDF.'}</div>`;
+    wireClaimBar(); return; }
+
+  if(needsReview){
+    $('#view').innerHTML = bar + claims.map(c=>`
+      <div class="card">
+        <div class="doc">${esc(c.source_document)} &middot; claimed page ${c.span_page}${
+          c.grounding_page && c.grounding_page!==c.span_page ? ` &middot; found on page ${c.grounding_page}` : ''}</div>
+        <div class="triple"><span class="s">${esc(c.subject)}</span> &mdash;
+          <span class="p">${esc(c.predicate)}</span> &rarr;
+          <span class="v">${esc(c.value)}</span></div>
+        ${ctxLine(c)}
+        <div class="meta">what the model quoted:</div>
+        <blockquote>${esc(c.span_text)}</blockquote>
+        <div class="meta" style="margin-top:8px">what the document actually contains at the best match:</div>
+        <blockquote>${esc(c.matched_text || '— not found anywhere in the document —')}</blockquote>
+        <ul class="rlist">${(c.review_reasons||[]).map(r=>`<li>${esc(r)}</li>`).join('')}</ul>
+        <div class="meta" style="margin-top:7px">final confidence ${c.final_confidence.toFixed(2)}
+          &middot; grounding ${c.grounding_score.toFixed(2)}</div>
+      </div>`).join('');
+  } else {
+    $('#view').innerHTML = bar + `<div class="card"><table>
+      <tr><th>subject</th><th>predicate</th><th>value</th><th>context</th>
+          <th>evidence</th><th>conf</th></tr>
+      ${claims.map(c=>`<tr>
+        <td>${esc(c.subject)}</td><td>${esc(c.predicate)}</td>
+        <td style="color:var(--ok);font-weight:600">${esc(c.value)}</td>
+        <td class="meta">${[c.ctx_period,c.ctx_unit,c.ctx_scope,c.ctx_other]
+            .filter(Boolean).map(esc).join('<br>')||'—'}</td>
+        <td><span class="pill">p${c.grounding_page ?? c.span_page}</span>
+            <div style="margin-top:3px;color:var(--dim);max-width:330px">${esc((c.matched_text||c.span_text).slice(0,150))}…</div></td>
+        <td>${c.final_confidence.toFixed(2)}</td></tr>`).join('')}
+    </table></div>`;
+  }
+  wireClaimBar();
+}
+function wireClaimBar(){
+  const q = $('#q');
+  if(q) q.onkeydown = e => { if(e.key==='Enter'){ FILTER.search = e.target.value; render(); } };
+  const d = $('#fd'); if(d) d.onchange = e => { FILTER.doc = e.target.value; render(); };
+}
+
+/* ---------- documents + upload ---------- */
+async function viewDocuments(){
+  const [docs, jobs] = await Promise.all([api('/api/documents'), api('/api/jobs')]);
+  const active = jobs.filter(j=>['queued','running'].includes(j.status));
+
+  $('#view').innerHTML = `
+    <div class="card">
+      <div class="drop" id="drop">
+        <b>Drop a PDF here</b> or click to choose &mdash; any PDF, no prior configuration
+        <input type="file" id="file" accept="application/pdf" multiple hidden>
+      </div>
+      <div id="jobs">${jobs.map(jobHtml).join('')}</div>
+    </div>
+    ${docs.length ? `<div class="card"><table>
+      <tr><th>document</th><th>pages</th><th>claims</th><th>status</th><th></th></tr>
+      ${docs.map(d=>`<tr>
+        <td>${esc(d.filename)}<div class="meta">${esc(d.doc_id)}</div></td>
+        <td>${d.pages_read}${d.pages_read!==d.n_pages?` / ${d.n_pages}`:''}</td>
+        <td>${d.claim_count}</td>
+        <td><span class="pill">${esc(d.status)}</span>
+          ${(d.stats&&d.stats.chunk_errors&&d.stats.chunk_errors.length)
+            ? `<div class="meta" style="color:var(--warn)">${d.stats.chunk_errors.length} chunk error(s)</div>`:''}</td>
+        <td><button class="ghost" data-del="${d.doc_id}">remove</button></td></tr>`).join('')}
+    </table></div>` : '<div class="empty">No documents yet.</div>'}`;
+
+  const drop = $('#drop'), input = $('#file');
+  drop.onclick = () => input.click();
+  drop.ondragover = e => { e.preventDefault(); drop.classList.add('hot'); };
+  drop.ondragleave = () => drop.classList.remove('hot');
+  drop.ondrop = e => { e.preventDefault(); drop.classList.remove('hot'); send(e.dataTransfer.files); };
+  input.onchange = e => send(e.target.files);
+  document.querySelectorAll('[data-del]').forEach(b => b.onclick = async () => {
+    await api('/api/documents/'+b.dataset.del, {method:'DELETE'}); render(); });
+
+  if(active.length) setTimeout(()=>{ if(TAB==='documents') viewDocuments(); }, 2500);
+}
+function jobHtml(j){
+  const d = j.detail || {};
+  let line = j.stage || j.status;
+  if(j.stage==='extracting' && d.total) line = `extracting claims — chunk ${d.done}/${d.total}`;
+  if(j.stage==='grounding') line = `verifying ${d.total} quotes against the document`;
+  if(j.stage==='matching') line = `matching — ${d.candidate_pairs ?? '…'} candidate pairs`;
+  if(j.stage==='adjudicating') line = `adjudicating ambiguous pairs ${d.done??0}/${d.total??d.ambiguous??''}`;
+  const pct = (j.stage==='extracting' && d.total) ? Math.round(100*d.done/d.total)
+            : j.status==='done' ? 100 : null;
+  const colour = j.status==='failed' ? 'var(--bad)' : j.status==='done' ? 'var(--ok)' : 'var(--accent)';
+  const r = j.report;
+  return `<div style="margin-top:12px">
+    <div class="meta"><b style="color:${colour}">${esc(j.status)}</b> — ${esc(j.filename)} — ${esc(line)}
+      ${j.elapsed?` · ${j.elapsed}s`:''}</div>
+    ${pct!==null?`<div class="bar"><i style="width:${pct}%"></i></div>`:''}
+    ${j.error?`<div class="meta" style="color:var(--bad)">${esc(j.error)}</div>`:''}
+    ${r?`<div class="meta">${r.claims_stored} claims · ${r.claims_grounded} grounded ·
+        ${r.claims_needing_review} flagged for review${
+        j.relations?` · ${JSON.stringify(j.relations.by_kind)}`:''}</div>`:''}
+  </div>`;
+}
+async function send(files){
+  for(const f of files){
+    const fd = new FormData(); fd.append('file', f);
+    await fetch('/api/documents', {method:'POST', body:fd});
+  }
+  viewDocuments();
+}
+
+/* ---------- shell ---------- */
+async function renderStats(){
+  const s = await api('/api/stats');
+  const k = s.relations_by_kind || {};
+  $('#stats').innerHTML = [
+    ['documents', s.documents], ['claims', s.claims],
+    ['corroborations', k.corroboration||0], ['contradictions', k.contradiction||0],
+    ['reconciled', k.reconciled||0], ['needs review', s.claims_needing_review],
+  ].map(([l,v])=>`<div class="stat"><b>${v}</b><span>${l}</span></div>`).join('');
+}
+const TABS = [['relations','Relationships'],['claims','Claims'],
+              ['review','Needs review'],['documents','Documents & upload']];
+function renderTabs(){
+  $('#tabs').innerHTML = TABS.map(([k,l])=>
+    `<div class="tab ${TAB===k?'on':''}" data-t="${k}">${l}</div>`).join('');
+  document.querySelectorAll('[data-t]').forEach(t =>
+    t.onclick = () => { TAB = t.dataset.t; render(); });
+}
+async function render(){
+  renderTabs();
+  try{
+    if(TAB==='relations') await viewRelations();
+    else if(TAB==='claims') await viewClaims(false);
+    else if(TAB==='review') await viewClaims(true);
+    else await viewDocuments();
+    await renderStats();
+  }catch(e){ $('#view').innerHTML = `<div class="empty" style="color:var(--bad)">${esc(e.message)}</div>`; }
+}
+render();
+setInterval(renderStats, 8000);
+</script>
+</body>
+</html>
