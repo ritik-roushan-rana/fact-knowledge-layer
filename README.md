@@ -413,12 +413,25 @@ Against the LLM-based pipeline it replaced, on the same machine and corpus:
 
 The LLM comparison could not be completed at full scale: the free tier caps at
 8,000 tokens/minute, and a corpus-wide run exhausted the budget without
-finishing. That is itself part of the argument for the deterministic core —
-the LLM path could not be run reliably at all, whereas the deterministic one
-processes the whole corpus in under two minutes on a laptop with no account.
+finishing. The deterministic path processes the whole corpus in under two
+minutes on a laptop with no account.
 
-A head-to-head across all three modes on an identical subset is in
-`samples/BENCHMARK.md`.
+At small scale the LLM path does run, and `samples/BENCHMARK.md` measures all
+three modes on the same 8 pages:
+
+| | deterministic | hybrid | llm |
+|---|---|---|---|
+| claims extracted | 13 | 46 | 44 |
+| LLM calls | **0** | 2 | 1 |
+| runtime | **0.5 s** | 7.6 s | 73.5 s |
+
+The LLM extracts more claims than the rules do on those pages — that is a real
+advantage and worth stating plainly — at roughly **150x the wall time** and
+with a dependency on someone's API budget. The hybrid column is the
+architecture's answer: rules first, model only on pages the rules could not
+read, which recovers most of the recall for a fraction of the calls. What none
+of the three columns shows is a relationship, because eight pages of one
+document give nothing to compare across.
 
 ### AI tools used
 
@@ -635,11 +648,13 @@ already has.
   surfaced, though the machinery supports it.
 - **No aggregation reasoning.** The system cannot check that segments sum to a
   stated total.
-- **The LLM comparison is incomplete.** On this account the LLM extraction path
-  could not complete even 8 pages within the free tier's token budget, so the
-  head-to-head in `samples/BENCHMARK.md` shows it producing nothing. The
-  comparison against the earlier LLM pipeline rests on measurements taken while
-  that pipeline was the live implementation.
+- **The LLM comparison is small.** The three-mode head-to-head covers 8 pages
+  of one document, because a corpus-wide LLM run exhausts the free tier's
+  8,000 tokens/minute without finishing. On that subset the LLM extracts more
+  claims than the rules (44 vs 13) and takes 150x longer; whether that holds at
+  corpus scale is untested on this account. The full-corpus comparison against
+  the earlier LLM pipeline rests on measurements taken while that pipeline was
+  the live implementation.
 
 ## 5. Additional Notes
 
