@@ -19,7 +19,7 @@ import pymupdf
 
 from .config import CONFIG
 from .extract_rules import (detect_entities, end_matter_start,
-                            sentence_claims, table_claims)
+                            sentence_claims, status_claims, table_claims)
 from .models import Claim
 from .pdf import Document, repeated_line_texts
 from .tables import TableExtractor
@@ -79,6 +79,14 @@ class DeterministicClaimExtractor(ClaimExtractor):
                                                   known, end_matter))
                 except Exception as e:
                     errors.append(f"page {page.number} sentence rules: {type(e).__name__}: {e}")
+
+                # Semantic (status) claims run on the same page text. Kept in a
+                # separate try so a fault in one path never wipes out the other.
+                try:
+                    claims.extend(status_claims(document, page, entity, furniture,
+                                                known, end_matter))
+                except Exception as e:
+                    errors.append(f"page {page.number} status rules: {type(e).__name__}: {e}")
 
                 if table_extractor is not None and native is not None:
                     try:
@@ -229,6 +237,14 @@ def build_extractor(name: str | None = None) -> ClaimExtractor:
     name = (name or CONFIG.extractor).lower()
     if name in ("deterministic", "rules", "default"):
         return DeterministicClaimExtractor()
+    if CONFIG.strict_deterministic and name in ("llm", "hybrid"):
+        # A hard guarantee for the engineering story: with strict_deterministic
+        # on, no code path in the system reaches a provider. The rest of the
+        # pipeline enforces the same rule elsewhere; this catches the mistake
+        # at the earliest point, before an LLM extractor is even constructed.
+        raise ValueError(
+            f"Extractor {name!r} needs a provider, but FKL_STRICT_DETERMINISTIC=1. "
+            f"Use 'deterministic' (the default) or unset the flag.")
     if name == "llm":
         return LLMClaimExtractor()
     if name == "hybrid":

@@ -101,6 +101,7 @@ CREATE TABLE IF NOT EXISTS relations (
     claim_b_id              TEXT NOT NULL REFERENCES claims(claim_id) ON DELETE CASCADE,
     kind                    TEXT NOT NULL,
     decided_by              TEXT NOT NULL,
+    rule_id                 TEXT,
     similarity              REAL NOT NULL DEFAULT 0,
     subject_similarity      REAL,
     predicate_similarity    REAL,
@@ -145,6 +146,7 @@ _MIGRATIONS: dict[str, list[tuple[str, str]]] = {
         ("match_confidence", "REAL NOT NULL DEFAULT 0"),
         ("relationship_confidence", "REAL NOT NULL DEFAULT 0"),
         ("value_delta", "TEXT"),
+        ("rule_id", "TEXT"),
     ],
 }
 
@@ -339,9 +341,17 @@ class Store:
         return ids, docs, mat
 
     # ---------------- relations ----------------
+    _RELATION_COLUMNS = (
+        "relation_id", "claim_a_id", "claim_b_id", "kind", "decided_by", "rule_id",
+        "similarity", "subject_similarity", "predicate_similarity",
+        "match_confidence", "relationship_confidence", "confidence",
+        "explanation", "reasoning_trace", "context_diff",
+        "value_agreement", "value_delta", "created_at",
+    )
+
     def insert_relations(self, relations: Iterable[Relation]) -> int:
         rows = [(
-            r.relation_id, r.claim_a_id, r.claim_b_id, r.kind, r.decided_by,
+            r.relation_id, r.claim_a_id, r.claim_b_id, r.kind, r.decided_by, r.rule_id,
             r.similarity, r.subject_similarity, r.predicate_similarity,
             r.match_confidence, r.relationship_confidence, r.confidence,
             r.explanation, json.dumps(r.reasoning_trace), json.dumps(r.context_diff),
@@ -350,8 +360,10 @@ class Store:
         ) for r in relations]
         if not rows:
             return 0
+        cols = ",".join(self._RELATION_COLUMNS)
+        marks = ",".join(["?"] * len(self._RELATION_COLUMNS))
         cur = self.conn.executemany(
-            "INSERT OR REPLACE INTO relations VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", rows)
+            f"INSERT OR REPLACE INTO relations ({cols}) VALUES ({marks})", rows)
         self.conn.commit()
         return cur.rowcount
 

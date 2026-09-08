@@ -23,7 +23,7 @@ from pathlib import Path
 from typing import Callable
 
 from .adjudicate import adjudicate
-from .compare import compare_claims
+from .compare import compare_claims, upgrade_components_of_total
 from .config import CONFIG
 from .extractors import ClaimExtractor, build_extractor
 from .ground import ground_claim, score_claim
@@ -107,11 +107,15 @@ def extract_and_ground(document: Document, *, extractor: ClaimExtractor,
     unique = _dedupe(result.claims)
     report.deduped = len(unique)
     if progress:
-        progress("grounding", {"total": len(unique)})
+        progress("grounding", {"done": 0, "total": len(unique)})
 
     grounded: list[GroundedClaim] = []
     seen: set[str] = set()
-    for claim in unique:
+    for i, claim in enumerate(unique):
+        # Grounding every claim takes long enough on a large document that the
+        # UI would otherwise sit on a frozen bar for the whole stage.
+        if progress and i and i % 100 == 0:
+            progress("grounding", {"done": i, "total": len(unique)})
         g = ground_claim(document, claim)
         confidence, quarantined, needs_review, reasons = score_claim(
             claim, g, grounding_threshold=CONFIG.grounding_threshold,
@@ -238,10 +242,13 @@ def build_relations(store: Store, *, new_claim_ids: list[str] | None = None,
     report = RelateReport()
     escalate = CONFIG.enable_llm_fallback if escalate is None else escalate
 
+    if progress:
+        progress("matching", {})
     candidates = find_candidates(store, new_claim_ids=new_claim_ids)
     report.candidates = len(candidates)
     if progress:
-        progress("matching", {"candidate_pairs": len(candidates)})
+        progress("comparing", {"done": 0, "total": len(candidates),
+                               "candidate_pairs": len(candidates)})
     if not candidates:
         report.seconds = round(time.time() - started, 2)
         return report
@@ -251,7 +258,10 @@ def build_relations(store: Store, *, new_claim_ids: list[str] | None = None,
 
     relations: list[Relation] = []
     pending: list[tuple[dict, dict, Relation]] = []
-    for cand in candidates:
+    for i, cand in enumerate(candidates):
+        if progress and i and i % 200 == 0:
+            progress("comparing", {"done": i, "total": len(candidates),
+                                   "candidate_pairs": len(candidates)})
         a, b = claims.get(cand.a_id), claims.get(cand.b_id)
         if not a or not b:
             continue
@@ -272,6 +282,11 @@ def build_relations(store: Store, *, new_claim_ids: list[str] | None = None,
 
     if pending:
         client = None
+        # Strict-deterministic mode never touches a provider, full stop.
+        if CONFIG.strict_deterministic:
+            if escalate:
+                log.info("strict_deterministic=1: refusing to escalate ambiguous pairs")
+            escalate = False
         if escalate:
             try:
                 from .llm import LLMClient
@@ -284,8 +299,12 @@ def build_relations(store: Store, *, new_claim_ids: list[str] | None = None,
         pending.sort(key=lambda p: -p[2].match_confidence)
         for i, (a, b, relation) in enumerate(pending):
             if client is None:
-                relation.reasoning_trace.append(
-                    "LLM fallback disabled; the deterministic verdict stands")
+                if CONFIG.strict_deterministic:
+                    relation.reasoning_trace.append(
+                        "strict_deterministic=1: LLM path unreachable by policy")
+                else:
+                    relation.reasoning_trace.append(
+                        "LLM fallback disabled; the deterministic verdict stands")
                 relations.append(relation)
                 continue
             if i >= budget:
@@ -299,6 +318,22 @@ def build_relations(store: Store, *, new_claim_ids: list[str] | None = None,
                                           "total": min(len(pending), budget)})
             relations.append(adjudicate(a, b, relation, client))
             report.escalated += 1
+
+    # Corpus-wide check: siblings that sum to the broader claim get their
+    # verdict strengthened from "plausible component" to "confirmed component".
+    if relations:
+        claims_by_id = {**claims}
+        # Pull in any claims we may have skipped above (unrelated verdicts).
+        needed = {r.claim_a_id for r in relations} | {r.claim_b_id for r in relations}
+        missing = [cid for cid in needed if cid not in claims_by_id]
+        if missing:
+            claims_by_id.update(store.get_claims(missing))
+        try:
+            strengthened = upgrade_components_of_total(relations, claims_by_id)
+            if strengthened and progress:
+                progress("components_confirmed", {"upgraded": strengthened})
+        except Exception as e:
+            log.warning("component-of-total post-pass failed: %s", e)
 
     store.insert_relations(relations)
     report.stored = len(relations)

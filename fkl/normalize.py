@@ -213,6 +213,73 @@ def period_signature(period: str | None) -> PeriodSignature:
     return sig
 
 
+def precision_of(value_text: str, scale: float = 1.0) -> float | None:
+    """Half a unit of the value's least significant digit, in normalised units.
+
+    Two figures written to different precisions are effectively saying the same
+    thing when they agree to the coarser one's rounding. `8,142` under
+    ``INR crore`` is written to the nearest whole crore -- its precision is
+    ±0.5 crore, or ±5,000,000 in normalised units. `81,415.38` under
+    ``INR million`` is written to two decimals of a million, precision
+    ±0.005 million. The coarser rounding wins, and any real difference smaller
+    than that is at the limit of what the documents claim to know.
+
+    A flat relative tolerance treats both writings the same way, which is fine
+    on average but loses this signal exactly where it matters -- when the
+    values are near the coarser side's rounding boundary. Returns None for a
+    value that carries no digit precision (a bare integer with no decimal
+    point). Callers should fall back to a relative tolerance.
+    """
+    if not value_text:
+        return None
+    text = _clean(value_text).lstrip("-+()")
+    # Strip trailing non-digit tokens (currency, percent, magnitude words).
+    m = _NUMBER_RE.search(text)
+    if not m:
+        return None
+    digits = m.group(0).strip().replace(",", "").replace(" ", "")
+    if "." in digits:
+        _, frac = digits.split(".", 1)
+        # Rounding half-unit at the last decimal place.
+        half = 0.5 * (10 ** (-len(frac)))
+    else:
+        # No decimal point: precision is half of the least significant
+        # non-zero digit in the integer part. `8,142` -> ±0.5. `8,000` -> ±500
+        # (the trailing zeros are ambiguous but the safer read is that they
+        # are not significant).
+        stripped = digits.rstrip("0")
+        trailing_zeros = len(digits) - len(stripped)
+        half = 0.5 * (10 ** trailing_zeros)
+    return half * scale
+
+
+def period_precedes(a: str | None, b: str | None) -> int:
+    """Order two periods. Returns -1 if a is earlier than b, +1 if later, 0 otherwise.
+
+    Only compares periods that name a specific calendar or fiscal window. Two
+    unstated or overlapping periods return 0, so a status claim without a date
+    cannot be silently ordered before another.
+    """
+    sa, sb = period_signature(a), period_signature(b)
+    if sa.empty or sb.empty:
+        return 0
+    year_a = max(sa.years) if sa.years else None
+    year_b = max(sb.years) if sb.years else None
+    if year_a is not None and year_b is not None and year_a != year_b:
+        return -1 if year_a < year_b else 1
+    # Same year: quarters and months settle the order.
+    if year_a == year_b:
+        q_a = max(sa.quarters) if sa.quarters else 0
+        q_b = max(sb.quarters) if sb.quarters else 0
+        if q_a != q_b:
+            return -1 if q_a < q_b else 1
+        m_a = max(sa.months) if sa.months else 0
+        m_b = max(sb.months) if sb.months else 0
+        if m_a != m_b:
+            return -1 if m_a < m_b else 1
+    return 0
+
+
 def compare_periods(a: str | None, b: str | None) -> tuple[str, str]:
     """Return (verdict, explanation) where verdict is same / different / unknown."""
     sa, sb = period_signature(a), period_signature(b)

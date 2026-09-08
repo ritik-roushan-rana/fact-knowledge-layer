@@ -49,6 +49,13 @@ class Table:
     source: str = ""
     quality: float = 0.0
     n_header_rows: int = 1
+    # A spanning label above the primary period row, per column. Populated when
+    # the same period appears more than once in the same header row -- the RBI
+    # Appendix Table 4 puts two column groups under three identical year
+    # headers, so a row like "Credit-Deposit Ratio" produces two claims for
+    # 2022-23 that were, in fact, two different measurements. Folding the group
+    # label into ctx.scope keeps them from being compared as alternatives.
+    col_groups: list[str] = field(default_factory=list)
 
     @property
     def shape(self) -> tuple[int, int]:
@@ -142,13 +149,64 @@ def _is_data_cell(text: str) -> bool:
     return period_signature(text).empty
 
 
-def split_header(grid: list[list[str]]) -> tuple[list[str], list[list[str]], int]:
+def _column_groups(header_rows: list[list[str]], primary_index: int,
+                   width: int, period_row: list[str]) -> list[str]:
+    """Per-column spanning label, only when the primary period row repeats itself.
+
+    The RBI appendix puts two column groups under three identical year headers.
+    When that happens, the disambiguator lives in a row above the period row:
+    a spanning "Group A" cell followed by blanks, then "Group B" and blanks
+    again. Table extractors flatten the merged spanning cell into one non-empty
+    cell followed by blanks -- so a forward-fill of that row inside its own
+    boundary is what recovers the group each column belongs to.
+
+    Only fires when at least one period label appears more than once in the
+    primary row. Without repetition, an earlier header row is a title, not a
+    disambiguator, and folding it into every column would leak (e.g.) a table
+    title's date range into every claim's scope.
+    """
+    if primary_index <= 0 or width <= 0:
+        return []
+    period_labels = [_clean(period_row[i]) if i < len(period_row) else ""
+                     for i in range(width)]
+    non_empty_periods = [p for p in period_labels if p]
+    if len(non_empty_periods) == len(set(non_empty_periods)):
+        return []                     # no repeats -> no spanning group to recover
+
+    n_periods = len(non_empty_periods)
+
+    groups = [""] * width
+    for row_idx in range(primary_index - 1, -1, -1):
+        row = header_rows[row_idx]
+        row_labels = [_clean(row[i]) if i < len(row) else "" for i in range(width)]
+        non_empty = sum(1 for lab in row_labels if lab)
+        # A row that fills as many columns as the period row is either the
+        # period row itself (already handled) or a second header of qualifiers,
+        # not a spanning-group row. Skip it.
+        if non_empty == 0 or non_empty >= n_periods:
+            continue
+        filled = list(row_labels)
+        for i in range(1, width):
+            if not filled[i] and filled[i - 1]:
+                filled[i] = filled[i - 1]
+        for i in range(width):
+            if not groups[i] and filled[i] and period_labels[i]:
+                groups[i] = filled[i]
+    distinct = {g for g in groups if g}
+    return groups if len(distinct) >= 2 else []
+
+
+def split_header(grid: list[list[str]]) -> tuple[list[str], list[list[str]], int, list[str]]:
     """Merge the leading header rows into one header per column.
 
     Multi-row headers are common ("Average" / "2003-04" / "to" / "2007-08" in
     four stacked rows, or a title row above a row of years above a row of
     "Est./Projections"). A leading row counts as header until one of its
     non-label cells holds an actual measurement.
+
+    Returns ``(header, body, n_head, col_groups)``. ``col_groups`` is empty
+    unless the primary period row contains a duplicate label -- see
+    ``_column_groups`` for the reasoning.
     """
     n_head = 0
     for row in grid:
@@ -183,15 +241,22 @@ def split_header(grid: list[list[str]]) -> tuple[list[str], list[list[str]], int
     period_counts = [sum(1 for c in hr[1:] if not period_signature(c).empty)
                      for hr in header_rows]
     header = merged
+    primary_index = -1
     if period_counts and max(period_counts) >= 2:
-        primary = header_rows[period_counts.index(max(period_counts))]
+        primary_index = period_counts.index(max(period_counts))
+        primary = header_rows[primary_index]
         header = [
             _clean(primary[i]) if i < len(primary) and _clean(primary[i]) else merged[i]
             for i in range(width)
         ]
 
+    col_groups: list[str] = []
+    if primary_index > 0:
+        col_groups = _column_groups(header_rows, primary_index, width,
+                                    header_rows[primary_index])
+
     body = [r for r in grid[n_head:] if any(str(c).strip() for c in r)]
-    return header, body, n_head
+    return header, body, n_head, col_groups
 
 
 _UNIT_PAREN = re.compile(
@@ -450,7 +515,7 @@ class TableExtractor:
         for q, grid, bbox, source in scored:
             if any(_iou(bbox, t.bbox) > 0.35 for t in chosen):
                 continue          # same region already covered by a better result
-            header, body, n_head = split_header(grid)
+            header, body, n_head, col_groups = split_header(grid)
             if not body or len(header) < MIN_COLS:
                 continue
             # A table whose column headers are mostly blank cannot qualify its
@@ -464,6 +529,7 @@ class TableExtractor:
                 page=page_number, bbox=bbox, header=header, rows=body,
                 caption=caption, unit_hint=find_unit_hint(header, caption),
                 source=source, quality=round(q, 3), n_header_rows=n_head,
+                col_groups=col_groups,
             ))
         return chosen
 

@@ -195,6 +195,11 @@ RATE_PREDICATE_TERMS = {
     "penetration", "utilisation", "utilization", "occupancy", "return",
     "returns", "deficit", "surplus", "coverage", "density", "incidence",
     "prevalence", "unemployment", "participation", "literacy", "mortality",
+    # Distribution-shape terms: "fractile", "percentile" and their peers
+    # describe where a value sits in a distribution, not the base quantity.
+    # Left in the "same predicate" bucket they produced spurious contradictions
+    # between an "expenditure fractile" tabulation and real expenditure values.
+    "fractile", "percentile", "quantile", "decile", "quartile", "distribution",
 }
 
 
@@ -206,3 +211,48 @@ END_MATTER_HEADINGS = {
     "references", "reference", "bibliography", "works cited", "citations",
     "further reading", "notes and references",
 }
+
+
+# Verbs of state change. Kept off the numeric extraction path -- these produce
+# a status claim, not a measurement. The brief's example ("a director may
+# appear active in one document and resigned in a later one") is what these
+# exist to cover: a semantic claim about an entity, comparable across
+# documents through a supersession rule rather than a value tolerance.
+#
+# Every canonical status label below is a state a person or role can be in.
+# They are compared to each other pairwise: "resigned" contradicts "active";
+# "appointed" is compatible with "active"; two "resigned" claims agree.
+STATUS_VERBS: dict[str, str] = {
+    "resigned": "resigned", "resigns": "resigned",
+    "stepped down": "resigned", "steps down": "resigned",
+    "retired": "retired", "retires": "retired",
+    "appointed": "appointed", "appointed as": "appointed",
+    "was appointed": "appointed", "were appointed": "appointed",
+    "elected": "appointed", "nominated": "appointed",
+    "joined": "joined", "joins": "joined",
+    "left": "left", "leaves": "left", "departed": "left",
+    "promoted": "promoted", "promoted to": "promoted",
+    "removed": "removed", "dismissed": "removed", "terminated": "removed",
+    "died": "deceased", "passed away": "deceased",
+    "reinstated": "reinstated", "reappointed": "reappointed",
+    "relocated": "relocated", "relocated to": "relocated", "moved to": "relocated",
+    "acquired": "acquired", "was acquired": "acquired", "was acquired by": "acquired",
+    "merged": "merged", "merged with": "merged",
+    "discontinued": "discontinued", "shut down": "discontinued",
+}
+
+
+# Status labels that CANNOT be true at the same time. When two documents assign
+# opposing statuses to the same entity, the later one supersedes the earlier;
+# if they cannot be ordered, they contradict.
+STATUS_OPPOSITES: list[set[str]] = [
+    {"active", "resigned"},
+    {"active", "retired"},
+    {"active", "removed"},
+    {"active", "left"},
+    {"active", "deceased"},
+    {"appointed", "resigned"},
+    {"appointed", "removed"},
+    {"joined", "left"},
+    {"active", "discontinued"},
+]

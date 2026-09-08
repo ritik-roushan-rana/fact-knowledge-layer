@@ -24,7 +24,7 @@ from dataclasses import dataclass
 from .lexicon import (ATTRIBUTION_PATTERNS, BASIS_TERMS, CHANGE_PHRASES,
                       CLAUSE_OPENERS, END_MATTER_HEADINGS, ENTITY_STOPWORDS,
                       LEADING_FILLER, LINKING_PHRASES, MODALITY_TERMS,
-                      ORG_SUFFIXES, SCOPE_TERMS, TRAILING_FILLER)
+                      ORG_SUFFIXES, SCOPE_TERMS, STATUS_VERBS, TRAILING_FILLER)
 from .models import Claim, ClaimContext, SourceSpan
 from .normalize import parse_value, period_signature
 from .pdf import Document, Page, repeated_line_texts
@@ -647,6 +647,13 @@ def table_claims(document: Document, page: Page, table: Table,
             # be compared against other claims' scopes as though it were one.
             if not is_period_col and _qualifier_like(header):
                 ctx.scope = ctx.scope or header.strip()
+            # Spanning group above the period row: two "2022-23" columns can
+            # sit under a "Sample of banks" group and a "Reporting universe"
+            # group and mean different things. Folding the group into scope
+            # keeps them from being compared as alternatives.
+            if (table.col_groups and col < len(table.col_groups)
+                    and table.col_groups[col]):
+                ctx.scope = ctx.scope or table.col_groups[col]
 
             line = (_find_line_containing(page, cell_text, table.bbox)
                     or _find_line_containing(page, cell_text))
@@ -679,5 +686,162 @@ def table_claims(document: Document, page: Page, table: Table,
                 origin="table",
                 extraction_rule=f"table[{table.source}] row_label+column_header+cell",
                 confidence=round(min(0.95, confidence), 3),
+            ))
+    return claims
+
+
+# --------------------------------------------------------------------------
+# semantic (status) extraction
+# --------------------------------------------------------------------------
+#
+# A separate path from numeric extraction. A director being active in one
+# document and resigned in a later one -- the assignment brief's own example --
+# is a semantic fact, not a measurement. It has a subject (the person),
+# a property (their status), a value (the status label), and a period (when).
+# It is comparable across documents through supersession rather than a value
+# tolerance: "resigned in 2023" is not a rival claim to "active in 2021", it
+# revises it.
+#
+# The pattern is deliberately narrow: a proper-noun subject, a status verb,
+# and enough surrounding text to attribute a role. Loose matching produces
+# spurious "resigned" claims about journalists in reference lists; the
+# gate below wants the subject to be a name the document itself uses, and
+# the verb to be an explicit state change, not a general activity.
+
+_STATUS_PATTERNS = sorted(STATUS_VERBS, key=len, reverse=True)
+# A proper-noun subject followed by a status verb, then optionally a target
+# ("resigned as Director"), then optionally a period ("effective 1 April
+# 2024" / "in 2023" / "on 15 May 2022"). Groups: subject, verb, target?, period?
+_STATUS_RE = re.compile(
+    r"(?P<subject>[A-Z][A-Za-z0-9&.'\u2019-]+(?:\s+(?:of|and|the|de|for|von|van)\s+"
+    r"[A-Z][A-Za-z0-9&.'\u2019-]+|\s+[A-Z][A-Za-z0-9&.'\u2019-]+){0,4})\s+"
+    r"(?:has\s+|have\s+|had\s+|was\s+|were\s+|is\s+|are\s+|being\s+)?"
+    r"(?P<verb>" + "|".join(re.escape(v) for v in _STATUS_PATTERNS) + r")"
+    r"(?:\s+(?:as|from|by|to|of)\s+(?P<target>[A-Za-z][A-Za-z0-9 &.,'\u2019-]{1,60}?))?"
+    r"(?:\s+(?:with effect from|effective|effective from|on|in|from|since|w\.e\.f\.?)\s+"
+    r"(?P<period>[A-Za-z0-9,/ -]{2,40}))?",
+    re.IGNORECASE)
+
+
+def _clean_target(text: str) -> str:
+    text = re.sub(r"\s+", " ", text or "").strip(" ,.;:()[]")
+    # Drop a trailing clause introduced by 'and', 'while', a comma with prose.
+    for sep in (" and ", ", ", " while ", " with ", "; "):
+        if sep in text:
+            text = text.split(sep, 1)[0].strip()
+    return text[:60]
+
+
+def status_claims(document: Document, page: Page, primary: str | None,
+                  furniture: set[str] | None = None,
+                  known: set[str] | None = None,
+                  end_matter: tuple[int, int] | None = None) -> list[Claim]:
+    """Extract semantic status claims: (person or entity, status, period).
+
+    Runs on the same page text as the numeric sentence extractor. Two guards
+    keep it from firing on prose:
+
+    * the subject must be a proper-noun phrase the document uses elsewhere
+      (either the primary entity or a name found by ``detect_entities``), so
+      a stray capitalised word in a reference list does not become a person;
+    * the verb must match one of the explicit state-change words in
+      ``STATUS_VERBS``. General activities ("said", "reported", "conducted")
+      never fire this path -- they belong to the numeric extractor.
+    """
+    claims: list[Claim] = []
+    raw = page.raw
+    furniture = furniture or set()
+    known = known or set()
+
+    cutoff = None
+    if end_matter is not None:
+        end_page, end_char = end_matter
+        if page.number > end_page:
+            return []
+        if page.number == end_page:
+            cutoff = end_char
+
+    for sent_start, sentence in _iter_sentences(raw):
+        if cutoff is not None and sent_start >= cutoff:
+            break
+        if len(sentence) > 400:
+            continue
+        if sentence.strip() in furniture:
+            continue
+        for m in _STATUS_RE.finditer(sentence):
+            subject = re.sub(r"\s+", " ", m.group("subject")).strip(" .,")
+            subject = re.sub(r"[\u2019']s$", "", subject)
+            verb_raw = m.group("verb").lower().strip()
+            verb = STATUS_VERBS.get(verb_raw)
+            if verb is None:
+                continue
+
+            # Reject if the "subject" is a stopword or fragment. The subject
+            # must be a name the document uses somewhere, otherwise a
+            # sentence-initial word like "Following" gets picked up.
+            low_subject = subject.lower()
+            if low_subject in ENTITY_STOPWORDS or len(subject) < 3:
+                continue
+            if known and not any(low_subject == k.lower()
+                                 or low_subject in k.lower()
+                                 or k.lower() in low_subject
+                                 for k in known) \
+                    and (not primary or primary.lower() not in low_subject
+                         and low_subject not in primary.lower()):
+                # Not a name this document introduced. Skip.
+                continue
+            # The verb has to be a real state change, not a citation form. Reject
+            # when it sits inside quoted reference-like prose.
+            if verb_raw in ("appointed", "elected", "nominated") and \
+                    not re.search(rf"(?:as|to)\s+", sentence[m.end("verb"):
+                                                             m.end("verb") + 30],
+                                  re.IGNORECASE):
+                # "was appointed" with no role stated; ambiguous.
+                if not m.group("target"):
+                    continue
+
+            target = _clean_target(m.group("target") or "")
+            period_raw = (m.group("period") or "").strip()
+            period = find_period(period_raw) or find_period(sentence) or None
+
+            # Locate the evidence span. Anchor on the subject to keep the quote tight.
+            abs_start = sent_start + m.start()
+            abs_end = sent_start + m.end()
+            evidence = raw[abs_start:abs_end].strip()
+            if len(evidence) < 8:
+                continue
+
+            ctx = ClaimContext(
+                period=period,
+                scope=target or None,
+                unit=None, basis=None, geography=None, as_of=None,
+                denominator=None, other_qualifiers=None,
+            )
+            value_text = verb
+            if verb == "appointed" and target:
+                value_text = f"appointed as {target}"
+            elif verb == "resigned" and target:
+                value_text = f"resigned from {target}"
+
+            confidence = 0.72
+            if period:
+                confidence += 0.10
+            if target:
+                confidence += 0.05
+
+            claims.append(Claim(
+                subject=subject, predicate="status", value=value_text,
+                value_num=None, unit=None,
+                context=ctx,
+                asserted_by=find_attribution(sentence),
+                modality=find_modality(sentence),
+                source_document=document.filename,
+                source_span=SourceSpan(
+                    page=page.number, text=evidence,
+                    char_span=(abs_start, abs_end),
+                    bbox=page.bbox_for_chars(abs_start, abs_end)),
+                origin="sentence",
+                extraction_rule="status_verb+subject",
+                confidence=min(0.95, confidence),
             ))
     return claims

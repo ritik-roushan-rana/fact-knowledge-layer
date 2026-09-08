@@ -30,9 +30,14 @@ CASES = [
      "The values differ, but a difference in period, scope or unit accounts for it."),
     ("supersedes", "3b. A revision rather than a disagreement",
      "The same measurement at two stages -- an estimate and a later actual."),
-    ("partial_cover", "3c. Partial coverage, not conflict",
-     "One claim measures only part of what the other measures, so the values are "
-     "not expected to match."),
+    ("component_of_total", "3c. A confirmed component of a total",
+     "The narrower claim is a plausible share of the broader one; where siblings "
+     "sum to the broader value, the decomposition is marked confirmed by the "
+     "corpus-wide post-pass."),
+    ("partial_cover", "3d. Partial coverage, not conflict",
+     "Related properties, but no numeric part-of check applied. Different from a "
+     "confirmed component -- the ratio is too small to call, or the pair is only "
+     "one segment against a broader property."),
 ]
 
 

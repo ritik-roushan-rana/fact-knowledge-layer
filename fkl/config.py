@@ -67,6 +67,11 @@ class Config:
     extractor: str = _env("FKL_EXTRACTOR", "deterministic")
     # LLM adjudication of genuinely ambiguous pairs. Off unless switched on.
     enable_llm_fallback: bool = _env("FKL_ENABLE_LLM_FALLBACK", "0") not in ("0", "", "false", "False")
+    # Hard refusal to touch a provider anywhere in the pipeline. When set, the
+    # extractor factory rejects `llm` and `hybrid`, relationship building never
+    # imports the client, and every verdict in the store is provably rule-
+    # decided. This is the mode the assignment's engineering story rests on.
+    strict_deterministic: bool = _env("FKL_STRICT_DETERMINISTIC", "0") not in ("0", "", "false", "False")
     hybrid_max_llm_pages: int = _env_int("FKL_HYBRID_MAX_LLM_PAGES", 15)
     max_tokens: int = _env_int("FKL_MAX_TOKENS", 6000)
     # Characters of page text per LLM extraction call.

@@ -91,16 +91,71 @@ class TestSupersedes:
 
 
 class TestPartialCoverage:
-    def test_segments_covering_part_of_a_total_are_not_a_contradiction(self):
-        """Named segments summing to 81% of the total must not read as conflict."""
+    def test_segment_at_plausible_share_is_a_component_of_total(self):
+        """Named segment at 81% of the total must not read as a conflict, and the
+        pairwise upgrade should label it component_of_total rather than the
+        weaker partial_cover -- the ratio does fit a component pattern."""
         total = claim_row(cid="a", doc="a.pdf", predicate="revenue",
                           value="8,142", ctx_unit="INR crore", ctx_period="FY24")
         segment = claim_row(cid="b", doc="b.pdf",
                             predicate="revenue from express parcel segment",
                             value="6,595", ctx_unit="INR crore", ctx_period="FY24")
         rel = relation_of(total, segment)
+        assert rel.kind == "component_of_total", rel.explanation
+        assert rel.kind != "contradiction"
+
+    def test_tiny_segment_of_a_total_falls_back_to_partial_cover(self):
+        """A narrower value that is only 2% of the broader one is too small to
+        confirm as a component; the pair should keep the weaker partial_cover
+        label, but must never be reported as a contradiction."""
+        total = claim_row(cid="a", doc="a.pdf", predicate="revenue",
+                          value="8,142", ctx_unit="INR crore", ctx_period="FY24")
+        tiny = claim_row(cid="b", doc="b.pdf",
+                         predicate="revenue from spot logistics services",
+                         value="160", ctx_unit="INR crore", ctx_period="FY24")
+        rel = relation_of(total, tiny)
         assert rel.kind == "partial_cover", rel.explanation
         assert rel.kind != "contradiction"
+
+
+class TestPrecisionTolerance:
+    """Tolerance from the value's own precision, not a flat epsilon.
+
+    `8,142 crore` is written to the nearest whole crore (±0.5 Cr, or ±5 Mn).
+    `81,415.38 million` is written to two decimals of a million (±0.005 Mn).
+    The coarser precision is ±5 Mn, and the actual gap is 3.38 Mn, well
+    inside. Two figures written to different precisions agree when they
+    agree at the coarser one's rounding boundary.
+    """
+
+    def test_same_value_at_different_precisions_agrees(self):
+        coarse = claim_row(cid="a", predicate="revenue",
+                           value="8,142", ctx_unit="INR crore", ctx_period="FY24")
+        fine = claim_row(cid="b", doc="b.pdf", predicate="revenue",
+                         value="81,415.38", ctx_unit="INR million", ctx_period="FY24")
+        rel = relation_of(coarse, fine)
+        assert rel.kind == "corroboration", rel.explanation
+        assert "precision" in rel.explanation.lower() or "coarser" in rel.explanation.lower()
+
+    def test_a_rate_written_to_one_decimal_matches_that_decimal(self):
+        a = claim_row(cid="a", predicate="inflation rate", value="3.5%",
+                      ctx_unit="percent", ctx_period="FY25")
+        b = claim_row(cid="b", doc="b.pdf", predicate="inflation rate",
+                      value="3.51%", ctx_unit="percent", ctx_period="FY25")
+        rel = relation_of(a, b)
+        assert rel.kind == "corroboration", rel.explanation
+
+    def test_a_precision_wide_gap_still_contradicts(self):
+        """Precision tolerance doesn't hide a real difference: 78.1 vs 80.3
+        (both to one decimal, precision ±0.05) still disagree by 2.2, which
+        is 44x their precision. The rule must fire."""
+        a = claim_row(cid="a", doc="rbi.pdf", subject="India",
+                      predicate="Credit-Deposit Ratio", value="78.1",
+                      origin="table", ctx_period="2023-24", ctx_scope="Combined")
+        b = claim_row(cid="b", doc="imf.pdf", subject="India",
+                      predicate="Credit-to-deposit ratio", value="80.3",
+                      origin="table", ctx_period="2023/24", ctx_scope=None)
+        assert relation_of(a, b).kind == "contradiction"
 
 
 class TestFalsePositivesRejected:
@@ -136,6 +191,22 @@ class TestMissingContext:
         rel = relation_of(a, b)
         assert rel.kind == "underspecified", rel.explanation
         assert rel.kind != "contradiction"
+
+    def test_aggregate_scope_on_one_side_equates_to_unstated_on_the_other(self):
+        """Combined/Total/Aggregate mean 'over all groups', which is exactly what
+        an unstated scope implicitly means. Forcing this pair into underspecified
+        would hide a real disagreement between two aggregates."""
+        # Same shape as the RBI Combined 78.1 vs IMF 80.3 credit-deposit pair,
+        # after the spanning-header fix labelled the RBI column "Combined".
+        a = claim_row(cid="a", doc="rbi.pdf", subject="India",
+                      predicate="Credit-Deposit Ratio", value="78.1",
+                      origin="table", ctx_period="2023-24", ctx_scope="Combined")
+        b = claim_row(cid="b", doc="imf.pdf", subject="India",
+                      predicate="Credit-to-deposit ratio", value="80.3",
+                      origin="table", ctx_period="2023/24", ctx_scope=None)
+        rel = relation_of(a, b)
+        assert rel.kind == "contradiction", rel.explanation
+        assert any("aggregate over all groups" in t for t in rel.reasoning_trace)
 
     def test_weak_extraction_cannot_produce_a_confident_contradiction(self):
         a = claim_row(cid="a", predicate="headcount", value="12,500",

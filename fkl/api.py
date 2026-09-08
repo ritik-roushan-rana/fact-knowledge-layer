@@ -17,7 +17,7 @@ from pathlib import Path
 from typing import Any
 
 from fastapi import BackgroundTasks, FastAPI, HTTPException, Query, UploadFile, File
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
 
 from .config import CONFIG
@@ -169,6 +169,66 @@ async def get_claim(claim_id: str):
     return claim
 
 
+@app.get("/api/claims/{claim_id}/preview.png")
+async def claim_preview(claim_id: str, zoom: str = Query("crop")):
+    """Render the claim's source page as a PNG with its bbox highlighted.
+
+    Serves the strongest version of the engineering story visually: every
+    claim points at a real region of a real page, and you can see it. Uses
+    PyMuPDF -- already a dependency for extraction -- so no browser-side PDF
+    renderer is needed.
+
+    ``zoom=crop`` (default) shows a tight crop around the bbox with padding;
+    ``zoom=page`` renders the whole page with the bbox drawn in red.
+    """
+    import pymupdf
+
+    claim = store().get_claim(claim_id)
+    if not claim:
+        raise HTTPException(status_code=404, detail="Unknown claim.")
+    bbox = claim.get("bbox")
+    if not bbox:
+        raise HTTPException(status_code=404, detail="This claim has no bbox.")
+
+    doc = store().get_document(claim["doc_id"])
+    if not doc:
+        raise HTTPException(status_code=404, detail="Source document not found.")
+    pdf_path = Path(doc.get("path") or "")
+    if not pdf_path.exists():
+        raise HTTPException(status_code=404,
+                            detail=f"Source PDF not on disk at {pdf_path!s}.")
+
+    page_num = claim.get("grounding_page") or claim["span_page"]
+    try:
+        pdf = pymupdf.open(pdf_path)
+        page = pdf[page_num - 1]
+        rect = pymupdf.Rect(*bbox)
+        # Draw a red outline over the bbox in-memory; the PDF file is not
+        # modified. draw_rect() lives on the page's shape, not the document.
+        page.draw_rect(rect, color=(0.9, 0.15, 0.15), width=1.6, overlay=True)
+
+        if zoom == "page":
+            pix = page.get_pixmap(dpi=120)
+        else:
+            # Tight crop with padding, so the eye lands on the cell without
+            # losing surrounding context.
+            pad = 60.0
+            page_rect = page.rect
+            clip = pymupdf.Rect(max(page_rect.x0, rect.x0 - pad),
+                                max(page_rect.y0, rect.y0 - pad),
+                                min(page_rect.x1, rect.x1 + pad),
+                                min(page_rect.y1, rect.y1 + pad))
+            pix = page.get_pixmap(dpi=160, clip=clip)
+        png_bytes = pix.tobytes("png")
+    finally:
+        try:
+            pdf.close()
+        except Exception:
+            pass
+    return Response(png_bytes, media_type="image/png",
+                    headers={"Cache-Control": "public, max-age=300"})
+
+
 @app.get("/api/relations")
 async def list_relations(kind: str | None = None, doc_id: str | None = None,
                          cross_document_only: bool = True,
@@ -183,6 +243,57 @@ async def list_relations(kind: str | None = None, doc_id: str | None = None,
         r["claim_a"] = claims.get(r["claim_a_id"])
         r["claim_b"] = claims.get(r["claim_b_id"])
     return rels
+
+
+@app.get("/api/relations/{relation_id}/counterfactuals")
+async def relation_counterfactuals(relation_id: str):
+    """What the verdict would be if one qualifier were missing.
+
+    Runs the deterministic cascade once per ablatable qualifier and lists
+    only the ablations that change the verdict. The user sees exactly which
+    qualifiers were doing the work on this pair -- a demonstration that
+    context, not just values, is what the reasoning turns on.
+    """
+    from .compare import counterfactuals
+    rows = store().query_relations(cross_document_only=False,
+                                   exclude_unrelated=False, limit=10)
+    match = None
+    for r in rows:
+        if r["relation_id"] == relation_id:
+            match = r
+            break
+    if match is None:
+        # Fall back to a direct search across the whole table (query_relations
+        # sorts by confidence, so a rare relation may not appear in the top
+        # slice).
+        page = 0
+        while True:
+            batch = store().query_relations(cross_document_only=False,
+                                            exclude_unrelated=False,
+                                            limit=500, offset=page * 500)
+            if not batch:
+                break
+            for r in batch:
+                if r["relation_id"] == relation_id:
+                    match = r
+                    break
+            if match is not None:
+                break
+            page += 1
+    if match is None:
+        raise HTTPException(status_code=404, detail="Unknown relation.")
+
+    a = store().get_claim(match["claim_a_id"])
+    b = store().get_claim(match["claim_b_id"])
+    if not a or not b:
+        raise HTTPException(status_code=404,
+                            detail="One of the claims in this relation was deleted.")
+    return {
+        "relation_id": relation_id,
+        "live_kind": match["kind"],
+        "live_rule_id": match.get("rule_id"),
+        "counterfactuals": counterfactuals(a, b, similarity=match["similarity"]),
+    }
 
 
 @app.get("/api/stats")
@@ -243,13 +354,57 @@ async def rebuild_relations(background: BackgroundTasks, escalate: bool = Query(
 # --------------------------------------------------------------------------
 # UI
 # --------------------------------------------------------------------------
+#
+# Two decisions worth calling out. index.html is rewritten on each request to
+# stamp the app.js src with a cache-busting query, using the largest mtime
+# under fkl/web/ as the tag. That means any edit to the frontend is picked up
+# by the browser without the user having to hard-refresh: a real bug we hit
+# was a fast ingest completing before the poller re-rendered, and the
+# investigation was slowed down by a stale cached bundle. The tag changes only
+# when a file actually changes, so it does not defeat caching -- it just makes
+# it correct.
+#
+# Static assets are then served with Cache-Control: no-cache. That still lets
+# the browser reuse the local copy, but only after checking with the server
+# via a conditional request. ETag/Last-Modified do the rest.
+
+def _web_build_tag() -> str:
+    latest = 0.0
+    for path in WEB_DIR.rglob("*"):
+        if path.is_file():
+            latest = max(latest, path.stat().st_mtime)
+    return f"{int(latest)}"
+
+
+class _NoCacheStaticFiles(StaticFiles):
+    """StaticFiles with revalidation-first cache headers.
+
+    Development iteration on the JS/CSS should never require a manual
+    hard-refresh, and the cost of a conditional GET (a few hundred bytes) is
+    negligible against the cost of a user staring at a stuck UI thinking the
+    ingest hung.
+    """
+
+    async def get_response(self, path: str, scope):
+        response = await super().get_response(path, scope)
+        response.headers["Cache-Control"] = "no-cache, must-revalidate"
+        return response
+
+
 @app.get("/")
 async def index():
     page = WEB_DIR / "index.html"
     if not page.exists():
         return JSONResponse({"error": "UI not built"}, status_code=404)
-    return FileResponse(page)
+    html = page.read_text(encoding="utf-8")
+    # Attach a build tag to the module entry point so browsers pick up a
+    # frontend change even without a hard-refresh. The tag is the newest
+    # mtime under fkl/web/, so it only changes when something actually did.
+    tag = _web_build_tag()
+    html = html.replace('src="/static/js/main.js"',
+                        f'src="/static/js/main.js?v={tag}"')
+    return HTMLResponse(html, headers={"Cache-Control": "no-cache, must-revalidate"})
 
 
 if WEB_DIR.exists():
-    app.mount("/static", StaticFiles(directory=WEB_DIR), name="static")
+    app.mount("/static", _NoCacheStaticFiles(directory=WEB_DIR), name="static")

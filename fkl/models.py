@@ -140,13 +140,14 @@ class GroundedClaim(BaseModel):
 # Relationships
 # --------------------------------------------------------------------------
 RelationKind = Literal[
-    "corroboration",   # same claim, comparable context, equivalent values
-    "contradiction",   # same claim, comparable context, materially different values
-    "reconciled",      # values differ, but a context difference explains it
-    "supersedes",      # same measurement restated later; one revises the other
-    "partial_cover",   # one claim covers only part of what the other measures
-    "underspecified",  # related, but the documents omit context needed to judge
-    "unrelated",       # matched by similarity but not actually the same property
+    "corroboration",       # same claim, comparable context, equivalent values
+    "contradiction",       # same claim, comparable context, materially different values
+    "reconciled",          # values differ, but a context difference explains it
+    "supersedes",          # same measurement restated later; one revises the other
+    "component_of_total",  # narrower claim is a plausible part of the broader one
+    "partial_cover",       # related properties, but no numeric part-of check applied
+    "underspecified",      # related, but the documents omit context needed to judge
+    "unrelated",           # matched by similarity but not actually the same property
 ]
 
 Decider = Literal["rules", "llm"]
@@ -158,6 +159,12 @@ class Relation(BaseModel):
     claim_b_id: str
     kind: RelationKind
     decided_by: Decider = "rules"
+    # Stable identifier of the specific cascade rule that fired. Independent
+    # of `kind` on purpose: `kind` is the user-facing verdict (which may be
+    # renamed for readability), `rule_id` is the diffable, reproducible label
+    # for the branch that produced it. Two relations with the same rule_id
+    # were decided by the same code path.
+    rule_id: Optional[str] = None
 
     similarity: float = Field(description="Combined (subject, predicate) embedding cosine.")
     subject_similarity: Optional[float] = None
