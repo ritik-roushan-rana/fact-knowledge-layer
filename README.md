@@ -78,10 +78,16 @@ is inert unless `FKL_ENABLE_LLM_FALLBACK=1` is set with a provider configured;
 
 ## 2. Video Demo
 
-**TODO: link (≤ 3 minutes)**
+**<https://youtu.be/pU40MPYbdIc>** (1:52)
 
-Covers uploading a PDF, the extracted claims with their evidence, and the four
-required cases. The same four cases are readable in
+A PDF is uploaded through the UI and processed, then each of the four required
+cases is shown with its evidence and the system's reasoning: a corroboration
+across two institutions, the credit-deposit contradiction with its 12-step
+reasoning trace, an apparent conflict reconciled by period — both sides shown
+in the source PDF with the cell boxed — and the quarantine queue where claims
+that could not be grounded are held out of the layer.
+
+The same four cases are readable in
 [`samples/REQUIRED_CASES.md`](samples/REQUIRED_CASES.md).
 
 ---
