@@ -738,4 +738,9 @@ so results can be inspected without running anything.
 The commit history follows the actual development sequence, including the
 architectural change: extraction pipeline → grounding → provider swap →
 cross-document matching → API/UI → deterministic re-architecture → tests and
-benchmark.
+benchmark → entity/predicate precision work.
+
+The last of those is the one worth reading. It starts from a corpus that
+reported zero contradictions and ends at ten, and the commit message records
+each defect in the order it was found — because every one of them was hiding
+behind the one before it.
