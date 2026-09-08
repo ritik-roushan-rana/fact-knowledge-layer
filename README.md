@@ -68,15 +68,11 @@ a model, and that at least one extraction failure was surfaced:
 .venv/bin/python -m pytest -m ""    # everything, including integration
 ```
 
-**Optional LLM fallback** — not needed for anything above:
-
-```bash
-cp .env.example .env          # then add your key
-export FKL_ENABLE_LLM_FALLBACK=1
-```
-
-`.env` is gitignored. The default targets Groq, but the provider is three
-settings, so any OpenAI-compatible endpoint works.
+**No API key is used.** The system ships with the LLM path switched off, and
+every number in this README was produced without one. The adjudicator code
+remains in the tree because the measurements below compare against it, but it
+is inert unless `FKL_ENABLE_LLM_FALLBACK=1` is set with a provider configured;
+`FKL_STRICT_DETERMINISTIC=1` refuses it outright.
 
 ---
 
