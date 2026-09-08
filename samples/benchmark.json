@@ -1,22 +1,22 @@
 [
   {
     "mode": "deterministic",
-    "pdf_pages": 36,
-    "claims": 191,
-    "grounded": 190,
-    "quarantined": 1,
-    "table_claims": 170,
-    "candidate_pairs": 0,
-    "corroboration": 0,
-    "contradiction": 0,
-    "reconciled": 0,
-    "partial_cover": 0,
-    "supersedes": 0,
-    "underspecified": 0,
+    "pdf_pages": 511,
+    "claims": 4773,
+    "grounded": 4690,
+    "quarantined": 83,
+    "table_claims": 4131,
+    "candidate_pairs": 21973,
+    "corroboration": 28,
+    "contradiction": 10,
+    "reconciled": 1814,
+    "partial_cover": 13380,
+    "supersedes": 105,
+    "underspecified": 1417,
     "llm_calls": 0,
     "llm_fallback_claims": 0,
     "llm_fallback_pct": 0.0,
-    "ingest_seconds": 5.2,
-    "seconds": 5.2
+    "ingest_seconds": 95.5,
+    "seconds": 97.5
   }
 ]

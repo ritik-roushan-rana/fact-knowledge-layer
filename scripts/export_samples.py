@@ -159,9 +159,14 @@ def main() -> int:
             md += [fmt_relation(r), "---", ""]
 
     md += ["## 4. An extraction or reasoning failure", "",
-           "Found by the grounding step, not staged. Each claim below was proposed "
-           "by the extractor and then rejected or penalised because the quoted "
-           "span could not be located in the document.", ""]
+           "Both halves are selected by rule from the live output, not hand-picked: "
+           "the first three are the lowest-confidence flagged claims, the last is "
+           "the weakest surviving contradiction.", "",
+           "### 4a. Failures the system caught", "",
+           "Every claim below was proposed by the extractor and then quarantined or "
+           "marked for review. The reason differs case by case and is printed as the "
+           "system recorded it -- a span that could not be relocated in the page "
+           "text, or a value that does not appear in the evidence it cites.", ""]
     bad = sorted([c for c in claims if c["quarantined"] or c["needs_review"]],
                  key=lambda c: c["final_confidence"])
     if not bad:
@@ -178,6 +183,21 @@ def main() -> int:
             f"Closest text actually in the document (page {page}):", "",
             f"> {(c['matched_text'] or '— not found anywhere —').strip()}", "", "---", "",
         ]
+
+    # The interesting failure is not the one the guards caught -- it is the one
+    # that walked through every gate. The weakest surviving contradiction is
+    # where the rules are closest to being wrong, so that is what gets shown.
+    md += ["### 4b. A failure that got through", "",
+           "The verdict below is the lowest-confidence `contradiction` the system "
+           "still asserts. Nothing flagged it; it passed the entity, predicate, "
+           "period and value gates in order. It is shown because it is the most "
+           "informative thing in the output about where the rules end.", ""]
+    weak = sorted([r for r in relations if r["kind"] == "contradiction"],
+                  key=lambda r: r["confidence"])
+    if not weak:
+        md += ["_No contradiction in the current corpus._", ""]
+    else:
+        md += [fmt_relation(weak[0]), "---", ""]
 
     (OUT / "REQUIRED_CASES.md").write_text("\n".join(md))
 

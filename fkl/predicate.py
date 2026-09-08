@@ -19,7 +19,8 @@ import unicodedata
 
 from rapidfuzz import fuzz
 
-from .lexicon import ANTONYM_GROUPS, PREDICATE_STOPWORDS
+from .lexicon import (ANTONYM_GROUPS, PREDICATE_STOPWORDS,
+                      RATE_PREDICATE_TERMS)
 
 _PUNCT = re.compile(r"[^\w\s%]")
 _WS = re.compile(r"\s+")
@@ -60,12 +61,20 @@ def antonym_conflict(a_tokens: set[str], b_tokens: set[str]) -> tuple[str, str] 
 def _align_acronyms(ta: list[str], tb: list[str]) -> tuple[list[str], list[str]]:
     """Collapse a spelled-out run into the acronym the other side uses.
 
+    Returns the two token lists and whether any collapse actually happened --
+    callers need to know, because a collapse consumes words greedily and the
+    leftovers it creates are artefacts of the alignment rather than real
+    differences between the two properties.
+
     Documents mix "CPI inflation" and "consumer price inflation" freely. A run
     of consecutive words whose initials spell a single token on the other side
     is that token, so the two predicates become directly comparable. Same rule
     as entity acronyms; no vocabulary of specific abbreviations.
     """
+    fired = False
+
     def collapse(short: list[str], long: list[str]) -> list[str]:
+        nonlocal fired
         out = list(long)
         for tok in short:
             n = len(tok)
@@ -75,10 +84,30 @@ def _align_acronyms(ta: list[str], tb: list[str]) -> tuple[list[str], list[str]]
                 run = out[i:i + n]
                 if all(w.isalpha() for w in run) and "".join(w[0] for w in run) == tok:
                     out[i:i + n] = [tok]
+                    fired = True
                     break
         return out
 
-    return (collapse(tb, ta), collapse(ta, tb))
+    return (collapse(tb, ta), collapse(ta, tb), fired)
+
+
+def _same_word_variants(extra_a: set[str], extra_b: set[str],
+                        threshold: int = 80) -> bool:
+    """Are the leftover words on each side just spellings of each other?
+
+    "revenue from operations" against "operating revenue" leaves 'operation'
+    and 'operating' -- one word, two forms, not two different quantities.
+    Every leftover on both sides must pair off for this to hold.
+    """
+    if len(extra_a) != len(extra_b):
+        return False
+    unmatched = set(extra_b)
+    for word in extra_a:
+        hit = next((o for o in unmatched if fuzz.ratio(word, o) >= threshold), None)
+        if hit is None:
+            return False
+        unmatched.discard(hit)
+    return True
 
 
 def same_predicate(a: str, b: str, *, same_threshold: float = 0.70,
@@ -87,7 +116,7 @@ def same_predicate(a: str, b: str, *, same_threshold: float = 0.70,
     ta, tb = content_tokens(a), content_tokens(b)
     if not ta or not tb:
         return ("different", 0.0, "predicate has no comparable content words")
-    ta, tb = _align_acronyms(ta, tb)
+    ta, tb, collapsed = _align_acronyms(ta, tb)
     sa, sb = set(ta), set(tb)
 
     if sa == sb:
@@ -106,9 +135,25 @@ def same_predicate(a: str, b: str, *, same_threshold: float = 0.70,
     if sa < sb or sb < sa:
         extra = (sb - sa) if sa < sb else (sa - sb)
         if len(extra) <= 1:
+            word = sorted(extra)[0]
+            # A single extra word usually just names the same thing more fully
+            # ("cash" / "cash balance"). But when that word is itself a kind of
+            # measurement -- a ratio, a deficit, a growth rate -- it does not
+            # qualify the property, it replaces it. "Revenue" and "revenue
+            # deficit" are not the same measurement, and comparing them
+            # manufactures a contradiction out of a definitional difference.
+            # ...unless the shorter side is an acronym that swallowed the
+            # word while collapsing. "CPI" spells itself out of "Consumer
+            # Price Inflation", taking 'inflation' with it, so the leftover
+            # 'inflation' is an artefact of the alignment, not a qualifier
+            # that changes what is measured.
+            if word in RATE_PREDICATE_TERMS and not collapsed:
+                return ("related", 0.5,
+                        f"one predicate measures a {word!r} of what the other "
+                        f"measures directly; these are different quantities")
             # One extra qualifier: "cash" / "cash balance". Same measurement.
             return ("same", 0.85,
-                    f"one predicate adds a single qualifier ({sorted(extra)[0]!r}) "
+                    f"one predicate adds a single qualifier ({word!r}) "
                     f"to the other; same measurement")
         return ("related", round(len(sa & sb) / len(sa | sb), 4),
                 f"one predicate is a strict refinement of the other "
@@ -125,6 +170,21 @@ def same_predicate(a: str, b: str, *, same_threshold: float = 0.70,
                 f"no shared content word ({sorted(sa)} vs {sorted(sb)})")
 
     if score >= same_threshold:
+        # High string overlap is not enough when each side names something the
+        # other does not. "Credit-Deposit Ratio" and "Credit-GDP Ratio" share
+        # two words of three and score 0.70 on token_sort_ratio -- but
+        # 'deposit' and 'gdp' are different denominators, and calling them one
+        # property invents a contradiction between two real, different figures.
+        # Morphological variants ("operation" / "operating") are not a
+        # symmetric difference; they are one word spelled two ways. This only
+        # ever demotes 'same' to 'related' -- pairs that were already related
+        # or different are left where the score put them.
+        extra_a, extra_b = sa - sb, sb - sa
+        if extra_a and extra_b and not _same_word_variants(extra_a, extra_b):
+            return ("related", round(score, 4),
+                    f"each predicate names something the other does not "
+                    f"({sorted(extra_a)} vs {sorted(extra_b)}); "
+                    f"these measure different quantities")
         return ("same", round(score, 4),
                 f"equivalent property ({' '.join(ta)!r} ~ {' '.join(tb)!r})")
     if score >= related_threshold:

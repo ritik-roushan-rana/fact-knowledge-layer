@@ -145,3 +145,52 @@ class TestMissingContext:
         rel = relation_of(a, b)
         assert rel.kind == "contradiction"
         assert rel.confidence <= 0.2, "verdict confidence must be bounded by the weaker claim"
+
+
+class TestContradictionPreconditions:
+    """`contradiction` is the only accusatory verdict, so it needs the numbers
+    to be pinned down. These are the two ways the starter corpus showed they
+    were not."""
+
+    def test_a_unit_on_one_side_only_is_not_a_scale_difference(self):
+        # "US$3.9 trillion" against a bare table cell "9.2" was being written
+        # off as crore-versus-million and reported as a contradiction.
+        a = claim_row(cid="a", doc="ar.pdf", subject="India", predicate="GDP",
+                      value="US$3.9 trillion", ctx_period="2024")
+        b = claim_row(cid="b", doc="rbi.pdf", subject="India", predicate="GDP",
+                      value="9.2", origin="table", ctx_period="2024")
+        rel = relation_of(a, b)
+        assert rel.kind != "contradiction", rel.explanation
+        assert any("only one claim states a unit" in t for t in rel.reasoning_trace)
+
+    def test_two_unitless_table_cells_cannot_contradict(self):
+        # "Deposits" is per-cent growth in one table and a share of GDP in
+        # another. Same label, same period, different measurements.
+        a = claim_row(cid="a", doc="rbi.pdf", subject="India",
+                      predicate="deposits", value="3.5", origin="table",
+                      ctx_period="2021-22")
+        b = claim_row(cid="b", doc="imf.pdf", subject="India",
+                      predicate="deposits", value="-2.4", origin="table",
+                      ctx_period="2021/22")
+        rel = relation_of(a, b)
+        assert rel.kind == "underspecified", rel.explanation
+
+    def test_a_named_ratio_survives_the_unitless_table_guard(self):
+        # The guard must not silence the real finding: a ratio is
+        # self-dimensioning, so two unitless ratio cells stay comparable.
+        a = claim_row(cid="a", doc="rbi.pdf", subject="India",
+                      predicate="Credit-Deposit Ratio", value="72.9",
+                      origin="table", ctx_period="2022-23")
+        b = claim_row(cid="b", doc="imf.pdf", subject="India",
+                      predicate="Credit-to-deposit ratio", value="75.8",
+                      origin="table", ctx_period="2022/23")
+        rel = relation_of(a, b)
+        assert rel.kind == "contradiction", rel.explanation
+
+    def test_a_unitless_sentence_claim_is_exempt(self):
+        # A sentence predicate arrives with the sentence that qualified it, so
+        # the table-label guard does not apply to it.
+        a = claim_row(cid="a", predicate="headcount", value="12,500", ctx_period="FY24")
+        b = claim_row(cid="b", doc="b.pdf", predicate="headcount", value="14,900",
+                      ctx_period="FY24")
+        assert verdict(a, b) == "contradiction"

@@ -7,18 +7,18 @@ Each mode ingests the same input into a fresh database and then builds relations
 | metric | deterministic |
 |---|---|
 | PDF pages read | 511 |
-| claims extracted | 3750 |
-| grounded claims | 3682 |
-| quarantined claims | 68 |
-| claims from tables | 3060 |
-| candidate pairs | 1502 |
-| corroborations | 1 |
-| contradictions | 0 |
-| reconciliations | 142 |
-| partial coverage | 942 |
-| supersedes | 0 |
-| underspecified | 31 |
+| claims extracted | 4773 |
+| grounded claims | 4690 |
+| quarantined claims | 83 |
+| claims from tables | 4131 |
+| candidate pairs | 21973 |
+| corroborations | 28 |
+| contradictions | 10 |
+| reconciliations | 1814 |
+| partial coverage | 13380 |
+| supersedes | 105 |
+| underspecified | 1417 |
 | LLM calls | 0 |
 | LLM fallback claims | 0 |
 | LLM fallback % | 0.0 |
-| runtime (s) | 97.8 |
+| runtime (s) | 97.5 |

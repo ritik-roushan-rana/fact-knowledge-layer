@@ -68,3 +68,33 @@ class TestBlockingRejectsRateVersusAmount:
         rate = claim_row(value="7.46%", ctx_unit="percent")
         amount = claim_row(value="8,142", ctx_unit="INR crore")
         assert measure_kind(rate) != measure_kind(amount)
+
+
+class TestPredicateSpecificity:
+    """Rules that keep `same` from being handed out on string overlap alone.
+
+    Both were added after they produced false contradictions on the starter
+    corpus -- the RBI and IMF banking tables against each other.
+    """
+
+    def test_different_denominators_are_not_the_same_ratio(self):
+        # 0.70 on token_sort_ratio, but 'deposit' and 'gdp' are different
+        # things to divide credit by.
+        assert same_predicate("Credit-Deposit Ratio", "Credit-GDP Ratio")[0] == "related"
+        assert same_predicate("currency-deposit ratio",
+                              "credit-to-deposit ratio")[0] == "related"
+
+    def test_hyphen_and_preposition_spellings_of_one_ratio_still_match(self):
+        assert same_predicate("Credit-Deposit Ratio", "Credit-to-deposit ratio")[0] == "same"
+
+    def test_word_variants_are_not_a_symmetric_difference(self):
+        # 'operation' vs 'operating' is one word spelled two ways.
+        assert same_predicate("revenue from operations", "operating revenue")[0] == "same"
+
+    def test_a_deficit_is_not_the_thing_it_is_a_deficit_in(self):
+        assert same_predicate("revenue", "revenue deficit")[0] == "related"
+        assert same_predicate("trade", "trade surplus")[0] == "related"
+
+    def test_a_plain_qualifier_still_means_the_same_measurement(self):
+        # The rule above must not swallow ordinary qualifiers.
+        assert same_predicate("cash", "cash balance")[0] == "same"

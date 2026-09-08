@@ -1,8 +1,8 @@
 [
   {
-    "claim_id": "26eabfaedb1746f77a74",
+    "claim_id": "4f254613e50ed62cd782",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "index: 60",
     "value": "-2",
     "value_num": -2.0,
@@ -46,12 +46,12 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809597.295586
+    "created_at": 1788861791.352494
   },
   {
-    "claim_id": "deb4edd1ef7da60dc87e",
+    "claim_id": "a1b07caee96c28b22c69",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "billion 7.4",
     "value": "9.9",
     "value_num": 9.9,
@@ -95,12 +95,12 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809597.299038
+    "created_at": 1788861791.3556511
   },
   {
-    "claim_id": "28b59eb0283cd854eadf",
+    "claim_id": "fdbf081c6693563b2ca6",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "narrow money (m) 1",
     "value": "-3.9",
     "value_num": -3900000.0,
@@ -144,12 +144,12 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809597.301367
+    "created_at": 1788861791.3578088
   },
   {
-    "claim_id": "b0dc9ec09b32d796f71b",
+    "claim_id": "5ec0521b6406c93e6000",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "narrow money (m) 1",
     "value": "21.8",
     "value_num": 21800000.0,
@@ -193,12 +193,12 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809597.301373
+    "created_at": 1788861791.357813
   },
   {
-    "claim_id": "5f1f81509190b616ea11",
+    "claim_id": "d4f27e6fde87fccac973",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "narrow money (m) 1",
     "value": "13.6",
     "value_num": 13600000.0,
@@ -242,12 +242,12 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809597.301378
+    "created_at": 1788861791.3578181
   },
   {
-    "claim_id": "c6c95440b8403c35b02a",
+    "claim_id": "de6fe8f4aed18583c21e",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "narrow money (m) 1",
     "value": "11.2",
     "value_num": 11200000.0,
@@ -291,12 +291,12 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809597.301383
+    "created_at": 1788861791.357823
   },
   {
-    "claim_id": "bc8b2404d89b953d4bec",
+    "claim_id": "590d47e8729d702df832",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "narrow money (m) 1",
     "value": "16.2",
     "value_num": 16200000.0,
@@ -340,12 +340,12 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809597.301388
+    "created_at": 1788861791.3578281
   },
   {
-    "claim_id": "2c5e1de34fa210f08f98",
+    "claim_id": "51d839a6c065b7231927",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "narrow money (m) 1",
     "value": "10.7",
     "value_num": 10700000.0,
@@ -389,12 +389,12 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809597.3013928
+    "created_at": 1788861791.357833
   },
   {
-    "claim_id": "df1529e75bb41046e560",
+    "claim_id": "cd4f9877049ab088d6c9",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "narrow money (m) 1",
     "value": "6.9",
     "value_num": 6900000.0,
@@ -438,12 +438,12 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809597.301398
+    "created_at": 1788861791.3578382
   },
   {
-    "claim_id": "00d872d29c6c3e9f8847",
+    "claim_id": "36744867cea76b705ea2",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "narrow money (m) 1",
     "value": "7.3",
     "value_num": 7300000.0,
@@ -487,12 +487,12 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809597.301404
+    "created_at": 1788861791.357843
   },
   {
-    "claim_id": "a4fb84347aa61c9eac1f",
+    "claim_id": "7ff2900cc69e06dd4c24",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "narrow money (m) 1",
     "value": "7.9",
     "value_num": 7900000.0,
@@ -536,12 +536,12 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809597.301409
+    "created_at": 1788861791.3578482
   },
   {
-    "claim_id": "ea2bf6370bcd0b08dba6",
+    "claim_id": "70ecd379b8d651432164",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "broad money (m) 3",
     "value": "6.9",
     "value_num": 6900000.0,
@@ -585,12 +585,12 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809597.3014138
+    "created_at": 1788861791.357853
   },
   {
-    "claim_id": "6eef56260be94a9fb7cc",
+    "claim_id": "e79663e5ea15ab15be1a",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "broad money (m) 3",
     "value": "9.2",
     "value_num": 9200000.0,
@@ -634,12 +634,12 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809597.30142
+    "created_at": 1788861791.357858
   },
   {
-    "claim_id": "45b04afe7d45fa986e9c",
+    "claim_id": "b6e67e01ea7e0c1d858b",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "broad money (m) 3",
     "value": "10.5",
     "value_num": 10500000.0,
@@ -683,12 +683,12 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809597.301425
+    "created_at": 1788861791.357863
   },
   {
-    "claim_id": "ac1a168531e36550eec1",
+    "claim_id": "e232360e47789848c53a",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "broad money (m) 3",
     "value": "8.9",
     "value_num": 8900000.0,
@@ -732,12 +732,12 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809597.30143
+    "created_at": 1788861791.357868
   },
   {
-    "claim_id": "33548482d8f98efa4543",
+    "claim_id": "f002af2ff945136790dc",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "broad money (m) 3",
     "value": "12.2",
     "value_num": 12200000.0,
@@ -781,12 +781,12 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809597.301435
+    "created_at": 1788861791.357873
   },
   {
-    "claim_id": "f2e86bd592dd16383405",
+    "claim_id": "54305cd70bfb6b107959",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "broad money (m) 3",
     "value": "8.8",
     "value_num": 8800000.0,
@@ -830,12 +830,12 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809597.30144
+    "created_at": 1788861791.357878
   },
   {
-    "claim_id": "6dd3e530116c65cd32d6",
+    "claim_id": "d56e239902079637baeb",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "broad money (m) 3",
     "value": "9.0",
     "value_num": 9000000.0,
@@ -879,12 +879,12 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809597.301447
+    "created_at": 1788861791.357883
   },
   {
-    "claim_id": "a766e6816a8c865e3060",
+    "claim_id": "28300afd2fc0b62abb5d",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "broad money (m) 3",
     "value": "11.1",
     "value_num": 11100000.0,
@@ -928,12 +928,12 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809597.301452
+    "created_at": 1788861791.357888
   },
   {
-    "claim_id": "9d0c23fe08dd96429384",
+    "claim_id": "2a1da018f5e4cc31bbfb",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "broad money (m) 3",
     "value": "9.6",
     "value_num": 9600000.0,
@@ -977,7 +977,7 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809597.301458
+    "created_at": 1788861791.3578932
   },
   {
     "claim_id": "9063ac43f9032b6efca5",
@@ -1026,12 +1026,12 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809569.89638
+    "created_at": 1788861766.5118568
   },
   {
-    "claim_id": "4379f47069ad6415f2e9",
+    "claim_id": "98f4e4bd1bf799d92a07",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "points 20",
     "value": "100",
     "value_num": 100.0,
@@ -1075,12 +1075,12 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809597.2957098
+    "created_at": 1788861791.3526049
   },
   {
-    "claim_id": "b153075ff6569d22be3f",
+    "claim_id": "4feaadde64c4cacb6aa0",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "percentage 10",
     "value": "60",
     "value_num": 60.0,
@@ -1124,7 +1124,7 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809597.295716
+    "created_at": 1788861791.352611
   },
   {
     "claim_id": "3f36bc660c48244f6589",
@@ -1173,7 +1173,7 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809568.425765
+    "created_at": 1788861765.154628
   },
   {
     "claim_id": "6bd7da98d12e34d7f147",
@@ -1222,7 +1222,7 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809568.4258401
+    "created_at": 1788861765.154699
   },
   {
     "claim_id": "2634e761b33424b513f9",
@@ -1271,12 +1271,12 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809568.4261959
+    "created_at": 1788861765.15503
   },
   {
-    "claim_id": "22c3b11a33bac7382d45",
+    "claim_id": "7b4ed8f003686d456974",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "cent",
     "value": "14",
     "value_num": 14.0,
@@ -1320,12 +1320,12 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809597.2951071
+    "created_at": 1788861791.3520582
   },
   {
-    "claim_id": "81626b37908f452690c8",
+    "claim_id": "1bc77690e16fb3cc34f7",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "billion 20",
     "value": "200",
     "value_num": 200.0,
@@ -1369,12 +1369,12 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809597.2987971
+    "created_at": 1788861791.3554199
   },
   {
-    "claim_id": "27fbdb4332b0240d33e5",
+    "claim_id": "a73320c9f85afa1bd83f",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "gdp-m ratio$* 3",
     "value": "1.2",
     "value_num": 1.2,
@@ -1418,12 +1418,12 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809597.3015501
+    "created_at": 1788861791.3579788
   },
   {
-    "claim_id": "ad09b2cccb2cbf267c73",
+    "claim_id": "a3f836c27f9b8d6d8602",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "gdp-m ratio$* 3",
     "value": "1.2",
     "value_num": 1.2,
@@ -1467,12 +1467,12 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809597.301555
+    "created_at": 1788861791.357984
   },
   {
-    "claim_id": "0ec1015a555ce096a50e",
+    "claim_id": "638acdf6216403a870af",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "gdp-m ratio$* 3",
     "value": "1.2",
     "value_num": 1.2,
@@ -1516,12 +1516,12 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809597.3015602
+    "created_at": 1788861791.357988
   },
   {
-    "claim_id": "bd5045d1305d84ebfa6b",
+    "claim_id": "5f710f9264dd848dcc7c",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "gdp-m ratio$* 3",
     "value": "1.1",
     "value_num": 1.1,
@@ -1565,7 +1565,7 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809597.301565
+    "created_at": 1788861791.357994
   },
   {
     "claim_id": "bb37c6d79a79df05c14c",
@@ -1614,7 +1614,7 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809568.426164
+    "created_at": 1788861765.1550012
   },
   {
     "claim_id": "aecc3d641b587f247ff0",
@@ -1663,7 +1663,7 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809568.4261692
+    "created_at": 1788861765.155005
   },
   {
     "claim_id": "9a859e087ba43321a801",
@@ -1712,7 +1712,7 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809568.426174
+    "created_at": 1788861765.15501
   },
   {
     "claim_id": "b2aea1d6f318f5225db1",
@@ -1761,7 +1761,7 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809568.4261801
+    "created_at": 1788861765.155015
   },
   {
     "claim_id": "9266bf12cd487925b5cd",
@@ -1810,7 +1810,7 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809568.426185
+    "created_at": 1788861765.15502
   },
   {
     "claim_id": "08515529ad38d05cf4ca",
@@ -1859,7 +1859,7 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809568.426191
+    "created_at": 1788861765.155025
   },
   {
     "claim_id": "176f64cca10c24a007c7",
@@ -1908,7 +1908,7 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809582.216108
+    "created_at": 1788861777.3334222
   },
   {
     "claim_id": "3d22f0308293b50a6d18",
@@ -1957,12 +1957,12 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809582.216115
+    "created_at": 1788861777.333427
   },
   {
-    "claim_id": "1a567385f279fda66002",
+    "claim_id": "33aeb5e94e97b2cafadf",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "index 51",
     "value": "-20",
     "value_num": -20000000000.0,
@@ -2006,7 +2006,7 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809597.295114
+    "created_at": 1788861791.352063
   },
   {
     "claim_id": "cf23fe5880172502ad6b",
@@ -2055,7 +2055,7 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809614.4379032
+    "created_at": 1788861807.477176
   },
   {
     "claim_id": "e8b4a5bd38b5156900dd",
@@ -2104,10 +2104,10 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809614.437909
+    "created_at": 1788861807.477182
   },
   {
-    "claim_id": "c40b572fa30c5084b661",
+    "claim_id": "0629f07bb92261ce446f",
     "doc_id": "f6d3cfecafd95489",
     "subject": "India",
     "predicate": "rhs",
@@ -2116,7 +2116,7 @@
     "unit": "INR",
     "ctx_period": null,
     "ctx_unit": "INR",
-    "ctx_scope": "of",
+    "ctx_scope": null,
     "ctx_basis": null,
     "ctx_geography": null,
     "ctx_as_of": null,
@@ -2153,10 +2153,10 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809614.4379241
+    "created_at": 1788861807.4771972
   },
   {
-    "claim_id": "198984966833cf7bf66b",
+    "claim_id": "0212819b684f446c9754",
     "doc_id": "de6d79adc0667d66",
     "subject": "Delhivery",
     "predicate": "ign nu em",
@@ -2165,7 +2165,7 @@
     "unit": "trillion",
     "ctx_period": null,
     "ctx_unit": "trillion",
-    "ctx_scope": "99.",
+    "ctx_scope": null,
     "ctx_basis": null,
     "ctx_geography": null,
     "ctx_as_of": null,
@@ -2202,10 +2202,10 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809568.4255612
+    "created_at": 1788861765.154457
   },
   {
-    "claim_id": "a7f24ec6ad9fd91cefdd",
+    "claim_id": "e74a2376ab8afc0997be",
     "doc_id": "de6d79adc0667d66",
     "subject": "Delhivery",
     "predicate": "ign nu em",
@@ -2214,7 +2214,7 @@
     "unit": "trillion",
     "ctx_period": null,
     "ctx_unit": "trillion",
-    "ctx_scope": "62.",
+    "ctx_scope": null,
     "ctx_basis": null,
     "ctx_geography": null,
     "ctx_as_of": null,
@@ -2251,10 +2251,10 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809568.425568
+    "created_at": 1788861765.1544619
   },
   {
-    "claim_id": "28ae3269bf07f8123621",
+    "claim_id": "23dfeb59e1e05f100391",
     "doc_id": "de6d79adc0667d66",
     "subject": "Delhivery",
     "predicate": "ign nu em",
@@ -2263,7 +2263,7 @@
     "unit": "trillion",
     "ctx_period": null,
     "ctx_unit": "trillion",
-    "ctx_scope": ")18",
+    "ctx_scope": null,
     "ctx_basis": null,
     "ctx_geography": null,
     "ctx_as_of": null,
@@ -2300,10 +2300,10 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809568.4255738
+    "created_at": 1788861765.154467
   },
   {
-    "claim_id": "19b218e7e053b0e29cbb",
+    "claim_id": "559ea2c814868e8e4023",
     "doc_id": "de6d79adc0667d66",
     "subject": "Delhivery",
     "predicate": "ign nu em",
@@ -2312,7 +2312,7 @@
     "unit": "trillion",
     "ctx_period": null,
     "ctx_unit": "trillion",
-    "ctx_scope": "44.",
+    "ctx_scope": null,
     "ctx_basis": null,
     "ctx_geography": null,
     "ctx_as_of": null,
@@ -2349,10 +2349,10 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809568.425581
+    "created_at": 1788861765.1544719
   },
   {
-    "claim_id": "0f8f30947d46539cbbb5",
+    "claim_id": "6855470f98aaf18ce28b",
     "doc_id": "de6d79adc0667d66",
     "subject": "Delhivery",
     "predicate": "ign nu em",
@@ -2361,7 +2361,7 @@
     "unit": "trillion",
     "ctx_period": null,
     "ctx_unit": "trillion",
-    "ctx_scope": "11.",
+    "ctx_scope": null,
     "ctx_basis": null,
     "ctx_geography": null,
     "ctx_as_of": null,
@@ -2398,10 +2398,10 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809568.425587
+    "created_at": 1788861765.1544771
   },
   {
-    "claim_id": "c3ff08d2b76bae5c1886",
+    "claim_id": "8ba4775cb1b4c71bdafe",
     "doc_id": "de6d79adc0667d66",
     "subject": "Delhivery",
     "predicate": "ign nu em",
@@ -2410,7 +2410,7 @@
     "unit": "trillion",
     "ctx_period": null,
     "ctx_unit": "trillion",
-    "ctx_scope": ")92",
+    "ctx_scope": null,
     "ctx_basis": null,
     "ctx_geography": null,
     "ctx_as_of": null,
@@ -2447,10 +2447,10 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809568.4255931
+    "created_at": 1788861765.154482
   },
   {
-    "claim_id": "3e55e47e120049b7f1e9",
+    "claim_id": "8180de12d18e69e2fff6",
     "doc_id": "de6d79adc0667d66",
     "subject": "Delhivery",
     "predicate": "ign nu em",
@@ -2459,7 +2459,7 @@
     "unit": "trillion",
     "ctx_period": null,
     "ctx_unit": "trillion",
-    "ctx_scope": "62",
+    "ctx_scope": null,
     "ctx_basis": null,
     "ctx_geography": null,
     "ctx_as_of": null,
@@ -2496,10 +2496,10 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809568.425598
+    "created_at": 1788861765.1544871
   },
   {
-    "claim_id": "a05a2c6c5ac58d448460",
+    "claim_id": "2b1cef9d2d2d59fb329f",
     "doc_id": "de6d79adc0667d66",
     "subject": "Delhivery",
     "predicate": "mo ihs",
@@ -2508,7 +2508,7 @@
     "unit": "trillion",
     "ctx_period": null,
     "ctx_unit": "trillion",
-    "ctx_scope": "99.",
+    "ctx_scope": null,
     "ctx_basis": null,
     "ctx_geography": null,
     "ctx_as_of": null,
@@ -2545,10 +2545,10 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809568.425639
+    "created_at": 1788861765.15452
   },
   {
-    "claim_id": "d8a887d90b798c0e9dd2",
+    "claim_id": "f0a3ea377eb9f5f5c3e6",
     "doc_id": "de6d79adc0667d66",
     "subject": "Delhivery",
     "predicate": "mo ihs",
@@ -2557,7 +2557,7 @@
     "unit": "trillion",
     "ctx_period": null,
     "ctx_unit": "trillion",
-    "ctx_scope": "-",
+    "ctx_scope": null,
     "ctx_basis": null,
     "ctx_geography": null,
     "ctx_as_of": null,
@@ -2594,10 +2594,10 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809568.425644
+    "created_at": 1788861765.154525
   },
   {
-    "claim_id": "0cbc8c3ea99a74c7f280",
+    "claim_id": "88bae32a28e67bdf7492",
     "doc_id": "de6d79adc0667d66",
     "subject": "Delhivery",
     "predicate": "mo ihs",
@@ -2606,7 +2606,7 @@
     "unit": "trillion",
     "ctx_period": null,
     "ctx_unit": "trillion",
-    "ctx_scope": "44.",
+    "ctx_scope": null,
     "ctx_basis": null,
     "ctx_geography": null,
     "ctx_as_of": null,
@@ -2643,59 +2643,10 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809568.425649
+    "created_at": 1788861765.15453
   },
   {
-    "claim_id": "1d1ab95d6182f7ee800a",
-    "doc_id": "de6d79adc0667d66",
-    "subject": "Delhivery",
-    "predicate": "mo ihs",
-    "value": ".7",
-    "value_num": 7000000000000.0,
-    "unit": "trillion",
-    "ctx_period": null,
-    "ctx_unit": "trillion",
-    "ctx_scope": "62",
-    "ctx_basis": null,
-    "ctx_geography": null,
-    "ctx_as_of": null,
-    "ctx_denominator": null,
-    "ctx_other": null,
-    "asserted_by": null,
-    "modality": "reported",
-    "origin": "table",
-    "extraction_rule": "table[plumber-mixed] row_label+column_header+cell",
-    "source_document": "02-delhivery-annual-report-fy24-excerpt.pdf",
-    "span_page": 80,
-    "span_text": "mo ihs | 62 | .7",
-    "extraction_confidence": 0.752,
-    "grounding_confidence": 0.7,
-    "final_confidence": 0.5264,
-    "grounded": true,
-    "grounding_score": 0.7,
-    "grounding_page": 80,
-    "grounding_page_label": null,
-    "matched_text": "17.73",
-    "char_start": 626,
-    "char_end": 631,
-    "bbox": [
-      876.4378662109375,
-      207.6182861328125,
-      896.5257568359375,
-      218.23428344726562
-    ],
-    "page_shift": 0,
-    "value_in_span": true,
-    "grounding_note": "table cell: value verified, row label not found verbatim",
-    "quarantined": true,
-    "needs_review": true,
-    "review_reasons": [
-      "evidence could not be located in the document (match 0.70 < 0.80)"
-    ],
-    "created_at": 1788809568.425654
-  },
-  {
-    "claim_id": "da38c61a1d73ca112422",
+    "claim_id": "8f398dc6f0c5b463d536",
     "doc_id": "de6d79adc0667d66",
     "subject": "Delhivery",
     "predicate": "mo ihs",
@@ -2704,7 +2655,7 @@
     "unit": "trillion",
     "ctx_period": null,
     "ctx_unit": "trillion",
-    "ctx_scope": "-",
+    "ctx_scope": null,
     "ctx_basis": null,
     "ctx_geography": null,
     "ctx_as_of": null,
@@ -2741,10 +2692,10 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809568.42566
+    "created_at": 1788861765.1545348
   },
   {
-    "claim_id": "79a30a7848ed175de5e8",
+    "claim_id": "1e436f948cfac096c73c",
     "doc_id": "de6d79adc0667d66",
     "subject": "Delhivery",
     "predicate": "mo ihs",
@@ -2753,7 +2704,7 @@
     "unit": "trillion",
     "ctx_period": null,
     "ctx_unit": "trillion",
-    "ctx_scope": "-",
+    "ctx_scope": null,
     "ctx_basis": null,
     "ctx_geography": null,
     "ctx_as_of": null,
@@ -2790,59 +2741,10 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809568.4256651
+    "created_at": 1788861765.15454
   },
   {
-    "claim_id": "b70d1e13107b4b79f200",
-    "doc_id": "de6d79adc0667d66",
-    "subject": "Delhivery",
-    "predicate": "mo ihs",
-    "value": ".3",
-    "value_num": 3000000000000.0,
-    "unit": "trillion",
-    "ctx_period": null,
-    "ctx_unit": "trillion",
-    "ctx_scope": "-",
-    "ctx_basis": null,
-    "ctx_geography": null,
-    "ctx_as_of": null,
-    "ctx_denominator": null,
-    "ctx_other": null,
-    "asserted_by": null,
-    "modality": "reported",
-    "origin": "table",
-    "extraction_rule": "table[plumber-mixed] row_label+column_header+cell",
-    "source_document": "02-delhivery-annual-report-fy24-excerpt.pdf",
-    "span_page": 80,
-    "span_text": "mo ihs | - | .3",
-    "extraction_confidence": 0.752,
-    "grounding_confidence": 0.7,
-    "final_confidence": 0.5264,
-    "grounded": true,
-    "grounding_score": 0.7,
-    "grounding_page": 80,
-    "grounding_page_label": null,
-    "matched_text": "182.31",
-    "char_start": 2975,
-    "char_end": 2981,
-    "bbox": [
-      105.52180480957031,
-      316.5602111816406,
-      114.81080627441406,
-      338.07122802734375
-    ],
-    "page_shift": 0,
-    "value_in_span": true,
-    "grounding_note": "table cell: value verified, row label not found verbatim",
-    "quarantined": true,
-    "needs_review": true,
-    "review_reasons": [
-      "evidence could not be located in the document (match 0.70 < 0.80)"
-    ],
-    "created_at": 1788809568.42567
-  },
-  {
-    "claim_id": "b02ac80c7319ede8ced1",
+    "claim_id": "d50a3894672b64b4f059",
     "doc_id": "de6d79adc0667d66",
     "subject": "Delhivery",
     "predicate": "mo ihs",
@@ -2851,7 +2753,7 @@
     "unit": "trillion",
     "ctx_period": null,
     "ctx_unit": "trillion",
-    "ctx_scope": "-",
+    "ctx_scope": null,
     "ctx_basis": null,
     "ctx_geography": null,
     "ctx_as_of": null,
@@ -2888,10 +2790,10 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809568.425676
+    "created_at": 1788861765.154546
   },
   {
-    "claim_id": "f135d4c89d462169de52",
+    "claim_id": "09ed87b5312f6f051541",
     "doc_id": "de6d79adc0667d66",
     "subject": "Delhivery",
     "predicate": "mo ihs",
@@ -2900,7 +2802,7 @@
     "unit": "trillion",
     "ctx_period": null,
     "ctx_unit": "trillion",
-    "ctx_scope": "62",
+    "ctx_scope": null,
     "ctx_basis": null,
     "ctx_geography": null,
     "ctx_as_of": null,
@@ -2937,7 +2839,7 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809568.4256809
+    "created_at": 1788861765.15455
   },
   {
     "claim_id": "d9673f3f05ee14a8e9b7",
@@ -2986,7 +2888,7 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809568.424115
+    "created_at": 1788861765.1531851
   },
   {
     "claim_id": "0e2d1fd0132d2f528c02",
@@ -3035,7 +2937,7 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809568.424385
+    "created_at": 1788861765.153409
   },
   {
     "claim_id": "fd405cbd9cfb8ea1a087",
@@ -3084,7 +2986,7 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809568.4243908
+    "created_at": 1788861765.1534138
   },
   {
     "claim_id": "fc5571ab7627dc2b075e",
@@ -3133,7 +3035,7 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809582.2158709
+    "created_at": 1788861777.333204
   },
   {
     "claim_id": "8ca714cbf06364abacaa",
@@ -3182,7 +3084,7 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809582.2159538
+    "created_at": 1788861777.333281
   },
   {
     "claim_id": "ae274e6a341f96f822db",
@@ -3231,7 +3133,7 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809582.216032
+    "created_at": 1788861777.333354
   },
   {
     "claim_id": "93aa0266560ce040ec37",
@@ -3280,7 +3182,7 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809582.216037
+    "created_at": 1788861777.333359
   },
   {
     "claim_id": "4e1f192dec45d6320bb7",
@@ -3329,12 +3231,12 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809582.2163851
+    "created_at": 1788861777.333672
   },
   {
-    "claim_id": "9b542c56eb6ae108be9d",
+    "claim_id": "cec1f0e173323db64178",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "firm controls investment growthi,t\u20131",
     "value": "0.007",
     "value_num": 0.007,
@@ -3378,12 +3280,12 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809597.2960582
+    "created_at": 1788861791.352913
   },
   {
-    "claim_id": "99680d428ab669489f12",
+    "claim_id": "0ea8e033d36be230507f",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "firm controls investment growthi,t\u20131",
     "value": "-0.006",
     "value_num": -0.006,
@@ -3427,12 +3329,12 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809597.296066
+    "created_at": 1788861791.352918
   },
   {
-    "claim_id": "543154bae0814db6086f",
+    "claim_id": "53265e79ac919740a411",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "firm controls investment growthi,t\u20131",
     "value": "0.005",
     "value_num": 0.005,
@@ -3476,12 +3378,12 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809597.2960708
+    "created_at": 1788861791.352923
   },
   {
-    "claim_id": "c9b3f7188a3e6471a3dc",
+    "claim_id": "458245350365900b9289",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "firm controls investment growthi,t\u20131",
     "value": "0.006",
     "value_num": 0.006,
@@ -3525,12 +3427,12 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809597.296076
+    "created_at": 1788861791.352928
   },
   {
-    "claim_id": "e30d43e3c41ac067c9ca",
+    "claim_id": "62bd49f507e4084c6b6b",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "cent 7.5",
     "value": "80",
     "value_num": 80.0,
@@ -3574,12 +3476,12 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809597.297676
+    "created_at": 1788861791.3543758
   },
   {
-    "claim_id": "184be83fafc95dcbd5e1",
+    "claim_id": "78cb6599eae037b7ae1f",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "day repo rate t-bill rate",
     "value": "0",
     "value_num": 0.0,
@@ -3623,12 +3525,12 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809597.2976809
+    "created_at": 1788861791.354382
   },
   {
-    "claim_id": "3262a34bfcd4e3582690",
+    "claim_id": "00f4051348d167cd645b",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "other miscellaneous engineering items (11.2) 0.5",
     "value": "1,000",
     "value_num": 1000.0,
@@ -3672,12 +3574,12 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809597.298888
+    "created_at": 1788861791.3555079
   },
   {
-    "claim_id": "0f393c53d82b1723d53c",
+    "claim_id": "85f6942e3bce43ca78d9",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "office equipment (-8.0) 0.02",
     "value": "200",
     "value_num": 200.0,
@@ -3721,7 +3623,7 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809597.298893
+    "created_at": 1788861791.355514
   },
   {
     "claim_id": "6a2fd817ed98103d3a25",
@@ -3770,7 +3672,7 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809614.437951
+    "created_at": 1788861807.477223
   },
   {
     "claim_id": "dc86da748ac9f3616094",
@@ -3819,7 +3721,7 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809614.437956
+    "created_at": 1788861807.477228
   },
   {
     "claim_id": "d5c86f6224793d94da43",
@@ -3868,7 +3770,7 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809614.4418309
+    "created_at": 1788861807.480907
   },
   {
     "claim_id": "fa42df405e9c5f5fd295",
@@ -3917,7 +3819,7 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809614.441836
+    "created_at": 1788861807.480912
   },
   {
     "claim_id": "b3a37d24303bd60f8379",
@@ -3966,7 +3868,7 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809614.441843
+    "created_at": 1788861807.480917
   },
   {
     "claim_id": "2dc596c256e8688f957c",
@@ -4015,7 +3917,7 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809614.441848
+    "created_at": 1788861807.4809222
   },
   {
     "claim_id": "832c315a5a751a347e0e",
@@ -4064,7 +3966,7 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809614.4418628
+    "created_at": 1788861807.480937
   },
   {
     "claim_id": "18bb40b083176ca85ce8",
@@ -4113,7 +4015,7 @@
     "review_reasons": [
       "evidence could not be located in the document (match 0.70 < 0.80)"
     ],
-    "created_at": 1788809614.441868
+    "created_at": 1788861807.480942
   },
   {
     "claim_id": "4b8d12fc16b7e535e8d2",
@@ -4162,7 +4064,7 @@
     "review_reasons": [
       "the claim's numbers do not appear in the located evidence"
     ],
-    "created_at": 1788809569.894342
+    "created_at": 1788861766.510059
   },
   {
     "claim_id": "588bc8a43eb8b07e0a24",
@@ -4209,7 +4111,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.162844
+    "created_at": 1788861730.8232782
   },
   {
     "claim_id": "79658d230056a98d2d98",
@@ -4256,7 +4158,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.1631072
+    "created_at": 1788861730.823547
   },
   {
     "claim_id": "e489e2f5acb9a4cbdb96",
@@ -4303,7 +4205,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.1652968
+    "created_at": 1788861730.825719
   },
   {
     "claim_id": "fe52745b74def6d941f9",
@@ -4350,7 +4252,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.165302
+    "created_at": 1788861730.825724
   },
   {
     "claim_id": "3244a72ba02708c14fee",
@@ -4397,7 +4299,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.1655822
+    "created_at": 1788861730.826002
   },
   {
     "claim_id": "f4ec7b77054cd8f4e8aa",
@@ -4444,7 +4346,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.165587
+    "created_at": 1788861730.8260071
   },
   {
     "claim_id": "567dea43686f1cbfaf6b",
@@ -4491,7 +4393,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.165592
+    "created_at": 1788861730.826012
   },
   {
     "claim_id": "2ad0cba7d271014448aa",
@@ -4538,7 +4440,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.165596
+    "created_at": 1788861730.8260171
   },
   {
     "claim_id": "7883a41659a4e9f001f4",
@@ -4585,7 +4487,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.165601
+    "created_at": 1788861730.826022
   },
   {
     "claim_id": "987ad94b0dfd8237803d",
@@ -4632,7 +4534,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.165622
+    "created_at": 1788861730.826041
   },
   {
     "claim_id": "453d5cd7aa501fd1293c",
@@ -4679,7 +4581,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.1656268
+    "created_at": 1788861730.826047
   },
   {
     "claim_id": "2b9cc03c1c678422d8df",
@@ -4726,7 +4628,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.165631
+    "created_at": 1788861730.8260522
   },
   {
     "claim_id": "f2e788320d2d44df671c",
@@ -4773,7 +4675,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.165636
+    "created_at": 1788861730.826057
   },
   {
     "claim_id": "1b8ce02601de5a4d59b6",
@@ -4820,7 +4722,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.165641
+    "created_at": 1788861730.826062
   },
   {
     "claim_id": "19a70ba80c803a200163",
@@ -4867,7 +4769,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.1657128
+    "created_at": 1788861730.826129
   },
   {
     "claim_id": "5bca8284907e87c6dcd8",
@@ -4914,7 +4816,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.165717
+    "created_at": 1788861730.826133
   },
   {
     "claim_id": "c52e0f759838e3c8ab4a",
@@ -4961,7 +4863,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.1657221
+    "created_at": 1788861730.826138
   },
   {
     "claim_id": "8a45516005b47ce3ff04",
@@ -5008,7 +4910,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.165727
+    "created_at": 1788861730.826143
   },
   {
     "claim_id": "6b91efa8f030fe8b3333",
@@ -5055,7 +4957,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.165733
+    "created_at": 1788861730.8261492
   },
   {
     "claim_id": "1b85ed52f93837de40d4",
@@ -5102,7 +5004,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.1657422
+    "created_at": 1788861730.826158
   },
   {
     "claim_id": "a4d314557aeddedb9e08",
@@ -5149,7 +5051,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.165747
+    "created_at": 1788861730.826164
   },
   {
     "claim_id": "8b12f783c6c8dca6c4d4",
@@ -5196,7 +5098,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.1657522
+    "created_at": 1788861730.826169
   },
   {
     "claim_id": "796348bf73fb3b210b29",
@@ -5243,7 +5145,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.165756
+    "created_at": 1788861730.826175
   },
   {
     "claim_id": "1a1cf5eecae162e9a212",
@@ -5290,7 +5192,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.165761
+    "created_at": 1788861730.82618
   },
   {
     "claim_id": "521c6d7bfa8d4c6c71cb",
@@ -5337,7 +5239,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.165766
+    "created_at": 1788861730.826185
   },
   {
     "claim_id": "bac0a22aca1b47150d5f",
@@ -5384,7 +5286,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.165771
+    "created_at": 1788861730.82619
   },
   {
     "claim_id": "c744bc3e9f62d1750260",
@@ -5431,7 +5333,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.165775
+    "created_at": 1788861730.8261938
   },
   {
     "claim_id": "08ec1fe5f2fef1a5f80e",
@@ -5478,7 +5380,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.16578
+    "created_at": 1788861730.826199
   },
   {
     "claim_id": "262f2f649300b9b84ac5",
@@ -5525,7 +5427,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.165785
+    "created_at": 1788861730.8262038
   },
   {
     "claim_id": "2e12bf46b34004dc41f0",
@@ -5572,7 +5474,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.1657898
+    "created_at": 1788861730.82621
   },
   {
     "claim_id": "58c56032db6f56babc0c",
@@ -5619,7 +5521,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.1657941
+    "created_at": 1788861730.826215
   },
   {
     "claim_id": "575eda5c3e20c4cd0749",
@@ -5666,7 +5568,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.1658182
+    "created_at": 1788861730.826241
   },
   {
     "claim_id": "4e933ce11f4e84f9e38c",
@@ -5713,7 +5615,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.165823
+    "created_at": 1788861730.8262458
   },
   {
     "claim_id": "dd187728b845fceff74c",
@@ -5760,7 +5662,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.165828
+    "created_at": 1788861730.826251
   },
   {
     "claim_id": "e78f480d9232c9e6e8c7",
@@ -5807,7 +5709,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.166095
+    "created_at": 1788861730.826544
   },
   {
     "claim_id": "6807af474427de00d6c8",
@@ -5854,7 +5756,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.166104
+    "created_at": 1788861730.826554
   },
   {
     "claim_id": "1245fb69f2d45ba0b743",
@@ -5901,7 +5803,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.1661088
+    "created_at": 1788861730.826559
   },
   {
     "claim_id": "a74746d1f6c47e0ff0b4",
@@ -5948,7 +5850,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.166139
+    "created_at": 1788861730.82659
   },
   {
     "claim_id": "ae85ba188c9659a6dc75",
@@ -5995,7 +5897,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.166143
+    "created_at": 1788861730.826596
   },
   {
     "claim_id": "09c17b6a2912a8861101",
@@ -6042,7 +5944,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.1661482
+    "created_at": 1788861730.826601
   },
   {
     "claim_id": "7ac705fc1cb05d388129",
@@ -6089,7 +5991,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.166153
+    "created_at": 1788861730.826606
   },
   {
     "claim_id": "cd065d465781862bdae5",
@@ -6136,7 +6038,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.166263
+    "created_at": 1788861730.826717
   },
   {
     "claim_id": "1c46ad2922e686725ffa",
@@ -6183,7 +6085,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.424066
+    "created_at": 1788861765.153147
   },
   {
     "claim_id": "31a6009889a444027221",
@@ -6230,7 +6132,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.424073
+    "created_at": 1788861765.153153
   },
   {
     "claim_id": "73fa0b15762a7c9e6a0a",
@@ -6277,7 +6179,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.424094
+    "created_at": 1788861765.153169
   },
   {
     "claim_id": "77b009c7387cf7d7b937",
@@ -6324,7 +6226,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.4241002
+    "created_at": 1788861765.153174
   },
   {
     "claim_id": "2ae5755ac1fe2c0d1037",
@@ -6371,7 +6273,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.4241412
+    "created_at": 1788861765.153206
   },
   {
     "claim_id": "cbd03439c45e0b652d5f",
@@ -6418,7 +6320,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.42419
+    "created_at": 1788861765.153245
   },
   {
     "claim_id": "f85a798520f07a0c4f7d",
@@ -6465,7 +6367,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.424196
+    "created_at": 1788861765.15325
   },
   {
     "claim_id": "9716aae16a3823de3ea3",
@@ -6512,7 +6414,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.424202
+    "created_at": 1788861765.153256
   },
   {
     "claim_id": "3f11b1d5226370865752",
@@ -6559,7 +6461,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.4242072
+    "created_at": 1788861765.15326
   },
   {
     "claim_id": "bb0e7c91a91653b932be",
@@ -6606,7 +6508,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.424212
+    "created_at": 1788861765.153265
   },
   {
     "claim_id": "f10996961db67aef4cd6",
@@ -6653,7 +6555,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.4242182
+    "created_at": 1788861765.153271
   },
   {
     "claim_id": "1414f324de864d09ef51",
@@ -6700,7 +6602,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.424224
+    "created_at": 1788861765.153276
   },
   {
     "claim_id": "8f5a4c3eb34e6a908b15",
@@ -6747,7 +6649,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.424408
+    "created_at": 1788861765.153429
   },
   {
     "claim_id": "3a015c24c9714f9575b7",
@@ -6794,7 +6696,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.424414
+    "created_at": 1788861765.153433
   },
   {
     "claim_id": "896b3d595a8866fbad93",
@@ -6841,7 +6743,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.4244192
+    "created_at": 1788861765.1534379
   },
   {
     "claim_id": "c25f207f042724171b0d",
@@ -6888,7 +6790,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.424424
+    "created_at": 1788861765.153443
   },
   {
     "claim_id": "4df0dc9d492da24a7593",
@@ -6935,7 +6837,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.4244301
+    "created_at": 1788861765.1534479
   },
   {
     "claim_id": "0b28b9000c55c0d6a896",
@@ -6982,7 +6884,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.4244459
+    "created_at": 1788861765.1534631
   },
   {
     "claim_id": "d84dd160395e5496cdca",
@@ -7029,7 +6931,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.424468
+    "created_at": 1788861765.153483
   },
   {
     "claim_id": "3d1802eb97a6f26100f8",
@@ -7076,7 +6978,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.4244852
+    "created_at": 1788861765.153497
   },
   {
     "claim_id": "6f99c580e936dde89720",
@@ -7123,7 +7025,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.4244962
+    "created_at": 1788861765.153507
   },
   {
     "claim_id": "47a15330a638b8ac57c1",
@@ -7170,7 +7072,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.424507
+    "created_at": 1788861765.153517
   },
   {
     "claim_id": "405d14fe1b9aa8557caf",
@@ -7217,7 +7119,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.424523
+    "created_at": 1788861765.153533
   },
   {
     "claim_id": "a0389e778b75ef6b5d1c",
@@ -7264,7 +7166,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.424528
+    "created_at": 1788861765.153537
   },
   {
     "claim_id": "571ce9646d635cd8023d",
@@ -7311,7 +7213,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.424533
+    "created_at": 1788861765.153543
   },
   {
     "claim_id": "f40113f3e01abb927fc1",
@@ -7358,7 +7260,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.4245381
+    "created_at": 1788861765.153547
   },
   {
     "claim_id": "ac6ccca3aca7884b7e2b",
@@ -7405,7 +7307,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.424544
+    "created_at": 1788861765.1535518
   },
   {
     "claim_id": "7ed9cc2b966dc674553a",
@@ -7452,7 +7354,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.424549
+    "created_at": 1788861765.1535559
   },
   {
     "claim_id": "e6ee3ac3448d5ed958ae",
@@ -7499,7 +7401,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.4245539
+    "created_at": 1788861765.153561
   },
   {
     "claim_id": "a12a91fccc842ab3f2e8",
@@ -7546,7 +7448,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.424572
+    "created_at": 1788861765.153576
   },
   {
     "claim_id": "bb19096dea6e3da43865",
@@ -7593,7 +7495,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.424578
+    "created_at": 1788861765.1535811
   },
   {
     "claim_id": "3fdcf3170d931333bc66",
@@ -7640,7 +7542,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.424583
+    "created_at": 1788861765.153586
   },
   {
     "claim_id": "509c2d56763fdb4f5818",
@@ -7687,7 +7589,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.4245892
+    "created_at": 1788861765.1535912
   },
   {
     "claim_id": "18c4f1ae3cf39ec3ff70",
@@ -7734,7 +7636,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.4246001
+    "created_at": 1788861765.1536
   },
   {
     "claim_id": "a0dc057075b62a67053b",
@@ -7781,7 +7683,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.424605
+    "created_at": 1788861765.153606
   },
   {
     "claim_id": "d7e7f5781a873cc800fc",
@@ -7828,7 +7730,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.424671
+    "created_at": 1788861765.1536589
   },
   {
     "claim_id": "d0635267529f0a54b718",
@@ -7875,7 +7777,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.4246762
+    "created_at": 1788861765.153664
   },
   {
     "claim_id": "1a0684e21e6e2ed06f54",
@@ -7922,7 +7824,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.425194
+    "created_at": 1788861765.154135
   },
   {
     "claim_id": "72842bdf4309b9e9bddd",
@@ -7969,7 +7871,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.4260669
+    "created_at": 1788861765.1549098
   },
   {
     "claim_id": "e75d883a90fa469da6a1",
@@ -8016,7 +7918,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.4260721
+    "created_at": 1788861765.154915
   },
   {
     "claim_id": "93f5ea9c9d130f2646c4",
@@ -8063,7 +7965,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.426077
+    "created_at": 1788861765.154919
   },
   {
     "claim_id": "84ccad6e882f2c82b82e",
@@ -8110,7 +8012,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.426118
+    "created_at": 1788861765.154957
   },
   {
     "claim_id": "306d382d0ab2aeae086a",
@@ -8157,7 +8059,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.426124
+    "created_at": 1788861765.1549609
   },
   {
     "claim_id": "abc609edfb96be37ec5f",
@@ -8204,7 +8106,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894408
+    "created_at": 1788861766.510123
   },
   {
     "claim_id": "63ead5bada2a7572375f",
@@ -8251,7 +8153,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.896172
+    "created_at": 1788861766.511689
   },
   {
     "claim_id": "2b3f65bf41efdb66c310",
@@ -8298,7 +8200,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.215824
+    "created_at": 1788861777.3331652
   },
   {
     "claim_id": "3946f1165a20e417e911",
@@ -8345,7 +8247,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.215831
+    "created_at": 1788861777.333171
   },
   {
     "claim_id": "fcb198ee10cec430ce79",
@@ -8392,7 +8294,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.21586
+    "created_at": 1788861777.333193
   },
   {
     "claim_id": "2e893f53d76e7abb231a",
@@ -8439,7 +8341,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.2158778
+    "created_at": 1788861777.333208
   },
   {
     "claim_id": "98dbc90a25db2784c902",
@@ -8486,7 +8388,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.2158878
+    "created_at": 1788861777.333218
   },
   {
     "claim_id": "f774ba03f2fed22a58b0",
@@ -8533,7 +8435,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.215898
+    "created_at": 1788861777.333228
   },
   {
     "claim_id": "7be0b7e65825d3548f48",
@@ -8580,7 +8482,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.215903
+    "created_at": 1788861777.3332322
   },
   {
     "claim_id": "eccae2d0ebdc2e1b61a7",
@@ -8627,7 +8529,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.215908
+    "created_at": 1788861777.333237
   },
   {
     "claim_id": "8ba1ffaabb7b32c9aab8",
@@ -8674,7 +8576,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.215918
+    "created_at": 1788861777.333247
   },
   {
     "claim_id": "34bd25c979318e0af964",
@@ -8721,7 +8623,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.2159228
+    "created_at": 1788861777.3332522
   },
   {
     "claim_id": "c74b2f5f9851594a3cd3",
@@ -8768,7 +8670,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.215928
+    "created_at": 1788861777.333257
   },
   {
     "claim_id": "c2872db96c297ca1820f",
@@ -8815,7 +8717,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.2159328
+    "created_at": 1788861777.333262
   },
   {
     "claim_id": "9d25f4e671bbef6a6e5e",
@@ -8862,7 +8764,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.215938
+    "created_at": 1788861777.333266
   },
   {
     "claim_id": "074b0887a0ca2cab5e75",
@@ -8909,7 +8811,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.2159429
+    "created_at": 1788861777.333271
   },
   {
     "claim_id": "4f796dd708e91debced2",
@@ -8956,7 +8858,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.215988
+    "created_at": 1788861777.3333151
   },
   {
     "claim_id": "bc8e619a3aa2b32defa4",
@@ -9003,7 +8905,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.2159941
+    "created_at": 1788861777.33332
   },
   {
     "claim_id": "ea1912fad6d677a2fe2e",
@@ -9050,7 +8952,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.216012
+    "created_at": 1788861777.333335
   },
   {
     "claim_id": "1c4b7dbe91e839c38fab",
@@ -9097,7 +8999,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.216017
+    "created_at": 1788861777.333339
   },
   {
     "claim_id": "9e53f01a4cc9611f5ed1",
@@ -9144,7 +9046,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.216047
+    "created_at": 1788861777.333368
   },
   {
     "claim_id": "ac0190914abdf99b6525",
@@ -9191,7 +9093,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.216057
+    "created_at": 1788861777.333378
   },
   {
     "claim_id": "8b0a78767d59fb5c5c83",
@@ -9238,7 +9140,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.2160692
+    "created_at": 1788861777.333388
   },
   {
     "claim_id": "bcdea2fbf70e4b0c0b26",
@@ -9285,7 +9187,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.216088
+    "created_at": 1788861777.333407
   },
   {
     "claim_id": "4138ebbebfb18674b5d0",
@@ -9332,7 +9234,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.2160928
+    "created_at": 1788861777.3334122
   },
   {
     "claim_id": "7ac9a520c8c4ea9fde6a",
@@ -9379,7 +9281,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.216098
+    "created_at": 1788861777.333417
   },
   {
     "claim_id": "5d509fb150b696ec25cf",
@@ -9426,7 +9328,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.2161841
+    "created_at": 1788861777.333489
   },
   {
     "claim_id": "cb57f16ce7620fcf24e9",
@@ -9473,7 +9375,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.216189
+    "created_at": 1788861777.333493
   },
   {
     "claim_id": "3a0d3336e0265c182d8a",
@@ -9520,7 +9422,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.216208
+    "created_at": 1788861777.3335118
   },
   {
     "claim_id": "b68931d27ec0de7b5ed0",
@@ -9567,7 +9469,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.216213
+    "created_at": 1788861777.333517
   },
   {
     "claim_id": "04e1bb24131be0b957a0",
@@ -9614,7 +9516,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.216218
+    "created_at": 1788861777.3335218
   },
   {
     "claim_id": "8ea44638f3fc059f603b",
@@ -9661,7 +9563,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.216223
+    "created_at": 1788861777.333527
   },
   {
     "claim_id": "b4a7d62534e2a0664e4c",
@@ -9708,7 +9610,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.2162628
+    "created_at": 1788861777.333556
   },
   {
     "claim_id": "c1c364ae09863a216c2c",
@@ -9755,7 +9657,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.216268
+    "created_at": 1788861777.3335612
   },
   {
     "claim_id": "6a1328905f371418a930",
@@ -9802,7 +9704,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.2162828
+    "created_at": 1788861777.333575
   },
   {
     "claim_id": "81da022c7daca66680ed",
@@ -9849,7 +9751,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.216303
+    "created_at": 1788861777.333594
   },
   {
     "claim_id": "ac6521435d3bb547c48b",
@@ -9896,7 +9798,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.2163079
+    "created_at": 1788861777.333599
   },
   {
     "claim_id": "3dbfb206e97986b57741",
@@ -9943,7 +9845,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.216334
+    "created_at": 1788861777.333623
   },
   {
     "claim_id": "b70fd17a13c18aaca631",
@@ -9990,7 +9892,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.2163599
+    "created_at": 1788861777.333647
   },
   {
     "claim_id": "ea8ad7d18c38d66a4546",
@@ -10037,7 +9939,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.216365
+    "created_at": 1788861777.333652
   },
   {
     "claim_id": "3be43869f41bf16791ea",
@@ -10084,7 +9986,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.2163699
+    "created_at": 1788861777.333657
   },
   {
     "claim_id": "853f516948fd169c536b",
@@ -10131,7 +10033,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.216375
+    "created_at": 1788861777.3336608
   },
   {
     "claim_id": "873f54af4c57fb64d133",
@@ -10178,7 +10080,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.216408
+    "created_at": 1788861777.333691
   },
   {
     "claim_id": "aa46e225e93e0c68bc82",
@@ -10225,7 +10127,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.216413
+    "created_at": 1788861777.333696
   },
   {
     "claim_id": "d5cdc75c291f49b613ea",
@@ -10272,7 +10174,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.216418
+    "created_at": 1788861777.3337011
   },
   {
     "claim_id": "5ada8a1a1cc31ba1e423",
@@ -10319,7 +10221,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.2164228
+    "created_at": 1788861777.333706
   },
   {
     "claim_id": "336fe9bb586c91385c80",
@@ -10366,7 +10268,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.216428
+    "created_at": 1788861777.3337102
   },
   {
     "claim_id": "38fa51fcb0d28bf497e0",
@@ -10413,7 +10315,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.2164679
+    "created_at": 1788861777.3337479
   },
   {
     "claim_id": "b3ba1b7f80fd9c85a87e",
@@ -10460,7 +10362,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.216476
+    "created_at": 1788861777.333753
   },
   {
     "claim_id": "7c34955386b3606eaa0d",
@@ -10507,7 +10409,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.216485
+    "created_at": 1788861777.3337579
   },
   {
     "claim_id": "707dc74fa834c431cf3a",
@@ -10554,7 +10456,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.216495
+    "created_at": 1788861777.333768
   },
   {
     "claim_id": "9d44b518f77931e5cef5",
@@ -10601,7 +10503,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.2165
+    "created_at": 1788861777.3337731
   },
   {
     "claim_id": "74b19139428dbfedac55",
@@ -10648,7 +10550,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.216505
+    "created_at": 1788861777.333777
   },
   {
     "claim_id": "0f0c010295024032af1b",
@@ -10695,7 +10597,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.216515
+    "created_at": 1788861777.333786
   },
   {
     "claim_id": "8e792b890dc05d60ef05",
@@ -10742,7 +10644,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.2165189
+    "created_at": 1788861777.333791
   },
   {
     "claim_id": "3665c4d6cd328c77d052",
@@ -10789,7 +10691,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.2165241
+    "created_at": 1788861777.333796
   },
   {
     "claim_id": "c8577715b76043ee6176",
@@ -10836,7 +10738,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.216529
+    "created_at": 1788861777.333801
   },
   {
     "claim_id": "98c3df47099896155fd0",
@@ -10883,7 +10785,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.216534
+    "created_at": 1788861777.333805
   },
   {
     "claim_id": "4f62dcbcb25f91ba81a4",
@@ -10930,7 +10832,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.2165482
+    "created_at": 1788861777.3338199
   },
   {
     "claim_id": "e795cafc02ca74533699",
@@ -10977,7 +10879,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.216553
+    "created_at": 1788861777.333824
   },
   {
     "claim_id": "cf493bd5f6a5b0b163e3",
@@ -11024,7 +10926,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.216563
+    "created_at": 1788861777.333834
   },
   {
     "claim_id": "edecdbf8f44ec68bf241",
@@ -11071,7 +10973,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.216568
+    "created_at": 1788861777.333838
   },
   {
     "claim_id": "8366b739cd56958f7fe3",
@@ -11118,7 +11020,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.216573
+    "created_at": 1788861777.333843
   },
   {
     "claim_id": "4838801f43075190a7d9",
@@ -11165,7 +11067,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.216607
+    "created_at": 1788861777.333876
   },
   {
     "claim_id": "dbe2f6bfe388cba08bc4",
@@ -11212,12 +11114,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.216622
+    "created_at": 1788861777.33389
   },
   {
-    "claim_id": "2761b9167319457e782d",
+    "claim_id": "bca2fe32e6b4d9a435d6",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "global growth",
     "value": "3.3 per cent",
     "value_num": 3.3,
@@ -11259,12 +11161,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.2917671
+    "created_at": 1788861791.3490188
   },
   {
-    "claim_id": "e6877b696d2719437f51",
+    "claim_id": "9fbbbd8752aab201e747",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "growth",
     "value": "6.5 per cent",
     "value_num": 6.5,
@@ -11306,12 +11208,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.2917812
+    "created_at": 1788861791.3490298
   },
   {
-    "claim_id": "a6fde439a082c1899c64",
+    "claim_id": "82ae89e4db9651260b5b",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "status quo since",
     "value": "6.50 per cent",
     "value_num": 6.5,
@@ -11353,12 +11255,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.291829
+    "created_at": 1788861791.349072
   },
   {
-    "claim_id": "04144146b53c296458f5",
+    "claim_id": "bea5daa6b1083be50af7",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "revenue expenditure",
     "value": "5.8 per cent",
     "value_num": 5.8,
@@ -11400,12 +11302,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.291848
+    "created_at": 1788861791.349087
   },
   {
-    "claim_id": "464743a1d2bb3af3cb92",
+    "claim_id": "ce1f32099fa33a0a5610",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "limit",
     "value": "\u20b947,010 crore",
     "value_num": 470100000000.0,
@@ -11447,7 +11349,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.291861
+    "created_at": 1788861791.349098
   },
   {
     "claim_id": "76bb977d73e554195c4e",
@@ -11494,12 +11396,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.291908
+    "created_at": 1788861791.349133
   },
   {
-    "claim_id": "289caa3e8d8273da0828",
+    "claim_id": "99795a0be9ecd18b9670",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "outlay",
     "value": "\u20b91.5 lakh",
     "value_num": 150000.0,
@@ -11541,12 +11443,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.291915
+    "created_at": 1788861791.349139
   },
   {
-    "claim_id": "328a0e68735387a68d85",
+    "claim_id": "80f772d5fbb6baf7387d",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "gdp (change)",
     "value": "3.3 per cent",
     "value_num": 3.3,
@@ -11588,12 +11490,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.2919319
+    "created_at": 1788861791.349154
   },
   {
-    "claim_id": "1d6d17fdd5459f03a696",
+    "claim_id": "69086a8b4756be9b6168",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "prices",
     "value": "31.4 per cent",
     "value_num": 31.4,
@@ -11635,12 +11537,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.29195
+    "created_at": 1788861791.3491688
   },
   {
-    "claim_id": "b2e92f25bed1c2a0035c",
+    "claim_id": "8c8043577bfa2023aec9",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "central government\u2019s revenue expenditure (change)",
     "value": "4.2 per cent",
     "value_num": 4.2,
@@ -11682,12 +11584,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.291955
+    "created_at": 1788861791.349174
   },
   {
-    "claim_id": "c153016a6d98d29d7f9f",
+    "claim_id": "b2aea02687e8fe1d8021",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "remained steady",
     "value": "30.3 per cent",
     "value_num": 30.3,
@@ -11729,12 +11631,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.2922602
+    "created_at": 1788861791.349445
   },
   {
-    "claim_id": "00a2f7be602559b1e81e",
+    "claim_id": "5b24d982a256913edc05",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "over a high base",
     "value": "12.3 per cent",
     "value_num": 12.3,
@@ -11776,12 +11678,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.293163
+    "created_at": 1788861791.3502662
   },
   {
-    "claim_id": "c1c059ae777b3a5408f8",
+    "claim_id": "1a27774ff232b9f5eb5c",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "growth",
     "value": "12.2 per cent",
     "value_num": 12.2,
@@ -11823,7 +11725,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.293181
+    "created_at": 1788861791.350281
   },
   {
     "claim_id": "0e39465d8bba96488a21",
@@ -11870,12 +11772,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.295176
+    "created_at": 1788861791.3521228
   },
   {
-    "claim_id": "9fc275fa0f00e1602abe",
+    "claim_id": "e19d115822aeaed31a1a",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "inflation",
     "value": "3.3 per cent",
     "value_num": 3.3,
@@ -11917,12 +11819,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.2955751
+    "created_at": 1788861791.352484
   },
   {
-    "claim_id": "38bce820b835ebc762d9",
+    "claim_id": "830bf149bdc6040975e9",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "inflation",
     "value": "3.5 per cent",
     "value_num": 3.5,
@@ -11964,12 +11866,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.2956128
+    "created_at": 1788861791.3525178
   },
   {
-    "claim_id": "f5a6c50edffd78ddde19",
+    "claim_id": "9bca2f603fdb7389c7a6",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "elevated",
     "value": "19.4 per cent",
     "value_num": 19.4,
@@ -12011,12 +11913,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.295618
+    "created_at": 1788861791.352523
   },
   {
-    "claim_id": "a12229c1f137d8d1d5e3",
+    "claim_id": "2c6b98af8dca692c5e70",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "remained firm",
     "value": "7.2 per cent",
     "value_num": 7.2,
@@ -12058,12 +11960,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.295645
+    "created_at": 1788861791.3525472
   },
   {
-    "claim_id": "6b47f60edfef2d2dc3c3",
+    "claim_id": "9cac643701314c6963df",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "beverages",
     "value": "6.3 \nper cent",
     "value_num": 6.3,
@@ -12105,12 +12007,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.295677
+    "created_at": 1788861791.352576
   },
   {
-    "claim_id": "5cc964fb1e3c2f3b557a",
+    "claim_id": "9bf6551156c24e358855",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "inflation",
     "value": "10.2 per cent",
     "value_num": 10.2,
@@ -12152,12 +12054,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.295682
+    "created_at": 1788861791.352581
   },
   {
-    "claim_id": "457aea37040257b72b55",
+    "claim_id": "eb2ff4a9bc5f168dd403",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "remained subdued",
     "value": "3.8 per cent",
     "value_num": 3.8,
@@ -12199,12 +12101,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.295687
+    "created_at": 1788861791.352586
   },
   {
-    "claim_id": "69deed8eed72b925bf68",
+    "claim_id": "fe40323e3c0ebcc2ae84",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "fuel inflation",
     "value": "1.5 per cent",
     "value_num": 1.5,
@@ -12246,12 +12148,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.295692
+    "created_at": 1788861791.352591
   },
   {
-    "claim_id": "fd8e804862b3f35298e2",
+    "claim_id": "23e49cbf294217166e15",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "domestic lpg price cut",
     "value": "\u20b9100",
     "value_num": 100.0,
@@ -12293,12 +12195,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.295697
+    "created_at": 1788861791.352596
   },
   {
-    "claim_id": "884d6097ed03d655c8d6",
+    "claim_id": "9e0f38fc84e5cfc26750",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "average",
     "value": "3.5 per cent",
     "value_num": 3.5,
@@ -12340,12 +12242,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.295702
+    "created_at": 1788861791.3526
   },
   {
-    "claim_id": "f3c246887b168bb6e7ac",
+    "claim_id": "b525dadce338da356bd7",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "effects",
     "value": "9.8 per cent",
     "value_num": 9.8,
@@ -12387,12 +12289,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.2957282
+    "created_at": 1788861791.3526201
   },
   {
-    "claim_id": "dd0cda6e7009c88364ec",
+    "claim_id": "7891693ed459560ea0a9",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "nfa (change)",
     "value": "\u20b92.8 lakh",
     "value_num": 280000.0,
@@ -12434,12 +12336,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.295805
+    "created_at": 1788861791.352688
   },
   {
-    "claim_id": "35f6b45d59e742a5e291",
+    "claim_id": "71d197c224cf4fbf0441",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "growth",
     "value": "9.6 per cent",
     "value_num": 9.6,
@@ -12481,12 +12383,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.295826
+    "created_at": 1788861791.352708
   },
   {
-    "claim_id": "200a163025bc54ee2377",
+    "claim_id": "7e5a571bf88260cf0958",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "cds",
     "value": "\u20b92.8 lakh",
     "value_num": 280000.0,
@@ -12528,12 +12430,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.297655
+    "created_at": 1788861791.354357
   },
   {
-    "claim_id": "0ecb013efe684f4eee90",
+    "claim_id": "41635f929ae4f4ce1f9b",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "which",
     "value": "\u20b93.7 lakh",
     "value_num": 370000.0,
@@ -12575,12 +12477,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.297722
+    "created_at": 1788861791.3544161
   },
   {
-    "claim_id": "5cba4d7bb541dbbed2cf",
+    "claim_id": "f8333d2b39a0ee8a1349",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "cps",
     "value": "\u20b915.7 lakh",
     "value_num": 1570000.0,
@@ -12622,12 +12524,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.2977269
+    "created_at": 1788861791.354421
   },
   {
-    "claim_id": "1ad5629d528513755183",
+    "claim_id": "ae5eb743fe906a0282d4",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "quarter",
     "value": "7.01 per cent",
     "value_num": 7.01,
@@ -12669,12 +12571,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.297732
+    "created_at": 1788861791.3544261
   },
   {
-    "claim_id": "257d63b9c79e369279c6",
+    "claim_id": "2311d28b666bec5761fb",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "generic g-sec yield closed the quarter",
     "value": "6.75 \nper cent",
     "value_num": 6.75,
@@ -12716,12 +12618,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.297743
+    "created_at": 1788861791.354435
   },
   {
-    "claim_id": "63db230425f3dc1a98a4",
+    "claim_id": "0dfeb83f503f1f5876cc",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "generic g-sec yield closed",
     "value": "6.76 per cent",
     "value_num": 6.76,
@@ -12763,12 +12665,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.2977479
+    "created_at": 1788861791.35444
   },
   {
-    "claim_id": "ae8bcccc09a334e0eac4",
+    "claim_id": "8638ce2fd2c162164921",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "net purchases",
     "value": "\u20b94.7 lakh",
     "value_num": 470000.0,
@@ -12810,12 +12712,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.297982
+    "created_at": 1788861791.354649
   },
   {
-    "claim_id": "f6657b173eff08be8f61",
+    "claim_id": "69d50baaeb530424d7e7",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "revenue expenditure (change)",
     "value": "5.8 per cent",
     "value_num": 5.8,
@@ -12857,12 +12759,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.2980192
+    "created_at": 1788861791.354687
   },
   {
-    "claim_id": "9fca61d5c9d086236056",
+    "claim_id": "09ab0f5dcc1acae5dce7",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "retirement benefits",
     "value": "0.83 per cent",
     "value_num": 0.83,
@@ -12904,12 +12806,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.2980301
+    "created_at": 1788861791.354696
   },
   {
-    "claim_id": "9a9326f84a11d6d9e785",
+    "claim_id": "cdeced1d249d6cd687b3",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "revenue (change)",
     "value": "32.2 per cent",
     "value_num": 32.2,
@@ -12951,12 +12853,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.298422
+    "created_at": 1788861791.355056
   },
   {
-    "claim_id": "a3abdb2357e8329a5569",
+    "claim_id": "b9200a16d5a08288017d",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "states\u2019 gfd",
     "value": "64.2 per cent",
     "value_num": 64.2,
@@ -12998,12 +12900,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.298471
+    "created_at": 1788861791.3551
   },
   {
-    "claim_id": "ebab26d7b058ae50ef7b",
+    "claim_id": "e4d7d4908875552fc9ec",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "is budgeted",
     "value": "3.3 per cent",
     "value_num": 3.3,
@@ -13045,12 +12947,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.298476
+    "created_at": 1788861791.355104
   },
   {
-    "claim_id": "26f2cb9dfa468830087a",
+    "claim_id": "e1a5a64945ebed0349f8",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "outlay",
     "value": "\u20b91.5",
     "value_num": 1.5,
@@ -13092,12 +12994,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.298721
+    "created_at": 1788861791.3553338
   },
   {
-    "claim_id": "a2ff43a859b2d83e0584",
+    "claim_id": "1dab6cbe294f322fd628",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "contraction",
     "value": "3.1 per cent",
     "value_num": 3.1,
@@ -13139,12 +13041,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.298802
+    "created_at": 1788861791.3554251
   },
   {
-    "claim_id": "104259d9d92907a13fbd",
+    "claim_id": "6ca859a731dadee98c5e",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "coal imports (change)",
     "value": "20.0 per cent",
     "value_num": 20.0,
@@ -13186,12 +13088,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.298919
+    "created_at": 1788861791.355537
   },
   {
-    "claim_id": "4e7eb199c6d7e96eea22",
+    "claim_id": "f888b0ac0ed30db7fd70",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "posted a y-o-y growth",
     "value": "16.2 \nper cent",
     "value_num": 16.2,
@@ -13233,7 +13135,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.298935
+    "created_at": 1788861791.355552
   },
   {
     "claim_id": "70a8c620e5e0ecdb0e6c",
@@ -13280,7 +13182,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.29894
+    "created_at": 1788861791.3555572
   },
   {
     "claim_id": "78f8e6bb511c52999d12",
@@ -13327,7 +13229,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809614.436957
+    "created_at": 1788861807.476251
   },
   {
     "claim_id": "4a24802f932b5266500c",
@@ -13374,7 +13276,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809614.4369621
+    "created_at": 1788861807.476258
   },
   {
     "claim_id": "7b8685466f88be5ae303",
@@ -13421,7 +13323,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809614.4369678
+    "created_at": 1788861807.4762628
   },
   {
     "claim_id": "7d1579862e46bbb1a430",
@@ -13468,7 +13370,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809614.437608
+    "created_at": 1788861807.4768882
   },
   {
     "claim_id": "1c7f29e982b550843775",
@@ -13515,7 +13417,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809614.4376278
+    "created_at": 1788861807.4769092
   },
   {
     "claim_id": "1215f0f3e4443807f3a7",
@@ -13562,7 +13464,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809614.437633
+    "created_at": 1788861807.476913
   },
   {
     "claim_id": "3c1d776fabf415bbc813",
@@ -13609,7 +13511,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809614.437647
+    "created_at": 1788861807.476928
   },
   {
     "claim_id": "1827a7ae135196397ec2",
@@ -13656,7 +13558,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809614.437662
+    "created_at": 1788861807.476944
   },
   {
     "claim_id": "2d05b1e2c7f8069f89cf",
@@ -13703,7 +13605,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809614.4376771
+    "created_at": 1788861807.476959
   },
   {
     "claim_id": "3e0a27a308bbabad4f08",
@@ -13750,7 +13652,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809614.43785
+    "created_at": 1788861807.477126
   },
   {
     "claim_id": "5eab2c857a5daa12cc78",
@@ -13797,7 +13699,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809614.437855
+    "created_at": 1788861807.477131
   },
   {
     "claim_id": "c227cb19c2bd39a9a3a3",
@@ -13844,7 +13746,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809614.437876
+    "created_at": 1788861807.47715
   },
   {
     "claim_id": "b8fa6d8a2b338e34fb89",
@@ -13891,7 +13793,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809614.437881
+    "created_at": 1788861807.4771562
   },
   {
     "claim_id": "c97a76aa8b951451b555",
@@ -13938,7 +13840,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809614.4378922
+    "created_at": 1788861807.4771662
   },
   {
     "claim_id": "9925a68f7a19c917b9c4",
@@ -13985,7 +13887,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809614.441466
+    "created_at": 1788861807.4805539
   },
   {
     "claim_id": "24a86bfa4076ad708079",
@@ -14032,7 +13934,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809614.441476
+    "created_at": 1788861807.480563
   },
   {
     "claim_id": "db333cfbad15f17daa0f",
@@ -14079,7 +13981,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809614.4414809
+    "created_at": 1788861807.4805682
   },
   {
     "claim_id": "4c3e61998867b32ecc50",
@@ -14126,7 +14028,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809614.441519
+    "created_at": 1788861807.4806058
   },
   {
     "claim_id": "0b7c540f9192ee038b18",
@@ -14173,7 +14075,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809614.441782
+    "created_at": 1788861807.48086
   },
   {
     "claim_id": "25b73343a72a7f6a11f7",
@@ -14220,7 +14122,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809614.441801
+    "created_at": 1788861807.480879
   },
   {
     "claim_id": "2b32133c6780c3738199",
@@ -14267,7 +14169,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809614.441806
+    "created_at": 1788861807.480884
   },
   {
     "claim_id": "f473b0dcac66fafb1461",
@@ -14314,7 +14216,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.162783
+    "created_at": 1788861730.8232162
   },
   {
     "claim_id": "ce14eeddacf58d963b65",
@@ -14361,7 +14263,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.1627898
+    "created_at": 1788861730.823223
   },
   {
     "claim_id": "cd155a1b0b45e8460dff",
@@ -14408,7 +14310,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.165577
+    "created_at": 1788861730.825996
   },
   {
     "claim_id": "31319e3da1c2a21b2682",
@@ -14455,7 +14357,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.165611
+    "created_at": 1788861730.8260312
   },
   {
     "claim_id": "62d2e1f7a8cd697967d1",
@@ -14502,7 +14404,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.165616
+    "created_at": 1788861730.826036
   },
   {
     "claim_id": "43107c732d7b49864d58",
@@ -14549,7 +14451,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.165646
+    "created_at": 1788861730.826068
   },
   {
     "claim_id": "d574f7c942719ba1e419",
@@ -14596,7 +14498,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.1656508
+    "created_at": 1788861730.8260732
   },
   {
     "claim_id": "8b3a67002be4f67ec166",
@@ -14643,7 +14545,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.165662
+    "created_at": 1788861730.8260832
   },
   {
     "claim_id": "e7f84e2ab7b51276da04",
@@ -14690,7 +14592,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.165674
+    "created_at": 1788861730.8260942
   },
   {
     "claim_id": "f688b4961bd169812f92",
@@ -14737,7 +14639,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.1657379
+    "created_at": 1788861730.826153
   },
   {
     "claim_id": "b2e1b036f82b4ecf1a29",
@@ -14784,7 +14686,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.166008
+    "created_at": 1788861730.826451
   },
   {
     "claim_id": "9fbb7fd223179c6b15fd",
@@ -14831,7 +14733,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.166013
+    "created_at": 1788861730.826456
   },
   {
     "claim_id": "b7270019101a73d175c7",
@@ -14878,7 +14780,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.166018
+    "created_at": 1788861730.826462
   },
   {
     "claim_id": "1f0a582a7a4372e4442f",
@@ -14925,7 +14827,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.166023
+    "created_at": 1788861730.826467
   },
   {
     "claim_id": "ed4488911502d75e96bd",
@@ -14972,7 +14874,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.166027
+    "created_at": 1788861730.826472
   },
   {
     "claim_id": "a4e8ce50d3a74f8fd94c",
@@ -15019,7 +14921,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.1660328
+    "created_at": 1788861730.826477
   },
   {
     "claim_id": "79d99a88a43beccc88b6",
@@ -15066,7 +14968,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.166038
+    "created_at": 1788861730.8264818
   },
   {
     "claim_id": "1538c8db90fbad27e1d0",
@@ -15113,7 +15015,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.1660469
+    "created_at": 1788861730.8264918
   },
   {
     "claim_id": "b1aa39072d343f092859",
@@ -15160,7 +15062,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.1660569
+    "created_at": 1788861730.8265028
   },
   {
     "claim_id": "bacee986c6e2613ec78a",
@@ -15207,7 +15109,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.166062
+    "created_at": 1788861730.826508
   },
   {
     "claim_id": "e1fe916d5c7093e70299",
@@ -15254,7 +15156,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.166066
+    "created_at": 1788861730.8265128
   },
   {
     "claim_id": "4ea5ad88fa519d6cf7ec",
@@ -15301,7 +15203,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.166071
+    "created_at": 1788861730.826519
   },
   {
     "claim_id": "3652b74af6e225a475ba",
@@ -15348,7 +15250,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.166076
+    "created_at": 1788861730.8265228
   },
   {
     "claim_id": "e3ab56d8d82b294bfd35",
@@ -15395,7 +15297,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.166081
+    "created_at": 1788861730.826529
   },
   {
     "claim_id": "ec4511c2b149434990d1",
@@ -15442,7 +15344,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809532.166085
+    "created_at": 1788861730.8265338
   },
   {
     "claim_id": "b4a660d588210db2a11f",
@@ -15489,7 +15391,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.424088
+    "created_at": 1788861765.1531641
   },
   {
     "claim_id": "d24e016854f7924e3cb2",
@@ -15536,7 +15438,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.424148
+    "created_at": 1788861765.1532109
   },
   {
     "claim_id": "7d25d6aa678cb614e1c7",
@@ -15583,7 +15485,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.42416
+    "created_at": 1788861765.1532211
   },
   {
     "claim_id": "fa42847c3ac4f8baf3af",
@@ -15630,12 +15532,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.424184
+    "created_at": 1788861765.15324
   },
   {
-    "claim_id": "b2f5f9eb707c1f7c3c81",
+    "claim_id": "3bca3fde68733c43fb48",
     "doc_id": "de6d79adc0667d66",
-    "subject": "Delhivery",
+    "subject": "The Board",
     "predicate": "din",
     "value": "01173669)",
     "value_num": 1173669.0,
@@ -15677,7 +15579,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.424253
+    "created_at": 1788861765.1533
   },
   {
     "claim_id": "7cfd845c02952929fc57",
@@ -15724,7 +15626,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.424265
+    "created_at": 1788861765.15331
   },
   {
     "claim_id": "9a6a932f7fb4e4b14123",
@@ -15771,7 +15673,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.4242718
+    "created_at": 1788861765.153315
   },
   {
     "claim_id": "d699337e049706932126",
@@ -15818,7 +15720,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.424284
+    "created_at": 1788861765.1533241
   },
   {
     "claim_id": "9547cfe3b896ba689f5d",
@@ -15865,7 +15767,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.4243321
+    "created_at": 1788861765.153363
   },
   {
     "claim_id": "5c2e265105dc958942a5",
@@ -15912,7 +15814,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.424339
+    "created_at": 1788861765.153368
   },
   {
     "claim_id": "191b9df25b2330ea985e",
@@ -15959,7 +15861,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.424345
+    "created_at": 1788861765.153374
   },
   {
     "claim_id": "1cab2343e26b2bde47a6",
@@ -16006,7 +15908,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.424351
+    "created_at": 1788861765.153379
   },
   {
     "claim_id": "a718e8b5063823160068",
@@ -16053,7 +15955,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.424435
+    "created_at": 1788861765.153453
   },
   {
     "claim_id": "e4c0ce06f8a4a2c6b428",
@@ -16100,7 +16002,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.4244401
+    "created_at": 1788861765.1534579
   },
   {
     "claim_id": "28fd3044d1f9e670ca9a",
@@ -16147,7 +16049,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.424451
+    "created_at": 1788861765.153468
   },
   {
     "claim_id": "47e8a443e3560921013c",
@@ -16194,7 +16096,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.424456
+    "created_at": 1788861765.1534731
   },
   {
     "claim_id": "ac2e045aceaca77e9fe5",
@@ -16241,7 +16143,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.4245608
+    "created_at": 1788861765.153566
   },
   {
     "claim_id": "b9d5f4309e5cf71e76fa",
@@ -16288,12 +16190,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.424567
+    "created_at": 1788861765.1535711
   },
   {
-    "claim_id": "0ea20736aed74e4c02c1",
+    "claim_id": "a168b7a3ea4cab11b72a",
     "doc_id": "de6d79adc0667d66",
-    "subject": "Directors",
+    "subject": "Independent Directors",
     "predicate": "board consisted",
     "value": "9",
     "value_num": 9.0,
@@ -16335,12 +16237,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.424617
+    "created_at": 1788861765.153615
   },
   {
-    "claim_id": "21ba8bf4ca01d3ca1cd6",
+    "claim_id": "9ee31758fc6ca4bcf604",
     "doc_id": "de6d79adc0667d66",
-    "subject": "Directors",
+    "subject": "Independent Directors",
     "predicate": "comprises",
     "value": "8",
     "value_num": 8.0,
@@ -16382,7 +16284,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.424623
+    "created_at": 1788861765.15362
   },
   {
     "claim_id": "18003b9b52d09920d412",
@@ -16429,7 +16331,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.424628
+    "created_at": 1788861765.153625
   },
   {
     "claim_id": "629de2f32e6c6ee34bb9",
@@ -16476,7 +16378,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.424682
+    "created_at": 1788861765.153669
   },
   {
     "claim_id": "82b9fd9f6fb3a9731c01",
@@ -16523,7 +16425,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.425156
+    "created_at": 1788861765.154101
   },
   {
     "claim_id": "f48e8404c5849c6288f2",
@@ -16570,7 +16472,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.425161
+    "created_at": 1788861765.1541061
   },
   {
     "claim_id": "94930842137c0f105a5a",
@@ -16617,7 +16519,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.425497
+    "created_at": 1788861765.154399
   },
   {
     "claim_id": "57edb59a05520de378d6",
@@ -16664,7 +16566,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.425502
+    "created_at": 1788861765.1544042
   },
   {
     "claim_id": "07fcb982b657ad6d8bef",
@@ -16711,7 +16613,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.425507
+    "created_at": 1788861765.154409
   },
   {
     "claim_id": "ab2b7b5ffeaebc279abe",
@@ -16758,7 +16660,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.425754
+    "created_at": 1788861765.154619
   },
   {
     "claim_id": "aad2da8551016500d31e",
@@ -16805,7 +16707,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.425759
+    "created_at": 1788861765.154623
   },
   {
     "claim_id": "f93dd7982e692064035e",
@@ -16852,7 +16754,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809568.4261389
+    "created_at": 1788861765.154976
   },
   {
     "claim_id": "47b547b02f6fe49d3aea",
@@ -16899,7 +16801,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894403
+    "created_at": 1788861766.5101178
   },
   {
     "claim_id": "02224783701a2c5f5e61",
@@ -16946,7 +16848,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.896385
+    "created_at": 1788861766.511862
   },
   {
     "claim_id": "8a7a62fc2f133c27f4a6",
@@ -16993,7 +16895,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.2158551
+    "created_at": 1788861777.333188
   },
   {
     "claim_id": "94c477324e6b469edda8",
@@ -17040,7 +16942,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.2160032
+    "created_at": 1788861777.33333
   },
   {
     "claim_id": "183a4141e55d0db58334",
@@ -17087,7 +16989,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.216063
+    "created_at": 1788861777.3333828
   },
   {
     "claim_id": "4d1a467556cae05640e1",
@@ -17134,7 +17036,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.216293
+    "created_at": 1788861777.3335848
   },
   {
     "claim_id": "4c9aba10a77129862122",
@@ -17181,7 +17083,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.2162979
+    "created_at": 1788861777.333589
   },
   {
     "claim_id": "a5c14f9f6e438b484d16",
@@ -17228,7 +17130,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.2165089
+    "created_at": 1788861777.333782
   },
   {
     "claim_id": "7daf9080787abf5c807f",
@@ -17275,7 +17177,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.216539
+    "created_at": 1788861777.3338099
   },
   {
     "claim_id": "4de5ec3fd6bda2bac2ec",
@@ -17322,7 +17224,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.216544
+    "created_at": 1788861777.333815
   },
   {
     "claim_id": "59d5d04fc5c2ca52bb5d",
@@ -17369,7 +17271,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.216588
+    "created_at": 1788861777.333857
   },
   {
     "claim_id": "708ad419e987419a83be",
@@ -17416,7 +17318,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.216612
+    "created_at": 1788861777.3338811
   },
   {
     "claim_id": "eb18b1cc8c9a6a22484c",
@@ -17463,12 +17365,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809582.2166169
+    "created_at": 1788861777.333886
   },
   {
-    "claim_id": "aa1d4d3b64bb3f99bc1a",
+    "claim_id": "50a73eeea1218688a8f8",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "global inflation",
     "value": "5.7",
     "value_num": 5.7,
@@ -17510,12 +17412,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.291774
+    "created_at": 1788861791.349025
   },
   {
-    "claim_id": "444d0b5a47fa83ca4628",
+    "claim_id": "155040a2137df1fee1e3",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "investment under pli scheme",
     "value": "57",
     "value_num": 57.0,
@@ -17557,12 +17459,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.2917929
+    "created_at": 1788861791.349041
   },
   {
-    "claim_id": "3084b589ecec609b1a51",
+    "claim_id": "3932a7d3086cc406190d",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "targeting the gfd",
     "value": "4.4",
     "value_num": 4.4,
@@ -17604,12 +17506,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.29192
+    "created_at": 1788861791.349144
   },
   {
-    "claim_id": "f30be853569353f938fb",
+    "claim_id": "0d20dda20e6845e362c6",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "growth",
     "value": "5.6",
     "value_num": 5.6,
@@ -17651,12 +17553,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.291944
+    "created_at": 1788861791.349164
   },
   {
-    "claim_id": "9a51090bd84bbdaa38d6",
+    "claim_id": "27367e10e8dd3fc3a816",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "whe",
     "value": "1,132.9",
     "value_num": 1132.9,
@@ -17698,12 +17600,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.292992
+    "created_at": 1788861791.350111
   },
   {
-    "claim_id": "8eade5f7db4465ead281",
+    "claim_id": "3130e5b391583a055db2",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "rabi crops (excluding summer crops). #: lakh bales",
     "value": "170",
     "value_num": 170.0,
@@ -17745,12 +17647,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.2929971
+    "created_at": 1788861791.350116
   },
   {
-    "claim_id": "86f0a81fc51b83f8f68f",
+    "claim_id": "22a782ad92ca7d639311",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "kg each. ##: lakh bales",
     "value": "180",
     "value_num": 180.0,
@@ -17792,12 +17694,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.293003
+    "created_at": 1788861791.350121
   },
   {
-    "claim_id": "e5d5ca185dc69bfdfa30",
+    "claim_id": "a729e9a4b7065f50aad4",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "demand conditions have been analysed using",
     "value": "12",
     "value_num": 12.0,
@@ -17839,12 +17741,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.2955909
+    "created_at": 1788861791.352499
   },
   {
-    "claim_id": "7a3b9aa50db81b959d35",
+    "claim_id": "01cc19d1bf661cfacf82",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "note",
     "value": "1",
     "value_num": 1.0,
@@ -17886,12 +17788,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.295597
+    "created_at": 1788861791.352503
   },
   {
-    "claim_id": "1ee262e04be79171884a",
+    "claim_id": "b8201a60130aca58d845",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "expenditure fractiles",
     "value": "0",
     "value_num": 0.0,
@@ -17933,12 +17835,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.2956018
+    "created_at": 1788861791.3525078
   },
   {
-    "claim_id": "502b90fbd2600b2427f1",
+    "claim_id": "11328e81f8f91376149a",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "personal loans (change)",
     "value": "14.0",
     "value_num": 14.0,
@@ -17980,12 +17882,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.296206
+    "created_at": 1788861791.353044
   },
   {
-    "claim_id": "3fede7e12717aa6cda46",
+    "claim_id": "f1680e5bf996e5973a5f",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "conditions moved from deficit during q1",
     "value": "25",
     "value_num": 25.0,
@@ -18027,12 +17929,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.297633
+    "created_at": 1788861791.354338
   },
   {
-    "claim_id": "bc400a68aceb530365f4",
+    "claim_id": "0a0db75e537b23ab3b98",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "rate",
     "value": "6",
     "value_num": 6.0,
@@ -18074,12 +17976,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.297639
+    "created_at": 1788861791.354343
   },
   {
-    "claim_id": "758cfaa2ab765bdd1ed0",
+    "claim_id": "bcb21dfb2a5d30d953f3",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "coefficient of variation28",
     "value": "2.2",
     "value_num": 2.2,
@@ -18121,12 +18023,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.2976441
+    "created_at": 1788861791.354348
   },
   {
-    "claim_id": "2e7522a842bc6356d3d6",
+    "claim_id": "91d6aded75e6524c8b5b",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "investigate the risk premia - spread",
     "value": "3",
     "value_num": 3.0,
@@ -18168,7 +18070,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.297687
+    "created_at": 1788861791.354387
   },
   {
     "claim_id": "c31cfd202503b2472cc5",
@@ -18215,12 +18117,12 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.297738
+    "created_at": 1788861791.354431
   },
   {
-    "claim_id": "4499f0229d73d6f0af06",
+    "claim_id": "df30a03bf38ac876219d",
     "doc_id": "73209a2caa2f5671",
-    "subject": "Reserve Bank",
+    "subject": "India",
     "predicate": "new high",
     "value": "85,836",
     "value_num": 85836.0,
@@ -18262,7 +18164,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809597.297958
+    "created_at": 1788861791.354629
   },
   {
     "claim_id": "f7c043e67887ff53415b",
@@ -18309,7 +18211,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8944159
+    "created_at": 1788861766.510128
   },
   {
     "claim_id": "dacb3120b7525c2a5a92",
@@ -18356,7 +18258,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894421
+    "created_at": 1788861766.510133
   },
   {
     "claim_id": "eb68d18db57244a34d02",
@@ -18403,7 +18305,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894428
+    "created_at": 1788861766.510137
   },
   {
     "claim_id": "aeeb9f3a71ad23274f3f",
@@ -18450,7 +18352,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894433
+    "created_at": 1788861766.5101418
   },
   {
     "claim_id": "d614922c7a6161a4a7b0",
@@ -18497,7 +18399,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8944378
+    "created_at": 1788861766.510147
   },
   {
     "claim_id": "0749624f78abe5c69e8d",
@@ -18544,7 +18446,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894443
+    "created_at": 1788861766.5101519
   },
   {
     "claim_id": "efdb04bb6d50273772fd",
@@ -18591,7 +18493,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894448
+    "created_at": 1788861766.510156
   },
   {
     "claim_id": "466fe5d86c2fd715001c",
@@ -18638,7 +18540,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894453
+    "created_at": 1788861766.510161
   },
   {
     "claim_id": "1f04bbc1e83deadc1a88",
@@ -18685,7 +18587,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894458
+    "created_at": 1788861766.510166
   },
   {
     "claim_id": "6a205839c4e3e9bba144",
@@ -18732,7 +18634,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8944619
+    "created_at": 1788861766.5101702
   },
   {
     "claim_id": "f3bf68e60766819b1dc8",
@@ -18779,7 +18681,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894467
+    "created_at": 1788861766.510175
   },
   {
     "claim_id": "391215524e8802906def",
@@ -18826,7 +18728,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894472
+    "created_at": 1788861766.51018
   },
   {
     "claim_id": "61b084df790276ae7fb5",
@@ -18873,7 +18775,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8944771
+    "created_at": 1788861766.510185
   },
   {
     "claim_id": "fde8f086635086b5f3b8",
@@ -18920,7 +18822,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8944829
+    "created_at": 1788861766.51019
   },
   {
     "claim_id": "9077965abadd7ff8bf24",
@@ -18967,7 +18869,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894488
+    "created_at": 1788861766.5101938
   },
   {
     "claim_id": "4d0a3374409be5772777",
@@ -19014,7 +18916,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894492
+    "created_at": 1788861766.510199
   },
   {
     "claim_id": "c9b1d989264f30db07b7",
@@ -19061,7 +18963,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894497
+    "created_at": 1788861766.5102038
   },
   {
     "claim_id": "6d345f1f5baf99616cd4",
@@ -19108,7 +19010,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894502
+    "created_at": 1788861766.510208
   },
   {
     "claim_id": "085d3f3d13f1ffb7c1b0",
@@ -19155,7 +19057,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894507
+    "created_at": 1788861766.5102131
   },
   {
     "claim_id": "713b988169b189d6a57f",
@@ -19202,7 +19104,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8945122
+    "created_at": 1788861766.510218
   },
   {
     "claim_id": "8750c37eddd44757f448",
@@ -19249,7 +19151,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894517
+    "created_at": 1788861766.5102232
   },
   {
     "claim_id": "cea3475c16f3a46e4892",
@@ -19296,7 +19198,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8945222
+    "created_at": 1788861766.510227
   },
   {
     "claim_id": "a3ea3ed7d5adb9e9dcf6",
@@ -19343,7 +19245,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894527
+    "created_at": 1788861766.510232
   },
   {
     "claim_id": "92350ab34e484b35a1bf",
@@ -19390,7 +19292,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8945322
+    "created_at": 1788861766.5102358
   },
   {
     "claim_id": "b114bd5434b95451aa5f",
@@ -19437,7 +19339,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894537
+    "created_at": 1788861766.510241
   },
   {
     "claim_id": "03fcd1834a9ec778d7be",
@@ -19484,7 +19386,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894542
+    "created_at": 1788861766.5102458
   },
   {
     "claim_id": "f0e0e26343d84059d841",
@@ -19531,7 +19433,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894547
+    "created_at": 1788861766.510251
   },
   {
     "claim_id": "495daf97fcff1849cf97",
@@ -19578,7 +19480,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894552
+    "created_at": 1788861766.510255
   },
   {
     "claim_id": "a02bf0f0f551b15588ed",
@@ -19625,7 +19527,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894557
+    "created_at": 1788861766.5102599
   },
   {
     "claim_id": "131b845c8ab00a4a30ed",
@@ -19672,7 +19574,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894563
+    "created_at": 1788861766.510265
   },
   {
     "claim_id": "3efbd0c827d5a05dea55",
@@ -19719,7 +19621,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894567
+    "created_at": 1788861766.510269
   },
   {
     "claim_id": "df079362829b12ff6ed1",
@@ -19766,7 +19668,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894572
+    "created_at": 1788861766.510274
   },
   {
     "claim_id": "a0948601018778054f28",
@@ -19813,7 +19715,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8945768
+    "created_at": 1788861766.510279
   },
   {
     "claim_id": "3c1b8b32249c28896324",
@@ -19860,7 +19762,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894582
+    "created_at": 1788861766.510284
   },
   {
     "claim_id": "f0437ec73d1b3b5338d7",
@@ -19907,7 +19809,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8945868
+    "created_at": 1788861766.510289
   },
   {
     "claim_id": "f061127b99bfce79cda3",
@@ -19954,7 +19856,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894592
+    "created_at": 1788861766.510293
   },
   {
     "claim_id": "6c6de64632a90ce50d52",
@@ -20001,7 +19903,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894596
+    "created_at": 1788861766.510298
   },
   {
     "claim_id": "440f97f71a157f776be4",
@@ -20048,7 +19950,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8946009
+    "created_at": 1788861766.510303
   },
   {
     "claim_id": "200f474a5e029e0eb65a",
@@ -20095,7 +19997,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894606
+    "created_at": 1788861766.510308
   },
   {
     "claim_id": "6d7ef88c7ee70c609b7d",
@@ -20142,7 +20044,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894611
+    "created_at": 1788861766.5103118
   },
   {
     "claim_id": "412aa00ab1777d641a16",
@@ -20189,7 +20091,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8946161
+    "created_at": 1788861766.510317
   },
   {
     "claim_id": "eaa30c6428a1080851d5",
@@ -20236,7 +20138,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894621
+    "created_at": 1788861766.5103219
   },
   {
     "claim_id": "40be9ccd2f62e05b4b8e",
@@ -20283,7 +20185,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8946261
+    "created_at": 1788861766.510327
   },
   {
     "claim_id": "366d2ef1e1068bb3e133",
@@ -20330,7 +20232,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894631
+    "created_at": 1788861766.510331
   },
   {
     "claim_id": "dadaa21a4adfe264e8da",
@@ -20377,7 +20279,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894635
+    "created_at": 1788861766.510336
   },
   {
     "claim_id": "4779f4235063f69a2ced",
@@ -20424,7 +20326,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8946402
+    "created_at": 1788861766.5103402
   },
   {
     "claim_id": "1884f9c3cbd3c5f5be75",
@@ -20471,7 +20373,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894645
+    "created_at": 1788861766.510345
   },
   {
     "claim_id": "e4067a17b1f417e694c0",
@@ -20518,7 +20420,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8946502
+    "created_at": 1788861766.51035
   },
   {
     "claim_id": "9fc1a5dc8f5f4d2b650b",
@@ -20565,7 +20467,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894655
+    "created_at": 1788861766.510355
   },
   {
     "claim_id": "853d9aa118de2a66baed",
@@ -20612,7 +20514,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8946612
+    "created_at": 1788861766.510359
   },
   {
     "claim_id": "7721698567626a9f8257",
@@ -20659,7 +20561,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894666
+    "created_at": 1788861766.5103638
   },
   {
     "claim_id": "b8ed8aef0b2c950e82be",
@@ -20706,7 +20608,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8946712
+    "created_at": 1788861766.510369
   },
   {
     "claim_id": "b6852e9564f8481bffc5",
@@ -20753,7 +20655,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894676
+    "created_at": 1788861766.5103738
   },
   {
     "claim_id": "bdf9b690b55fc3db7041",
@@ -20800,7 +20702,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.89468
+    "created_at": 1788861766.510379
   },
   {
     "claim_id": "1361c292e438043886af",
@@ -20847,7 +20749,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894685
+    "created_at": 1788861766.510384
   },
   {
     "claim_id": "88753d9bf3ade53f9d52",
@@ -20894,7 +20796,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.89469
+    "created_at": 1788861766.510388
   },
   {
     "claim_id": "33274caed165ec6f97b5",
@@ -20941,7 +20843,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8946948
+    "created_at": 1788861766.5103931
   },
   {
     "claim_id": "fa8f28be94d1ba9478cd",
@@ -20988,7 +20890,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8947
+    "created_at": 1788861766.510398
   },
   {
     "claim_id": "1ec7cd2f59704cda8ebe",
@@ -21035,7 +20937,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8947048
+    "created_at": 1788861766.510402
   },
   {
     "claim_id": "d922f6ebb1c8caa72827",
@@ -21082,7 +20984,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894709
+    "created_at": 1788861766.510407
   },
   {
     "claim_id": "18c1ddd79b4bead07c2b",
@@ -21129,7 +21031,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894714
+    "created_at": 1788861766.510412
   },
   {
     "claim_id": "8351f7a3aa278d6c51d8",
@@ -21176,7 +21078,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894719
+    "created_at": 1788861766.510417
   },
   {
     "claim_id": "39f632c09f247abef3d4",
@@ -21223,7 +21125,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8947241
+    "created_at": 1788861766.510422
   },
   {
     "claim_id": "ee2413427ea4d07b3c2c",
@@ -21270,7 +21172,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894729
+    "created_at": 1788861766.510427
   },
   {
     "claim_id": "c9a054831309bfd08925",
@@ -21317,7 +21219,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8947341
+    "created_at": 1788861766.510432
   },
   {
     "claim_id": "27467679e50cd56a2733",
@@ -21364,7 +21266,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894739
+    "created_at": 1788861766.510436
   },
   {
     "claim_id": "23457f47c3f6bdf77fda",
@@ -21411,7 +21313,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8947442
+    "created_at": 1788861766.510441
   },
   {
     "claim_id": "22ea699063f55fe3bff3",
@@ -21458,7 +21360,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894748
+    "created_at": 1788861766.510446
   },
   {
     "claim_id": "f37fd973c2ba4fbf7979",
@@ -21505,7 +21407,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894753
+    "created_at": 1788861766.5104508
   },
   {
     "claim_id": "e63be67620ee699600de",
@@ -21552,7 +21454,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894758
+    "created_at": 1788861766.5104551
   },
   {
     "claim_id": "4ec0b5ed751b7d3f5167",
@@ -21599,7 +21501,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894763
+    "created_at": 1788861766.51046
   },
   {
     "claim_id": "df5ede48bda7735a3e69",
@@ -21646,7 +21548,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8947682
+    "created_at": 1788861766.510465
   },
   {
     "claim_id": "37462f81b0386dbc1b46",
@@ -21693,7 +21595,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894773
+    "created_at": 1788861766.51047
   },
   {
     "claim_id": "c6608c08b656d78055e4",
@@ -21740,7 +21642,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894778
+    "created_at": 1788861766.510474
   },
   {
     "claim_id": "a10c9abc0d1dd23ef91a",
@@ -21787,7 +21689,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894782
+    "created_at": 1788861766.5104792
   },
   {
     "claim_id": "5f2e9e35ffaa46683042",
@@ -21834,7 +21736,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894787
+    "created_at": 1788861766.510484
   },
   {
     "claim_id": "73125c6514122b57bac6",
@@ -21881,7 +21783,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8947918
+    "created_at": 1788861766.510489
   },
   {
     "claim_id": "9493397179e9cdee7a78",
@@ -21928,7 +21830,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894797
+    "created_at": 1788861766.510493
   },
   {
     "claim_id": "2dcc7653d481de51b67b",
@@ -21975,7 +21877,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8948019
+    "created_at": 1788861766.510498
   },
   {
     "claim_id": "55a3abe6aa18f577b550",
@@ -22022,7 +21924,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894807
+    "created_at": 1788861766.5105028
   },
   {
     "claim_id": "c048d81141a8e2150267",
@@ -22069,7 +21971,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8948119
+    "created_at": 1788861766.510508
   },
   {
     "claim_id": "a0b902896babbc361f5a",
@@ -22116,7 +22018,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894816
+    "created_at": 1788861766.510512
   },
   {
     "claim_id": "5f03b30ce2493ab844c8",
@@ -22163,7 +22065,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894822
+    "created_at": 1788861766.510517
   },
   {
     "claim_id": "06f3f225228777a44458",
@@ -22210,7 +22112,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894826
+    "created_at": 1788861766.5105221
   },
   {
     "claim_id": "19f5e1291ebc0d1cd0e8",
@@ -22257,7 +22159,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8948312
+    "created_at": 1788861766.510527
   },
   {
     "claim_id": "e0d52d5fd4c904b4dfb6",
@@ -22304,7 +22206,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894836
+    "created_at": 1788861766.5105312
   },
   {
     "claim_id": "cdf1128adcc212e73ced",
@@ -22351,7 +22253,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8948412
+    "created_at": 1788861766.510536
   },
   {
     "claim_id": "ad7d721c4562641e349b",
@@ -22398,7 +22300,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894846
+    "created_at": 1788861766.510541
   },
   {
     "claim_id": "b13e2541c4258edee8d0",
@@ -22445,7 +22347,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.89485
+    "created_at": 1788861766.5105448
   },
   {
     "claim_id": "962b7a198dca5ba693e8",
@@ -22492,7 +22394,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894855
+    "created_at": 1788861766.51055
   },
   {
     "claim_id": "338f378905e1eb7bc305",
@@ -22539,7 +22441,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.89486
+    "created_at": 1788861766.5105548
   },
   {
     "claim_id": "64167b8f421076ec2c41",
@@ -22586,7 +22488,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8948648
+    "created_at": 1788861766.51056
   },
   {
     "claim_id": "c8e456c275e333c8f682",
@@ -22633,7 +22535,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.89487
+    "created_at": 1788861766.510565
   },
   {
     "claim_id": "52a05d471e7ba96cacfa",
@@ -22680,7 +22582,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8948748
+    "created_at": 1788861766.5105689
   },
   {
     "claim_id": "a43e36607792176ed7f7",
@@ -22727,7 +22629,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.89488
+    "created_at": 1788861766.510574
   },
   {
     "claim_id": "204fb116c6de171fa02e",
@@ -22774,7 +22676,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894885
+    "created_at": 1788861766.5105789
   },
   {
     "claim_id": "c2c74b10b0df10052634",
@@ -22821,7 +22723,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.89489
+    "created_at": 1788861766.510584
   },
   {
     "claim_id": "d8519c6304a282e48a03",
@@ -22868,7 +22770,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894895
+    "created_at": 1788861766.510588
   },
   {
     "claim_id": "942f62ce81c8e908f214",
@@ -22915,7 +22817,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8949
+    "created_at": 1788861766.510593
   },
   {
     "claim_id": "298ad15ad0da70723c9a",
@@ -22962,7 +22864,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8949041
+    "created_at": 1788861766.510598
   },
   {
     "claim_id": "f8562102b76ae223cbd5",
@@ -23009,7 +22911,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894909
+    "created_at": 1788861766.510602
   },
   {
     "claim_id": "fc5283b12c33b44e9b5a",
@@ -23056,7 +22958,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8949142
+    "created_at": 1788861766.510607
   },
   {
     "claim_id": "1809253b02d8e6913f97",
@@ -23103,7 +23005,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8949199
+    "created_at": 1788861766.510612
   },
   {
     "claim_id": "2ff9f791ffdfd4f55d9b",
@@ -23150,7 +23052,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894924
+    "created_at": 1788861766.510616
   },
   {
     "claim_id": "2dd7c275e9d90160da24",
@@ -23197,7 +23099,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894929
+    "created_at": 1788861766.5106208
   },
   {
     "claim_id": "5cca3a6a0fd6a0327e2d",
@@ -23244,7 +23146,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894934
+    "created_at": 1788861766.510626
   },
   {
     "claim_id": "e1b7ab49a346951f98fd",
@@ -23291,7 +23193,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894939
+    "created_at": 1788861766.5106308
   },
   {
     "claim_id": "530dad30da7f10802e71",
@@ -23338,7 +23240,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894944
+    "created_at": 1788861766.510635
   },
   {
     "claim_id": "86480d2db1b857b3a877",
@@ -23385,7 +23287,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8949518
+    "created_at": 1788861766.5106401
   },
   {
     "claim_id": "77b1200780dfc779d75f",
@@ -23432,7 +23334,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894958
+    "created_at": 1788861766.510645
   },
   {
     "claim_id": "032c82df5e0dc258f747",
@@ -23479,7 +23381,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8949618
+    "created_at": 1788861766.5106502
   },
   {
     "claim_id": "d5d136d10d2fb6c4aed9",
@@ -23526,7 +23428,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894967
+    "created_at": 1788861766.510654
   },
   {
     "claim_id": "8ca11f7d7251a6bb3b49",
@@ -23573,7 +23475,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8949718
+    "created_at": 1788861766.510659
   },
   {
     "claim_id": "46449f1812b21f9453f4",
@@ -23620,7 +23522,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894977
+    "created_at": 1788861766.510664
   },
   {
     "claim_id": "777f61a4320bc4b4a3cc",
@@ -23667,7 +23569,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8949819
+    "created_at": 1788861766.510669
   },
   {
     "claim_id": "c240289758c233cb4a6a",
@@ -23714,7 +23616,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894987
+    "created_at": 1788861766.510674
   },
   {
     "claim_id": "fd9a4659a209d7eb152c",
@@ -23761,7 +23663,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8949919
+    "created_at": 1788861766.510678
   },
   {
     "claim_id": "6e66e5e5bc4d09b572b3",
@@ -23808,7 +23710,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.894997
+    "created_at": 1788861766.5106828
   },
   {
     "claim_id": "a0b4ba6fbaf24695f9e0",
@@ -23855,7 +23757,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8950012
+    "created_at": 1788861766.510688
   },
   {
     "claim_id": "fca8b697f46dddaf84f3",
@@ -23902,7 +23804,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895006
+    "created_at": 1788861766.5106921
   },
   {
     "claim_id": "8c60854e4bdf1eab8cc2",
@@ -23949,7 +23851,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8950112
+    "created_at": 1788861766.510697
   },
   {
     "claim_id": "796cc880bf03d522ee47",
@@ -23996,7 +23898,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895016
+    "created_at": 1788861766.5107021
   },
   {
     "claim_id": "fe93cc5b395c94bef84a",
@@ -24043,7 +23945,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895021
+    "created_at": 1788861766.510706
   },
   {
     "claim_id": "4909d302dfaacff669c6",
@@ -24090,7 +23992,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895025
+    "created_at": 1788861766.510711
   },
   {
     "claim_id": "8f48007c8b5e8f44f6d1",
@@ -24137,7 +24039,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.89503
+    "created_at": 1788861766.5107148
   },
   {
     "claim_id": "f7467bfa5df6f45f8827",
@@ -24184,7 +24086,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8950348
+    "created_at": 1788861766.51072
   },
   {
     "claim_id": "54e37a5d8249a3a9206f",
@@ -24231,7 +24133,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.89504
+    "created_at": 1788861766.510725
   },
   {
     "claim_id": "155da25da7b8d82ee31e",
@@ -24278,7 +24180,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895044
+    "created_at": 1788861766.510729
   },
   {
     "claim_id": "d18ac9275719a7c7b1b3",
@@ -24325,7 +24227,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8950489
+    "created_at": 1788861766.510734
   },
   {
     "claim_id": "09c0697f8b188377d285",
@@ -24372,7 +24274,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895054
+    "created_at": 1788861766.510738
   },
   {
     "claim_id": "6339f0170660574dd59f",
@@ -24419,7 +24321,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8950589
+    "created_at": 1788861766.5107431
   },
   {
     "claim_id": "c58e41f947f0340cbb0a",
@@ -24466,7 +24368,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895064
+    "created_at": 1788861766.510748
   },
   {
     "claim_id": "d0eb7413d1230ba8aabb",
@@ -24513,7 +24415,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895069
+    "created_at": 1788861766.510752
   },
   {
     "claim_id": "0e144eca300b9f88d4fd",
@@ -24560,7 +24462,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895073
+    "created_at": 1788861766.5107572
   },
   {
     "claim_id": "37ba26d0a2c8a027981e",
@@ -24607,7 +24509,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895078
+    "created_at": 1788861766.510762
   },
   {
     "claim_id": "1e78148f8d3fc9f54cf2",
@@ -24654,7 +24556,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895083
+    "created_at": 1788861766.510766
   },
   {
     "claim_id": "597e1e7a57da618c0ca9",
@@ -24701,7 +24603,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8950882
+    "created_at": 1788861766.510771
   },
   {
     "claim_id": "3c90f2d1213447f4e798",
@@ -24748,7 +24650,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895093
+    "created_at": 1788861766.510776
   },
   {
     "claim_id": "8ca861cdae7f4072fabe",
@@ -24795,7 +24697,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8950982
+    "created_at": 1788861766.5107799
   },
   {
     "claim_id": "d166ce2b71739a51a92f",
@@ -24842,7 +24744,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895103
+    "created_at": 1788861766.510785
   },
   {
     "claim_id": "a8ac2662286e3d083e3b",
@@ -24889,7 +24791,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895108
+    "created_at": 1788861766.5107899
   },
   {
     "claim_id": "b3fe1dfad8b9d53a1582",
@@ -24936,7 +24838,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895112
+    "created_at": 1788861766.510794
   },
   {
     "claim_id": "124927d8d048ca2871cd",
@@ -24983,7 +24885,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895117
+    "created_at": 1788861766.5107992
   },
   {
     "claim_id": "d860ce3f655e713e1cf0",
@@ -25030,7 +24932,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8951218
+    "created_at": 1788861766.510803
   },
   {
     "claim_id": "190220c072f719408eb7",
@@ -25077,7 +24979,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895127
+    "created_at": 1788861766.510808
   },
   {
     "claim_id": "d39403f665132f88fcee",
@@ -25124,7 +25026,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8951318
+    "created_at": 1788861766.510813
   },
   {
     "claim_id": "f52fe4aae12b2254c65a",
@@ -25171,7 +25073,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895137
+    "created_at": 1788861766.510818
   },
   {
     "claim_id": "2162a16646b82a90da9d",
@@ -25218,7 +25120,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8951418
+    "created_at": 1788861766.5108218
   },
   {
     "claim_id": "aadbd601c061b91f5567",
@@ -25265,7 +25167,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895147
+    "created_at": 1788861766.510827
   },
   {
     "claim_id": "24e51dbf7d0ce6bfcca4",
@@ -25312,7 +25214,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895152
+    "created_at": 1788861766.510832
   },
   {
     "claim_id": "5cdcbd0d7d8e7be5c15e",
@@ -25359,7 +25261,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895157
+    "created_at": 1788861766.510837
   },
   {
     "claim_id": "531e5f57652be3c057ec",
@@ -25406,7 +25308,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895162
+    "created_at": 1788861766.5108411
   },
   {
     "claim_id": "97fb58c59d3482b68932",
@@ -25453,7 +25355,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895166
+    "created_at": 1788861766.510846
   },
   {
     "claim_id": "7b6a25de2c58953922a0",
@@ -25500,7 +25402,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8951712
+    "created_at": 1788861766.5108511
   },
   {
     "claim_id": "a51ead8ccabee7750cef",
@@ -25547,7 +25449,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895176
+    "created_at": 1788861766.510856
   },
   {
     "claim_id": "c88ce32da5e406dd304c",
@@ -25594,7 +25496,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895181
+    "created_at": 1788861766.51086
   },
   {
     "claim_id": "3e27b73b44767c9f0a79",
@@ -25641,7 +25543,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895186
+    "created_at": 1788861766.510865
   },
   {
     "claim_id": "9b67fd62474b4a5f30bd",
@@ -25688,7 +25590,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895191
+    "created_at": 1788861766.51087
   },
   {
     "claim_id": "2f461dc65919977d8ed7",
@@ -25735,7 +25637,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895196
+    "created_at": 1788861766.510875
   },
   {
     "claim_id": "cb7c5ba42e3c66bdf742",
@@ -25782,7 +25684,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8952
+    "created_at": 1788861766.510879
   },
   {
     "claim_id": "3fb6b05cf5d012760660",
@@ -25829,7 +25731,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895205
+    "created_at": 1788861766.510884
   },
   {
     "claim_id": "f1e264444699ae6db0e9",
@@ -25876,7 +25778,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.89521
+    "created_at": 1788861766.510889
   },
   {
     "claim_id": "73ac0a0de56ad412c847",
@@ -25923,7 +25825,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895215
+    "created_at": 1788861766.510894
   },
   {
     "claim_id": "4c0b3540c4dc87b8c62c",
@@ -25970,7 +25872,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.89522
+    "created_at": 1788861766.5108979
   },
   {
     "claim_id": "0ba747c7acd97ab646b7",
@@ -26017,7 +25919,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895225
+    "created_at": 1788861766.5109031
   },
   {
     "claim_id": "bacd5876533c8485c575",
@@ -26064,7 +25966,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.89523
+    "created_at": 1788861766.510908
   },
   {
     "claim_id": "451df0ea9f384f685af9",
@@ -26111,7 +26013,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895235
+    "created_at": 1788861766.510912
   },
   {
     "claim_id": "e2ccf6a313e2fcbde5c3",
@@ -26158,7 +26060,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8952398
+    "created_at": 1788861766.5109172
   },
   {
     "claim_id": "5149ab2a103bcaba42d3",
@@ -26205,7 +26107,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8952498
+    "created_at": 1788861766.5109272
   },
   {
     "claim_id": "8360ecdfcd819dee1709",
@@ -26252,7 +26154,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895255
+    "created_at": 1788861766.510932
   },
   {
     "claim_id": "418b7e0c002aa73dc482",
@@ -26299,7 +26201,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895265
+    "created_at": 1788861766.510942
   },
   {
     "claim_id": "47bd1a903c8edd8036b2",
@@ -26346,7 +26248,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8952692
+    "created_at": 1788861766.510947
   },
   {
     "claim_id": "687c7157c2e5434f2b19",
@@ -26393,7 +26295,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895274
+    "created_at": 1788861766.510952
   },
   {
     "claim_id": "d1326ca449051dab83a4",
@@ -26440,7 +26342,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895284
+    "created_at": 1788861766.5109608
   },
   {
     "claim_id": "cfbba44138b0f0d5d2d8",
@@ -26487,7 +26389,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8952892
+    "created_at": 1788861766.510966
   },
   {
     "claim_id": "3a82e4fbc7784e3a7a20",
@@ -26534,7 +26436,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895298
+    "created_at": 1788861766.510975
   },
   {
     "claim_id": "25746ce5252c116da33b",
@@ -26581,7 +26483,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895303
+    "created_at": 1788861766.5109801
   },
   {
     "claim_id": "a6b96dfe1a4d90d24639",
@@ -26628,7 +26530,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895308
+    "created_at": 1788861766.510984
   },
   {
     "claim_id": "760e7fa42e6315e38109",
@@ -26675,7 +26577,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895318
+    "created_at": 1788861766.510994
   },
   {
     "claim_id": "fe2fc7946009af1d7905",
@@ -26722,7 +26624,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8953228
+    "created_at": 1788861766.510998
   },
   {
     "claim_id": "1700438342c7da5a095c",
@@ -26769,7 +26671,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895333
+    "created_at": 1788861766.511008
   },
   {
     "claim_id": "1a7c54e553fadcb0e649",
@@ -26816,7 +26718,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895338
+    "created_at": 1788861766.511013
   },
   {
     "claim_id": "0f8f3ab1dbfa52edf10c",
@@ -26863,7 +26765,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895343
+    "created_at": 1788861766.5110168
   },
   {
     "claim_id": "f9a0cc435fdf3fc6e400",
@@ -26910,7 +26812,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895357
+    "created_at": 1788861766.5110312
   },
   {
     "claim_id": "792d53bb44e9fb44109d",
@@ -26957,7 +26859,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8953621
+    "created_at": 1788861766.511036
   },
   {
     "claim_id": "54a020bbe58c83acf533",
@@ -27004,7 +26906,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895372
+    "created_at": 1788861766.5110452
   },
   {
     "claim_id": "26a40578b93150c6beba",
@@ -27051,7 +26953,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895377
+    "created_at": 1788861766.51105
   },
   {
     "claim_id": "fe19b8df6b58025e9e6a",
@@ -27098,7 +27000,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895382
+    "created_at": 1788861766.511054
   },
   {
     "claim_id": "2afb27b52a3aa94bd8f4",
@@ -27145,7 +27047,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895392
+    "created_at": 1788861766.511064
   },
   {
     "claim_id": "84658fb54bb1cc7d79cf",
@@ -27192,7 +27094,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895396
+    "created_at": 1788861766.5110679
   },
   {
     "claim_id": "428b59b03427aef22125",
@@ -27239,7 +27141,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8954072
+    "created_at": 1788861766.511078
   },
   {
     "claim_id": "4bd96e2b4dfeb16a1943",
@@ -27286,7 +27188,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895412
+    "created_at": 1788861766.511082
   },
   {
     "claim_id": "b360c251637cea149730",
@@ -27333,7 +27235,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895417
+    "created_at": 1788861766.5110872
   },
   {
     "claim_id": "94b656ea402c32f9acfa",
@@ -27380,7 +27282,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895434
+    "created_at": 1788861766.511101
   },
   {
     "claim_id": "e1448ada4c534f807b96",
@@ -27427,7 +27329,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8954399
+    "created_at": 1788861766.511106
   },
   {
     "claim_id": "b572d756ee1a63d347fd",
@@ -27474,7 +27376,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895452
+    "created_at": 1788861766.511115
   },
   {
     "claim_id": "a99acab24758098c0437",
@@ -27521,7 +27423,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895457
+    "created_at": 1788861766.5111198
   },
   {
     "claim_id": "2cb244b3b5c8482a4dc3",
@@ -27568,7 +27470,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8954618
+    "created_at": 1788861766.511125
   },
   {
     "claim_id": "b208fff57c1f74acfb4c",
@@ -27615,7 +27517,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895477
+    "created_at": 1788861766.5111392
   },
   {
     "claim_id": "526b049ab2ea2c6ca11a",
@@ -27662,7 +27564,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895482
+    "created_at": 1788861766.511144
   },
   {
     "claim_id": "83f86969276fb226c606",
@@ -27709,7 +27611,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8954859
+    "created_at": 1788861766.5111492
   },
   {
     "claim_id": "b4de13ec259bb1187306",
@@ -27756,7 +27658,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8954911
+    "created_at": 1788861766.511154
   },
   {
     "claim_id": "38bdd95425919686443a",
@@ -27803,7 +27705,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8954968
+    "created_at": 1788861766.511159
   },
   {
     "claim_id": "4216085a2de1717ba64c",
@@ -27850,7 +27752,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895513
+    "created_at": 1788861766.511173
   },
   {
     "claim_id": "fe7599718aaabf979de2",
@@ -27897,7 +27799,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895519
+    "created_at": 1788861766.511177
   },
   {
     "claim_id": "694c4dd0799e991aad51",
@@ -27944,7 +27846,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.89553
+    "created_at": 1788861766.5111868
   },
   {
     "claim_id": "6f6f67530c45ddc03975",
@@ -27991,7 +27893,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895535
+    "created_at": 1788861766.5111911
   },
   {
     "claim_id": "040211f64325505134b5",
@@ -28038,7 +27940,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.89554
+    "created_at": 1788861766.511196
   },
   {
     "claim_id": "67d44763653ea43fd797",
@@ -28085,7 +27987,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895551
+    "created_at": 1788861766.511206
   },
   {
     "claim_id": "3c5d8a71524791ca5b6c",
@@ -28132,7 +28034,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8955572
+    "created_at": 1788861766.51121
   },
   {
     "claim_id": "840f35ffe51246d2a18a",
@@ -28179,7 +28081,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8955688
+    "created_at": 1788861766.51122
   },
   {
     "claim_id": "c4eaa1d3da5e0e031d4c",
@@ -28226,7 +28128,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895574
+    "created_at": 1788861766.511225
   },
   {
     "claim_id": "bdfd9dd2ae29fd46c8a5",
@@ -28273,7 +28175,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.8955789
+    "created_at": 1788861766.511229
   },
   {
     "claim_id": "3c71bd248671bc3692a0",
@@ -28320,7 +28222,7 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895584
+    "created_at": 1788861766.511234
   },
   {
     "claim_id": "9f61f992816687a714f4",
@@ -28367,6 +28269,100 @@
     "quarantined": false,
     "needs_review": false,
     "review_reasons": [],
-    "created_at": 1788809569.895589
+    "created_at": 1788861766.5112388
+  },
+  {
+    "claim_id": "11757c0d43bd4b37b126",
+    "doc_id": "5ca307085c96c1fc",
+    "subject": "Delhivery Limited",
+    "predicate": "exceptional items",
+    "value": "(15)",
+    "value_num": -150000000.0,
+    "unit": "INR crore",
+    "ctx_period": "Q4 FY24",
+    "ctx_unit": "INR crore",
+    "ctx_scope": null,
+    "ctx_basis": null,
+    "ctx_geography": null,
+    "ctx_as_of": null,
+    "ctx_denominator": null,
+    "ctx_other": null,
+    "asserted_by": null,
+    "modality": "reported",
+    "origin": "table",
+    "extraction_rule": "table[pymupdf] row_label+column_header+cell",
+    "source_document": "03-delhivery-q4-fy24-earnings-presentation.pdf",
+    "span_page": 17,
+    "span_text": "Exceptional items | Q4 FY24 | (15)",
+    "extraction_confidence": 0.88,
+    "grounding_confidence": 1.0,
+    "final_confidence": 0.88,
+    "grounded": true,
+    "grounding_score": 1.0,
+    "grounding_page": 17,
+    "grounding_page_label": null,
+    "matched_text": "(15)",
+    "char_start": 1156,
+    "char_end": 1160,
+    "bbox": [
+      522.5499877929688,
+      423.17620849609375,
+      540.2489013671875,
+      434.2816162109375
+    ],
+    "page_shift": 0,
+    "value_in_span": true,
+    "grounding_note": "table cell: row label and value both verified on the page",
+    "quarantined": false,
+    "needs_review": false,
+    "review_reasons": [],
+    "created_at": 1788861766.511243
+  },
+  {
+    "claim_id": "6be4831cc56018c0e298",
+    "doc_id": "5ca307085c96c1fc",
+    "subject": "Delhivery Limited",
+    "predicate": "exceptional items",
+    "value": "(22)",
+    "value_num": -220000000.0,
+    "unit": "INR crore",
+    "ctx_period": "FY24",
+    "ctx_unit": "INR crore",
+    "ctx_scope": null,
+    "ctx_basis": null,
+    "ctx_geography": null,
+    "ctx_as_of": null,
+    "ctx_denominator": null,
+    "ctx_other": null,
+    "asserted_by": null,
+    "modality": "reported",
+    "origin": "table",
+    "extraction_rule": "table[pymupdf] row_label+column_header+cell",
+    "source_document": "03-delhivery-q4-fy24-earnings-presentation.pdf",
+    "span_page": 17,
+    "span_text": "Exceptional items | FY24 | (22)",
+    "extraction_confidence": 0.88,
+    "grounding_confidence": 1.0,
+    "final_confidence": 0.88,
+    "grounded": true,
+    "grounding_score": 1.0,
+    "grounding_page": 17,
+    "grounding_page_label": null,
+    "matched_text": "(22)",
+    "char_start": 1163,
+    "char_end": 1167,
+    "bbox": [
+      808.4199829101562,
+      423.17620849609375,
+      826.118896484375,
+      434.2816162109375
+    ],
+    "page_shift": 0,
+    "value_in_span": true,
+    "grounding_note": "table cell: row label and value both verified on the page",
+    "quarantined": false,
+    "needs_review": false,
+    "review_reasons": [],
+    "created_at": 1788861766.5112479
   }
 ]

@@ -87,11 +87,31 @@ def _unit_check(a: dict, b: dict) -> tuple[str, str, dict, dict]:
     if ua["percent"] != ub["percent"]:
         return ("incomparable",
                 "one value is a rate and the other an absolute quantity", ua, ub)
+    # A unit stated on one side only. "US$3.9 trillion" against a bare "9.2"
+    # from a table cell is not a crore-versus-million difference that
+    # normalisation can absorb -- the second number's magnitude is unanchored,
+    # so whether the two disagree is simply unknown. Silently adopting the
+    # stated unit for both is how an eleven-order-of-magnitude gap gets
+    # reported as a contradiction.
+    declared_a = bool(ua["currency"]) or ua["scale"] != 1.0
+    declared_b = bool(ub["currency"]) or ub["scale"] != 1.0
+    if declared_a != declared_b:
+        stated, bare = ((a, b) if declared_a else (b, a))
+        return ("unknown",
+                f"only one claim states a unit "
+                f"({(stated.get('ctx_unit') or stated.get('unit'))!r}); "
+                f"{bare['value']!r} is unanchored", ua, ub)
     if ua["scale"] != ub["scale"]:
         return ("same",
                 f"different scale ({a.get('ctx_unit')!r} vs {b.get('ctx_unit')!r}); "
                 f"normalised before comparison", ua, ub)
     return ("same", f"comparable units ({a.get('ctx_unit')!r} vs {b.get('ctx_unit')!r})", ua, ub)
+
+
+def _dimensioned(sig: dict) -> bool:
+    """Does this claim say what its number is measured in?"""
+    return bool(sig["currency"]) or sig["percent"] or sig["scale"] != 1.0 \
+        or bool(sig["raw"])
 
 
 def _numeric(claim: dict, sig: dict) -> float | None:
@@ -221,7 +241,9 @@ def compare_claims(a: dict, b: dict, similarity: float = 0.0,
     unit_v, unit_why, ua, ub = _unit_check(a, b)
     trace.append(f"unit: {unit_v} -- {unit_why}")
 
-    field_verdicts = {"period": period_v}
+    # The unit sits alongside the other context fields when deciding whether
+    # the pair is pinned down well enough to call a disagreement.
+    field_verdicts = {"period": period_v, "unit": unit_v}
     for field in ("scope", "basis", "geography", "denominator", "as_of"):
         va, vb = a.get(f"ctx_{field}"), b.get(f"ctx_{field}")
         verdict, why = _text_field(va, vb, field)
@@ -357,6 +379,34 @@ def compare_claims(a: dict, b: dict, similarity: float = 0.0,
                           f"but neither document states what they are percentages of, "
                           f"and the property name does not identify a rate. They cannot "
                           f"be compared.",
+                          rel_conf=0.45, match_conf=match_conf,
+                          value_agreement=value_v, delta=delta, escalate=True)
+
+    if values_differ and a.get("origin") == "table" and b.get("origin") == "table" \
+            and not _dimensioned(ua) and not _dimensioned(ub):
+        # Two bare table cells, neither carrying a unit. A row label is only
+        # meaningful relative to its table: "Deposits" in the RBI's money and
+        # credit table is year-on-year growth in per cent, "Deposits" in the
+        # IMF's fiscal table is a balance as a share of GDP. The labels read
+        # alike, the periods line up, and the numbers disagree -- but they were
+        # never the same measurement, and the claim carries no unit that would
+        # have revealed it. A sentence claim is exempt because its predicate
+        # comes with the sentence that qualified it; a naked cell has no such
+        # context. Same reasoning as the percentage guard above: with no
+        # dimension there is no accusation to make, only a pair worth a
+        # human's attention.
+        named_rate = (set(content_tokens(a["predicate"])) & RATE_PREDICATE_TERMS
+                      or set(content_tokens(b["predicate"])) & RATE_PREDICATE_TERMS)
+        if not named_rate:
+            trace.append("decision: both claims are unitless table cells and the row "
+                         "label does not identify a rate -> underspecified (a row label "
+                         "alone does not fix what is being measured)")
+            return finish("underspecified",
+                          f"The values differ ({a['value']} vs {b['value']}), but both "
+                          f"come from table cells that state no unit, and the row label "
+                          f"{a['predicate']!r} does not by itself say what is being "
+                          f"measured. Two tables can use the same row label for different "
+                          f"quantities, so this is not evidence of a disagreement.",
                           rel_conf=0.45, match_conf=match_conf,
                           value_agreement=value_v, delta=delta, escalate=True)
 

@@ -151,6 +151,19 @@ def find_period(text: str) -> str | None:
     return re.sub(r"\s+", " ", hits[0]).strip()
 
 
+def _qualifier_like(text: str) -> bool:
+    """Is this header cell a qualifier, or is it data that landed in the header?
+
+    A qualifier names a way of measuring ("Consolidated", "Urban", "Male"). It
+    has to contain a real word, and it must not be mostly digits.
+    """
+    text = (text or "").strip()
+    if not re.search(r"[A-Za-z]{3}", text):
+        return False
+    digits = sum(ch.isdigit() for ch in text)
+    return digits <= len(text) * 0.3
+
+
 def _lookup_terms(text: str, table: dict[str, str]) -> str | None:
     low = text.lower()
     found = [v for k, v in table.items() if re.search(rf"\b{re.escape(k)}\b", low)]
@@ -189,6 +202,42 @@ def find_modality(text: str) -> str:
 # --------------------------------------------------------------------------
 # entity detection
 # --------------------------------------------------------------------------
+_THE_END = re.compile(r"\bthe$", re.I)
+
+# How often a phrase must arrive with a definite article before it is read as a
+# description rather than a name, and how hard that demotes it. The threshold is
+# high because the test only needs to catch the lopsided cases; the penalty is
+# large enough to cancel the organisation-suffix boost (2.5x) it is correcting.
+_DEFINITE_ARTICLE_RATIO = 0.6
+_DEFINITE_ARTICLE_MIN = 4
+_DEFINITE_DESCRIPTION_PENALTY = 0.25
+
+
+def _is_definite_description(phrase: str, total: int, articled: int) -> bool:
+    """Is this phrase a description rather than a name?
+
+    English proper names of companies and countries take no article: we write
+    "Delhivery reported" and "India's exports", not "the Delhivery" or "the
+    India". Roles, organs, instruments and documents do take one -- "the
+    Executive Board", "the Union Budget", "the Equity Shares" -- and so does an
+    institution referring to *itself*, which is the case that matters here: the
+    RBI Annual Report says "the Reserve Bank conducted", "the Reserve Bank
+    revised", because inside its own report the author needs no introduction.
+
+    Frequency alone therefore elects a document's publisher over its subject,
+    which is exactly wrong for cross-document comparison: the RBI report's
+    claims are about India, and attributing them to "Reserve Bank" means they
+    never meet the Economic Survey's claims about India at the entity gate.
+
+    Demoting on this ratio is safe in the other direction because a document
+    genuinely *about* an institution still names it bare -- in headings, in
+    possessives, in lists -- so its ratio stays below the threshold.
+    """
+    if total < _DEFINITE_ARTICLE_MIN:
+        return False
+    return articled / total >= _DEFINITE_ARTICLE_RATIO
+
+
 def detect_entities(document: Document, sample_pages: int = 25,
                     top_n: int = 12) -> tuple[str | None, set[str]]:
     """Pick the entity a document is mostly about, from the text alone.
@@ -196,9 +245,14 @@ def detect_entities(document: Document, sample_pages: int = 25,
     Frequency-driven: the most repeated proper-noun phrase wins. Organisation
     suffixes only *boost* a candidate, never gate it, so documents about a
     country or a person work the same way.
+
+    One correction keeps frequency from electing the wrong thing: a phrase that
+    almost always arrives with a definite article is a *description*, not a
+    name, and is demoted. See `_is_definite_description`.
     """
     furniture = repeated_line_texts(document)
     counts: Counter[str] = Counter()
+    articled: Counter[str] = Counter()
     pages_seen: dict[str, set[int]] = {}
     for page in document.pages[:sample_pages]:
         for line in page.lines:
@@ -234,6 +288,8 @@ def detect_entities(document: Document, sample_pages: int = 25,
                     continue      # all-caps abbreviations are too ambiguous alone
                 counts[phrase] += 1
                 pages_seen.setdefault(phrase, set()).add(page.number)
+                if _THE_END.search(prefix):
+                    articled[phrase] += 1
     if not counts:
         return (None, set())
 
@@ -252,15 +308,22 @@ def detect_entities(document: Document, sample_pages: int = 25,
             s *= 2.5
         if len(words) >= 2:
             s *= 1.3
+        if _is_definite_description(phrase, n, articled[phrase]):
+            s *= _DEFINITE_DESCRIPTION_PENALTY
         return s
 
     ranked = sorted(counts.items(), key=score, reverse=True)
     best = ranked[0]
     # Prefer the longest frequent form ("Delhivery" -> "Delhivery Limited").
+    # The longer form must extend the shorter one by whole *words*: "Delhivery
+    # Limited" is another way of writing "Delhivery", but "Indian" is a
+    # different word from "India", and treating it as the fuller name of the
+    # entity loses the name the rest of the corpus uses.
     head = best[0]
     for phrase, n in counts.items():
-        if phrase != head and phrase.lower().startswith(head.lower()) \
-                and n >= best[1] * 0.25 and len(phrase) > len(head):
+        if phrase != head and len(phrase) > len(head) \
+                and phrase.lower().startswith(head.lower() + " ") \
+                and n >= best[1] * 0.25:
             head = phrase
     # The vocabulary of entities this document actually discusses. A claim may
     # only take a subject from this set; any other capitalised word in the
@@ -577,8 +640,13 @@ def table_claims(document: Document, page: Page, table: Table,
                        or find_period(caption_ctx),
             )
             ctx.unit = unit
-            if not is_period_col and header:
-                ctx.scope = ctx.scope or header
+            # A non-period column header qualifies the cell ("Consolidated",
+            # "Rural"), but only when it is words. Some reconstructed tables
+            # promote a row of data into the header position, and a scope of
+            # "1,320.09" is not a qualifier -- it is a number that would then
+            # be compared against other claims' scopes as though it were one.
+            if not is_period_col and _qualifier_like(header):
+                ctx.scope = ctx.scope or header.strip()
 
             line = (_find_line_containing(page, cell_text, table.bbox)
                     or _find_line_containing(page, cell_text))
