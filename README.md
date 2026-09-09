@@ -78,7 +78,7 @@ is inert unless `FKL_ENABLE_LLM_FALLBACK=1` is set with a provider configured;
 
 ## 2. Video Demo
 
-**<https://youtu.be/pU40MPYbdIc>** (1:52)
+**<https://youtu.be/LtwIkC8IxGE>**
 
 A PDF is uploaded through the UI and processed, then each of the four required
 cases is shown with its evidence and the system's reasoning: a corroboration
